@@ -1,0 +1,643 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#28563d">
+  <meta name="description" content="Edit your NEDIKE student profile and manage your skills.">
+  <title>Edit Profile | NEDIKE</title>
+  <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+
+  <style>
+    :root {
+      --green: #28563d;
+      --green-dark: #1d412d;
+      --green-pale: #edf4ee;
+      --ink: #202a23;
+      --muted: #707970;
+      --line: #e3e8e2;
+      --page: #f6f7f4;
+      --white: #fff;
+      --danger: #a13939;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button,
+    a,
+    input,
+    select,
+    textarea {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :focus-visible {
+      outline: 3px solid #a8c9b0;
+      outline-offset: 3px;
+    }
+
+    .topbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      width: min(1080px, calc(100% - 40px));
+      min-height: 70px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--green);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .brand img {
+      width: 35px;
+      height: 35px;
+      object-fit: contain;
+    }
+
+    .back-link {
+      color: #536057;
+      font-weight: 600;
+    }
+
+    .back-link:hover {
+      color: var(--green);
+    }
+
+    .page {
+      width: min(850px, calc(100% - 40px));
+      margin: 36px auto 60px;
+    }
+
+    .breadcrumb {
+      margin-bottom: 23px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .breadcrumb a:hover {
+      color: var(--green);
+    }
+
+    .page-heading {
+      margin-bottom: 24px;
+    }
+
+    .page-heading h1 {
+      margin: 0 0 7px;
+      font-size: clamp(26px, 4vw, 33px);
+      line-height: 1.25;
+      letter-spacing: -1px;
+    }
+
+    .page-heading p {
+      margin: 0;
+      max-width: 580px;
+      color: var(--muted);
+    }
+
+    .form-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .section {
+      padding: 27px 30px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section:last-child {
+      border-bottom: 0;
+    }
+
+    .section-heading {
+      margin-bottom: 21px;
+    }
+
+    .section-heading h2 {
+      margin: 0 0 4px;
+      font-size: 17px;
+      letter-spacing: -.3px;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .picture-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .avatar {
+      width: 96px;
+      height: 96px;
+      flex: 0 0 96px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 50%;
+      background: #e7efe7;
+      color: var(--green);
+      font-size: 27px;
+      font-weight: 800;
+      border: 1px solid #dce6dc;
+    }
+
+    .avatar img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .picture-controls {
+      min-width: 0;
+    }
+
+    .picture-controls p {
+      margin: 0 0 11px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .picture-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .button {
+      min-height: 42px;
+      padding: 10px 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background .2s ease, border-color .2s ease;
+    }
+
+    .button:disabled {
+      cursor: not-allowed;
+      opacity: .5;
+    }
+
+    .button-primary {
+      background: var(--green);
+      color: white;
+    }
+
+    .button-primary:hover:not(:disabled) {
+      background: var(--green-dark);
+    }
+
+    .button-outline {
+      background: white;
+      border-color: #dce2dc;
+      color: var(--ink);
+    }
+
+    .button-outline:hover:not(:disabled) {
+      background: #f5f7f4;
+    }
+
+    .button-danger {
+      color: var(--danger);
+      background: white;
+      border-color: #ead4d4;
+    }
+
+    .button-danger:hover:not(:disabled) {
+      background: #fff5f5;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .field {
+      min-width: 0;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      padding: 12px 13px;
+      color: var(--ink);
+      background: white;
+      border: 1px solid #dce2dc;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .field input,
+    .field select {
+      min-height: 46px;
+    }
+
+    .field textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: #6d9477;
+      box-shadow: 0 0 0 3px #eaf2eb;
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: #9aa29b;
+    }
+
+    .field-help {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .character-count {
+      margin-top: 5px;
+      text-align: right;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .form-message {
+      display: none;
+      margin: 20px 30px 0;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .form-message.show {
+      display: block;
+    }
+
+    .form-message.error {
+      background: #fff1f1;
+      border: 1px solid #f0d0d0;
+      color: #922f2f;
+    }
+
+    .form-message.success {
+      background: #eef7ef;
+      border: 1px solid #d5e7d6;
+      color: #28563d;
+    }
+
+    .form-footer {
+      padding: 22px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      background: #fcfdfb;
+      border-top: 1px solid var(--line);
+    }
+
+    .form-footer p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .footer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .site-footer {
+      padding: 23px 20px;
+      background: white;
+      border-top: 1px solid var(--line);
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .nav {
+        width: calc(100% - 28px);
+        min-height: 64px;
+      }
+
+      .brand {
+        font-size: 20px;
+      }
+
+      .brand img {
+        width: 31px;
+        height: 31px;
+      }
+
+      .page {
+        width: calc(100% - 28px);
+        margin-top: 25px;
+      }
+
+      .section {
+        padding: 22px 18px;
+      }
+
+      .field-grid {
+        grid-template-columns: 1fr;
+        gap: 17px;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .picture-row {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .form-message {
+        margin-left: 18px;
+        margin-right: 18px;
+      }
+
+      .form-footer {
+        align-items: stretch;
+        flex-direction: column;
+        padding: 20px 18px;
+      }
+
+      .footer-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-actions .button {
+        padding-inline: 10px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="index.html" aria-label="NEDIKE homepage">
+        <img src="assets/images/nedike-icon.png" alt="">
+        <span>NEDIKE</span>
+      </a>
+
+      <a class="back-link" href="profile.html">← Back to profile</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> /
+      <a href="profile.html">My profile</a> /
+      Edit profile
+    </div>
+
+    <div class="page-heading">
+      <h1>Edit your profile</h1>
+      <p>Keep your student information up to date and help other students understand your skills and interests.</p>
+    </div>
+
+    <form id="edit-profile-form" class="form-card" novalidate>
+      <section class="section">
+        <div class="section-heading">
+          <h2>Profile picture</h2>
+          <p>Use a clear image that represents you.</p>
+        </div>
+
+        <div class="picture-row">
+          <div class="avatar" id="picture-preview" aria-label="Profile picture preview">
+            <span id="picture-initials">ND</span>
+          </div>
+
+          <div class="picture-controls">
+            <p>JPG, PNG or WebP. Maximum file size: 2 MB.</p>
+
+            <div class="picture-actions">
+              <label for="picture-file" class="button button-outline">
+                Choose image
+              </label>
+
+              <input
+                class="file-input"
+                type="file"
+                id="picture-file"
+                name="picture-file"
+                accept="image/jpeg,image/png,image/webp"
+              >
+
+              <button class="button button-primary" type="button" id="confirm-picture" disabled>
+                Use this picture
+              </button>
+
+              <button class="button button-danger" type="button" id="remove-picture">
+                Remove
+              </button>
+            </div>
+
+            <p class="field-help" id="picture-status" aria-live="polite">
+              Choose an image, then confirm it before saving your profile.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>Personal information</h2>
+          <p>These details help identify your student profile.</p>
+        </div>
+
+        <div class="field-grid">
+          <div class="field">
+            <label for="first-name">First name</label>
+            <input id="first-name" name="firstName" type="text" maxlength="60" autocomplete="given-name" required>
+          </div>
+
+          <div class="field">
+            <label for="last-name">Last name</label>
+            <input id="last-name" name="lastName" type="text" maxlength="60" autocomplete="family-name" required>
+          </div>
+
+          <div class="field full">
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" autocomplete="email" readonly aria-describedby="email-help">
+            <p class="field-help" id="email-help">Your registered email is displayed here and cannot be changed on this page.</p>
+          </div>
+
+          <div class="field full">
+            <label for="school">School or institution</label>
+            <input id="school" name="school" type="text" maxlength="150" autocomplete="organization" required>
+          </div>
+
+          <div class="field">
+            <label for="course">Course of study</label>
+            <input id="course" name="course" type="text" maxlength="100" required>
+          </div>
+
+          <div class="field">
+            <label for="level">Current academic level</label>
+            <select id="level" name="level" required>
+              <option value="">Select your level</option>
+              <option value="100 Level">100 Level</option>
+              <option value="200 Level">200 Level</option>
+              <option value="300 Level">300 Level</option>
+              <option value="400 Level">400 Level</option>
+              <option value="500 Level">500 Level</option>
+              <option value="600 Level">600 Level</option>
+              <option value="Postgraduate">Postgraduate</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="location">Location</label>
+            <input id="location" name="location" type="text" maxlength="100" placeholder="e.g. Onitsha, Anambra State">
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>About you</h2>
+          <p>Tell the NEDIKE community who you are and what you enjoy doing.</p>
+        </div>
+
+        <div class="field">
+          <label for="bio">Personal bio</label>
+          <textarea
+            id="bio"
+            name="bio"
+            maxlength="500"
+            placeholder="Introduce yourself, describe your interests and the kind of work you enjoy..."
+          ></textarea>
+          <div class="character-count">
+            <span id="bio-count">0</span>/500 characters
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>Skills and interests</h2>
+          <p>List the skills you have or want to develop.</p>
+        </div>
+
+        <div class="field">
+          <label for="skills">Your skills</label>
+          <textarea
+            id="skills"
+            name="skills"
+            maxlength="500"
+            placeholder="e.g. Graphic Design, HTML, CSS, Photography"
+          ></textarea>
+          <p class="field-help">Separate each skill with a comma.</p>
+        </div>
+      </section>
+
+      <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
+
+      <div class="form-footer">
+        <p>Your changes will be saved to this browser's current demo account.</p>
+
+        <div class="footer-actions">
+          <a href="profile.html" class="button button-outline">Cancel</a>
+          <button type="submit" class="button button-primary" id="save-profile">
+            Save changes
+          </button>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    © <span id="current-year"></span> NEDIKE. Built for students and their ambitions.
+  </footer>
+
+  <script src="js/auth.js" defer></script>
+  <script src="js/edit-profile.js" defer></script>
+</body>
+</html>

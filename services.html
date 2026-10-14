@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Discover student services on NEDIKE, from graphic design and web development to writing and photography.">
+    <meta name="theme-color" content="#14265f">
+    <title>Explore Services | NEDIKE</title>
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="js/main.js" defer></script>
+    <script src="js/services.js" defer></script>
+    <script src="js/services-page.js" defer></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container navbar">
+            <a class="brand" href="index.html" aria-label="NEDIKE home">
+                <img src="assets/images/nedike-icon.png" alt="">
+                <span class="brand-name">NEDIKE</span>
+            </a>
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="services.html" aria-current="page">Services</a>
+                <a href="tasks.html">Tasks</a>
+                <a href="learning.html">Learn</a>
+                <a href="about.html">About</a>
+            </nav>
+            <div class="nav-actions">
+                <a class="btn btn-outline btn-sm" href="login.html">Log in</a>
+                <a class="btn btn-primary btn-sm" href="register.html">Join NEDIKE</a>
+            </div>
+            <button class="menu-toggle" type="button" data-menu-toggle aria-label="Open navigation menu"
+                aria-expanded="false" aria-controls="mobile-navigation">☰</button>
+        </div>
+        <nav class="mobile-nav" id="mobile-navigation" data-mobile-menu aria-label="Mobile navigation">
+            <a href="services.html">Explore services</a>
+            <a href="tasks.html">Find tasks</a>
+            <a href="learning.html">Explore learning</a>
+            <a href="about.html">About NEDIKE</a>
+            <a href="help.html">Help and FAQs</a>
+            <a href="login.html">Log in</a>
+            <a href="register.html">Create an account</a>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section class="page-intro">
+            <div class="container">
+                <div class="breadcrumbs"><a href="index.html">Home</a><span>/</span><span>Services</span></div>
+                <span class="eyebrow">Student talent marketplace</span>
+                <h1>Find the right skills for your next project.</h1>
+                <p>Explore services offered by students, compare options and find someone whose skills match what you
+                    need.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <form id="service-search-form" class="hero-search" role="search">
+                    <div class="search-form">
+                        <label class="search-input-wrap">
+                            <span aria-hidden="true">⌕</span>
+                            <input type="search" id="service-search" placeholder="Search a service or skill..."
+                                aria-label="Search services">
+                        </label>
+                        <button class="btn btn-primary" type="submit">Search services</button>
+                    </div>
+                </form>
+
+                <div class="listing-layout mt-3">
+                    <aside class="filter-panel" aria-label="Service filters">
+                        <div class="flex-between">
+                            <h3>Filters</h3>
+                            <button class="btn btn-ghost btn-sm" id="clear-service-filters" type="button">Clear
+                                all</button>
+                        </div>
+
+                        <div class="filter-group">
+                            <h3>Category</h3>
+                            <label class="filter-option"><input type="radio" name="category" value="all" checked> All
+                                categories</label>
+                            <label class="filter-option"><input type="radio" name="category" value="graphic-design">
+                                Graphic Design</label>
+                            <label class="filter-option"><input type="radio" name="category" value="web-development">
+                                Web Development</label>
+                            <label class="filter-option"><input type="radio" name="category"
+                                    value="mobile-app-development"> Mobile App Development</label>
+                            <label class="filter-option"><input type="radio" name="category" value="photography">
+                                Photography</label>
+                            <label class="filter-option"><input type="radio" name="category" value="writing">
+                                Writing</label>
+                            <label class="filter-option"><input type="radio" name="category" value="digital-marketing">
+                                Digital Marketing</label>
+                            <label class="filter-option"><input type="radio" name="category" value="business"> Business
+                                Services</label>
+                            <label class="filter-option"><input type="radio" name="category" value="personal-services">
+                                Personal Services</label>
+                        </div>
+
+                        <div class="filter-group">
+                            <h3>Location</h3>
+                            <select class="form-control" id="service-location" aria-label="Filter services by location">
+                                <option value="all">All locations</option>
+                                <option value="remote">Remote</option>
+                                <option value="onitsha">Onitsha</option>
+                                <option value="awka">Awka</option>
+                                <option value="nnewi">Nnewi</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <h3>Maximum price</h3>
+                            <label class="filter-option"><input type="radio" name="price" value="all" checked> Any
+                                price</label>
+                            <label class="filter-option"><input type="radio" name="price" value="5000"> Up to
+                                ₦5,000</label>
+                            <label class="filter-option"><input type="radio" name="price" value="15000"> Up to
+                                ₦15,000</label>
+                            <label class="filter-option"><input type="radio" name="price" value="50000"> Up to
+                                ₦50,000</label>
+                        </div>
+                    </aside>
+
+                    <div>
+                        <div class="results-toolbar">
+                            <div>
+                                <h2 style="font-size:1.35rem;margin-bottom:4px">Available services</h2>
+                                <p class="small mb-0" id="service-result-count" aria-live="polite">Loading services...
+                                </p>
+                            </div>
+                            <label class="small">
+                                Sort by
+                                <select class="form-control" id="service-sort" aria-label="Sort services">
+                                    <option value="recommended">Recommended</option>
+                                    <option value="price-low">Price: low to high</option>
+                                    <option value="price-high">Price: high to low</option>
+                                    <option value="name">Name: A to Z</option>
+                                </select>
+                            </label>
+                        </div>
+
+                        <div class="grid grid-2" id="service-results">
+                            <article class="card">
+                                <div class="card-body">
+                                    <h3>Loading services...</h3>
+                                </div>
+                            </article>
+                        </div>
+
+                        <div class="empty-state hidden mt-3" id="service-empty-state">
+                            <h3>No matching services found</h3>
+                            <p>Try another search term or remove some filters.</p>
+                            <button class="btn btn-outline" id="empty-clear-services" type="button">Reset
+                                filters</button>
+                        </div>
+
+                        <p class="small muted mt-3">These are demonstration listings for the frontend prototype.
+                            Provider details and availability are not verified.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <a class="brand" href="index.html"><img src="assets/images/nedike-icon.png" alt=""><span
+                            class="brand-name">NEDIKE</span></a>
+                    <p class="mt-2">A platform for student skills, services, tasks and learning.</p>
+                </div>
+                <div>
+                    <h3>Explore</h3>
+                    <nav class="footer-links" aria-label="Explore"><a href="services.html">Services</a><a
+                            href="tasks.html">Tasks</a><a href="learning.html">Learning</a></nav>
+                </div>
+                <div>
+                    <h3>Support</h3>
+                    <nav class="footer-links" aria-label="Support"><a href="help.html">Help</a><a
+                            href="contact.html">Contact</a><a href="about.html">About</a></nav>
+                </div>
+                <div>
+                    <h3>Information</h3>
+                    <nav class="footer-links" aria-label="Information"><a href="terms.html">Terms</a><a
+                            href="privacy.html">Privacy</a></nav>
+                </div>
+            </div>
+            <div class="footer-bottom"><span>© <span data-current-year></span> NEDIKE. All rights
+                    reserved.</span><span>Built for student skills and opportunities.</span></div>
+        </div>
+    </footer>
+</body>
+
+</html>

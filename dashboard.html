@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#416b50">
+  <title>Dashboard | NEDIKE</title>
+  <meta name="description" content="Manage your NEDIKE student account, task applications, and activities.">
+
+  <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="js/main.js" defer></script>
+  <script src="js/auth.js" defer></script>
+  <script src="js/tasks.js" defer></script>
+  <script src="js/dashboard.js" defer></script>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand" aria-label="NEDIKE homepage">
+        <img src="assets/images/nedike-icon.png" alt="" width="38" height="38">
+        <span>NEDIKE</span>
+      </a>
+
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Open navigation"
+        aria-expanded="false"
+        aria-controls="primary-navigation"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="primary-navigation" id="primary-navigation" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="tasks.html">Find Tasks</a>
+        <a href="profile.html">My Profile</a>
+        <a href="dashboard.html" aria-current="page">Dashboard</a>
+        <a href="login.html" data-auth-link>Log in</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container dashboard-page">
+    <section class="dashboard-welcome">
+      <div>
+        <p class="eyebrow">YOUR NEDIKE ACCOUNT</p>
+        <h1>Welcome, <span id="dashboard-user-name">Student</span></h1>
+        <p>Manage your applications and keep track of the opportunities you've found.</p>
+      </div>
+
+      <a href="tasks.html" class="button button-primary">Find a task</a>
+    </section>
+
+    <section class="dashboard-stats" aria-label="Application summary">
+      <article class="dashboard-stat">
+        <span class="dashboard-stat-label">Total applications</span>
+        <strong id="total-applications">0</strong>
+        <span>Tasks you've applied for</span>
+      </article>
+
+      <article class="dashboard-stat">
+        <span class="dashboard-stat-label">Pending</span>
+        <strong id="pending-applications">0</strong>
+        <span>Awaiting a decision</span>
+      </article>
+
+      <article class="dashboard-stat">
+        <span class="dashboard-stat-label">Accepted</span>
+        <strong id="accepted-applications">0</strong>
+        <span>Applications accepted</span>
+      </article>
+    </section>
+
+    <section class="dashboard-section" id="my-applications">
+      <div class="dashboard-section-heading">
+        <div>
+          <p class="eyebrow">YOUR ACTIVITY</p>
+          <h2>My Applications</h2>
+          <p>Review the tasks you've applied for and their current status.</p>
+        </div>
+
+        <a href="tasks.html" class="text-link">Explore tasks &rarr;</a>
+      </div>
+
+      <div class="application-list" id="dashboard-application-list" aria-live="polite">
+        <p>Loading your applications...</p>
+      </div>
+
+      <div class="dashboard-empty-state" id="dashboard-empty-state" hidden>
+        <h3>No applications yet</h3>
+        <p>Find a task that matches your skills and submit your first application.</p>
+        <a href="tasks.html" class="button button-primary">Browse available tasks</a>
+      </div>
+    </section>
+
+    <section class="dashboard-quick-links">
+      <a href="profile.html" class="dashboard-quick-link">
+        <span class="quick-link-icon" aria-hidden="true">01</span>
+        <span>
+          <strong>My profile</strong>
+          <span>Review your student information.</span>
+        </span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+
+      <a href="services.html" class="dashboard-quick-link">
+        <span class="quick-link-icon" aria-hidden="true">02</span>
+        <span>
+          <strong>Explore services</strong>
+          <span>Discover skills and services on NEDIKE.</span>
+        </span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+
+      <a href="tasks.html" class="dashboard-quick-link">
+        <span class="quick-link-icon" aria-hidden="true">03</span>
+        <span>
+          <strong>Find more tasks</strong>
+          <span>Explore opportunities from other students.</span>
+        </span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="current-year"></span> NEDIKE. Built for students, powered by skills.</p>
+    </div>
+  </footer>
+</body>
+</html>

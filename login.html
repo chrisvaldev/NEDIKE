@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#243f35">
+  <meta name="description" content="Log in to your NEDIKE student account.">
+  <title>Log In | NEDIKE</title>
+  <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+
+  <style>
+    :root {
+      --ink: #24332b;
+      --muted: #727a73;
+      --green: #365c47;
+      --green-dark: #294936;
+      --line: #e3e7e1;
+      --canvas: #f6f7f3;
+      --danger: #a73535;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    a { color: var(--green); }
+    input, button { font: inherit; }
+
+    .topbar {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      max-width: 1180px;
+      min-height: 76px;
+      margin: auto;
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: 1.3px;
+    }
+
+    .brand img { width: 39px; height: 39px; object-fit: contain; }
+
+    .topbar-link {
+      font-size: 14px;
+      font-weight: 650;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(100% - 32px, 465px);
+      margin: 65px auto 80px;
+    }
+
+    .intro { margin-bottom: 25px; }
+
+    .eyebrow {
+      display: inline-block;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 9px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 5vw, 39px);
+      line-height: 1.2;
+      letter-spacing: -1px;
+    }
+
+    .intro p { margin: 0; color: var(--muted); }
+
+    .form-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: clamp(22px, 5vw, 34px);
+      box-shadow: 0 8px 28px rgb(30 50 35 / 4%);
+    }
+
+    .field { margin-bottom: 20px; }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .control {
+      display: block;
+      width: 100%;
+      min-height: 47px;
+      padding: 11px 12px;
+      border: 1px solid #d8ded6;
+      border-radius: 7px;
+      background: #fff;
+      color: var(--ink);
+      outline: none;
+    }
+
+    .control:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgb(54 92 71 / 12%);
+    }
+
+    .control::placeholder { color: #9a9f99; }
+
+    .password-wrap { position: relative; }
+    .password-wrap .control { padding-right: 76px; }
+
+    .toggle-password {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 5px;
+      border: 0;
+      background: transparent;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 23px;
+      font-size: 13px;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .remember input { accent-color: var(--green); }
+    .form-options a { font-weight: 650; }
+
+    .submit-button {
+      width: 100%;
+      min-height: 49px;
+      border: 0;
+      border-radius: 7px;
+      background: var(--green);
+      color: #fff;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .submit-button:hover { background: var(--green-dark); }
+    .submit-button:focus-visible { outline: 3px solid #92b6a0; outline-offset: 3px; }
+
+    .notice {
+      margin: 0 0 18px;
+      padding: 12px 14px;
+      border-radius: 7px;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .notice.error {
+      background: #fff1f0;
+      color: #8c2929;
+      border: 1px solid #f0cdca;
+    }
+
+    .notice.success {
+      background: #eff8f0;
+      color: #275f3a;
+      border: 1px solid #cfe7d3;
+    }
+
+    .hidden { display: none !important; }
+
+    .form-footer {
+      margin: 24px 0 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .form-footer a { font-weight: 750; }
+
+    .demo-note {
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .site-footer {
+      padding: 20px;
+      border-top: 1px solid var(--line);
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 540px) {
+      .topbar-inner { padding: 12px 17px; min-height: 66px; }
+      .brand { font-size: 18px; }
+      .brand img { width: 34px; height: 34px; }
+      .page { margin-top: 40px; }
+      .form-options { align-items: flex-start; }
+    }
+  </style>
+
+  <script src="js/auth.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html" aria-label="NEDIKE home">
+        <img src="assets/images/nedike-icon.png" alt="">
+        <span>NEDIKE</span>
+      </a>
+      <a class="topbar-link" href="register.html">Create an account</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="intro">
+      <span class="eyebrow">Welcome back</span>
+      <h1>Log in to NEDIKE.</h1>
+      <p>Continue exploring student skills, services and opportunities.</p>
+    </div>
+
+    <div class="form-card">
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label for="login-email">Email address</label>
+          <input class="control" id="login-email" name="email" type="email" autocomplete="username" placeholder="you@example.com" maxlength="254" required>
+        </div>
+
+        <div class="field">
+          <label for="login-password">Password</label>
+          <div class="password-wrap">
+            <input class="control" id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" maxlength="128" required>
+            <button class="toggle-password" type="button" data-toggle-password="login-password" aria-label="Show password">Show</button>
+          </div>
+        </div>
+
+        <div class="form-options">
+          <label class="remember">
+            <input type="checkbox" id="remember-me" name="remember">
+            Remember me
+          </label>
+          <a href="help.html">Need help?</a>
+        </div>
+
+        <div id="login-message" class="notice hidden" role="status" aria-live="polite"></div>
+
+        <button class="submit-button" type="submit">Log in</button>
+      </form>
+
+      <p class="form-footer">New to NEDIKE? <a href="register.html">Create your account</a></p>
+
+      <p class="demo-note">
+        This prototype uses browser storage for demonstration only. It is not secure authentication and should not be used with real passwords or sensitive personal information.
+      </p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    © <span data-auth-year></span> NEDIKE. Built for student skills and opportunities.
+  </footer>
+</body>
+</html>

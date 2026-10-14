@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Review task requirements, budgets and application information on NEDIKE.">
+    <meta name="theme-color" content="#14265f">
+    <title>Task Details | NEDIKE</title>
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="js/main.js" defer></script>
+    <script src="js/auth.js" defer></script>
+    <script src="js/tasks.js" defer></script>
+    <script src="js/task-details.js" defer></script>                    
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container navbar">
+            <a class="brand" href="index.html" aria-label="NEDIKE home">
+                <img src="assets/images/nedike-icon.png" alt="">
+                <span class="brand-name">NEDIKE</span>
+            </a>
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="services.html">Services</a>
+                <a href="tasks.html" aria-current="page">Tasks</a>
+                <a href="learning.html">Learn</a>
+                <a href="about.html">About</a>
+            </nav>
+            <div class="nav-actions">
+                <a class="btn btn-outline btn-sm" href="login.html">Log in</a>
+                <a class="btn btn-primary btn-sm" href="register.html">Join NEDIKE</a>
+            </div>
+            <button class="menu-toggle" type="button" data-menu-toggle aria-label="Open navigation menu"
+                aria-expanded="false" aria-controls="mobile-navigation">☰</button>
+        </div>
+        <nav class="mobile-nav" id="mobile-navigation" data-mobile-menu aria-label="Mobile navigation">
+            <a href="services.html">Explore services</a>
+            <a href="tasks.html">Find tasks</a>
+            <a href="learning.html">Explore learning</a>
+            <a href="about.html">About NEDIKE</a>
+            <a href="help.html">Help and FAQs</a>
+            <a href="login.html">Log in</a>
+            <a href="register.html">Create an account</a>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section class="page-intro">
+            <div class="container">
+                <div class="breadcrumbs">
+                    <a href="index.html">Home</a><span>/</span>
+                    <a href="tasks.html">Tasks</a><span>/</span>
+                    <span>Task details</span>
+                </div>
+                <span class="eyebrow">Project brief</span>
+                <h1 id="task-title">Loading task...</h1>
+                <p id="task-subtitle">Review the project details before applying.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="detail-layout">
+                    <article class="detail-main">
+                        <div class="flex-between">
+                            <span class="badge" id="task-category">Task</span>
+                            <span class="small muted" id="task-location">Location</span>
+                        </div>
+
+                        <h2 class="mt-3">Task description</h2>
+                        <p id="task-description"></p>
+
+                        <div class="divider"></div>
+
+                        <h2>Expected deliverables</h2>
+                        <ul id="task-deliverables">
+                            <li>Complete the agreed project requirements.</li>
+                            <li>Communicate progress and raise questions where necessary.</li>
+                            <li>Deliver the work in the agreed format.</li>
+                        </ul>
+
+                        <div class="divider"></div>
+
+                        <h2>Skills that may be useful</h2>
+                        <div class="tag-list" id="task-skills"></div>
+
+                        <div class="divider"></div>
+
+                        <h2>Before applying</h2>
+                        <p>Review the scope and estimated duration carefully. Ask questions about unclear requirements
+                            and agree on deliverables before beginning work.</p>
+
+                        <p class="small muted">This is a sample task for the NEDIKE frontend prototype. It is not a
+                            verified client request or a confirmed paid opportunity.</p>
+                    </article>
+
+                    <aside class="detail-sidebar">
+                        <p class="small muted mb-0">Proposed budget</p>
+                        <h2 id="task-budget" style="font-size:2rem;margin-block:6px 10px">—</h2>
+
+                        <div class="flex-between mt-2">
+                            <span class="muted small">Estimated duration</span>
+                            <strong id="task-duration">—</strong>
+                        </div>
+
+                        <div class="flex-between mt-2">
+                            <span class="muted small">Work arrangement</span>
+                            <strong id="task-work-type">—</strong>
+                        </div>
+
+                        <div class="flex-between mt-2">
+                            <span class="muted small">Status</span>
+                            <span class="badge badge--success">Sample listing</span>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <button class="btn btn-primary btn-block" id="apply-task" type="button">
+                            Apply for this task
+                        </button>
+                        <a class="btn btn-outline btn-block mt-2" href="tasks.html">← Back to tasks</a>
+
+                        <p class="small muted mt-3 mb-0" id="task-feedback" aria-live="polite"></p>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <a class="brand" href="index.html"><img src="assets/images/nedike-icon.png" alt=""><span
+                            class="brand-name">NEDIKE</span></a>
+                    <p class="mt-2">A platform for student skills, services, tasks and learning.</p>
+                </div>
+                <div>
+                    <h3>Explore</h3>
+                    <nav class="footer-links" aria-label="Explore"><a href="services.html">Services</a><a
+                            href="tasks.html">Tasks</a><a href="learning.html">Learning</a></nav>
+                </div>
+                <div>
+                    <h3>Support</h3>
+                    <nav class="footer-links" aria-label="Support"><a href="help.html">Help</a><a
+                            href="contact.html">Contact</a><a href="about.html">About</a></nav>
+                </div>
+                <div>
+                    <h3>Information</h3>
+                    <nav class="footer-links" aria-label="Information"><a href="terms.html">Terms</a><a
+                            href="privacy.html">Privacy</a></nav>
+                </div>
+            </div>
+            <div class="footer-bottom"><span>© <span data-current-year></span> NEDIKE. All rights
+                    reserved.</span><span>Built for student skills and opportunities.</span></div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

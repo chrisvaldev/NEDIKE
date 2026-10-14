@@ -1,0 +1,487 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Discover student skills, find services, explore tasks and learn new skills with NEDIKE."
+    >
+    <meta name="theme-color" content="#14265f">
+
+    <title>NEDIKE — Your Skills Have a Place Here</title>
+
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <script src="js/auth.js" defer></script>
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header">
+        <div class="container navbar">
+            <a class="brand" href="index.html" aria-label="NEDIKE home">
+                <img src="assets/images/nedike-icon.png" alt="">
+                <span class="brand-name">NEDIKE</span>
+            </a>
+
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="services.html">Services</a>
+                <a href="tasks.html">Tasks</a>
+                <a href="learning.html">Learn</a>
+                <a href="about.html">About</a>
+            </nav>
+
+            <div class="nav-actions" id="auth-navigation">
+                <a class="btn btn-outline btn-sm" href="login.html" data-guest-link>
+                    Log in
+                </a>
+
+                <a class="btn btn-primary btn-sm" href="register.html" data-guest-link>
+                    Join NEDIKE
+                </a>
+
+                <a class="btn btn-outline btn-sm" href="dashboard.html" data-member-link hidden>
+                    Dashboard
+                </a>
+
+                <a class="btn btn-outline btn-sm" href="profile.html" data-member-link hidden>
+                    My profile
+                </a>
+            </div>
+
+            <button
+                class="menu-toggle"
+                type="button"
+                data-menu-toggle
+                aria-label="Open navigation menu"
+                aria-expanded="false"
+                aria-controls="mobile-navigation"
+            >
+                <span class="menu-toggle-icon" aria-hidden="true">☰</span>
+            </button>
+        </div>
+
+        <nav
+            class="mobile-nav"
+            id="mobile-navigation"
+            data-mobile-menu
+            aria-label="Mobile navigation"
+            aria-hidden="true"
+            inert
+        >
+            <div class="mobile-nav-header">
+                <a class="mobile-nav-brand" href="index.html" aria-label="NEDIKE home">
+                    <img src="assets/images/nedike-icon.png" alt="">
+                    <span>
+                        <strong>NEDIKE</strong>
+                        <small>Skills. Work. Opportunity.</small>
+                    </span>
+                </a>
+
+                <button
+                    class="mobile-nav-close"
+                    type="button"
+                    data-menu-close
+                    aria-label="Close navigation menu"
+                >
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <div class="mobile-nav-content">
+                <div class="mobile-nav-section">
+                    <span class="mobile-nav-label">EXPLORE</span>
+
+                    <a href="services.html">
+                        <span class="mobile-nav-link-icon" aria-hidden="true">↗</span>
+                        <span>Explore services</span>
+                        <span class="mobile-nav-arrow" aria-hidden="true">›</span>
+                    </a>
+
+                    <a href="tasks.html">
+                        <span class="mobile-nav-link-icon" aria-hidden="true">▤</span>
+                        <span>Find tasks</span>
+                        <span class="mobile-nav-arrow" aria-hidden="true">›</span>
+                    </a>
+
+                    <a href="learning.html">
+                        <span class="mobile-nav-link-icon" aria-hidden="true">▣</span>
+                        <span>Learning opportunities</span>
+                        <span class="mobile-nav-arrow" aria-hidden="true">›</span>
+                    </a>
+
+                    <a href="about.html">
+                        <span class="mobile-nav-link-icon" aria-hidden="true">ⓘ</span>
+                        <span>About NEDIKE</span>
+                        <span class="mobile-nav-arrow" aria-hidden="true">›</span>
+                    </a>
+
+                    <a href="help.html">
+                        <span class="mobile-nav-link-icon" aria-hidden="true">?</span>
+                        <span>Help and FAQs</span>
+                        <span class="mobile-nav-arrow" aria-hidden="true">›</span>
+                    </a>
+                </div>
+
+                <div class="mobile-nav-divider"></div>
+
+                <div class="mobile-nav-section">
+                    <span class="mobile-nav-label">YOUR ACCOUNT</span>
+
+                    <a href="login.html" data-guest-link>
+                        <span class="mobile-nav-link-icon" aria-hidden="true">↪</span>
+                        <span>Log in</span>
+                        <span class="mobile-nav-arrow" aria-hidden="true">›</span>
+                    </a>
+
+                    <a href="register.html" class="mobile-nav-register" data-guest-link>
+                        <span class="mobile-nav-link-icon" aria-hidden="true">＋</span>
+                        <span>Create an account</span>
+                        <span class="mobile-nav-arrow" aria-hidden="true">›</span>
+                    </a>
+
+                    <a href="dashboard.html" data-member-link hidden>
+                        <span class="mobile-nav-link-icon" aria-hidden="true">▦</span>
+                        <span>Dashboard</span>
+                        <span class="mobile-nav-arrow" aria-hidden="true">›</span>
+                    </a>
+
+                    <a href="profile.html" data-member-link hidden>
+                        <span class="mobile-nav-link-icon" aria-hidden="true">◉</span>
+                        <span>My profile</span>
+                        <span class="mobile-nav-arrow" aria-hidden="true">›</span>
+                    </a>
+
+                    <button
+                        class="mobile-nav-logout"
+                        type="button"
+                        data-logout-link
+                        hidden
+                    >
+                        <span class="mobile-nav-link-icon" aria-hidden="true">↩</span>
+                        <span>Log out</span>
+                    </button>
+                </div>
+
+                <div class="mobile-nav-footer">
+                    <span class="mobile-nav-footer-mark">N</span>
+                    <p>Learn. Work. Earn. Teach.</p>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section class="hero">
+            <div class="container">
+                <div class="hero-grid">
+                    <div class="hero-copy">
+                        <span class="eyebrow">Built around student potential</span>
+
+                        <h1>Your skills have a place here.</h1>
+
+                        <p>
+                            Find opportunities, offer services, learn something new
+                            and connect with students who need what you can do.
+                        </p>
+
+                        <div class="hero-actions">
+                            <a class="btn btn-primary" href="services.html">
+                                Explore opportunities
+                                <span aria-hidden="true">→</span>
+                            </a>
+
+                            <a class="btn btn-outline" href="register.html">
+                                Join NEDIKE
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="hero-media">
+                        <img
+                            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1100&q=85"
+                            alt="Students collaborating around a laptop"
+                            fetchpriority="high"
+                        >
+                    </div>
+                </div>
+
+                <div class="hero-search">
+                    <h3>What are you looking for?</h3>
+
+                    <form class="search-form" data-search-form>
+                        <label class="search-input-wrap">
+                            <span aria-hidden="true">⌕</span>
+                            <input
+                                type="search"
+                                name="q"
+                                placeholder="Search services, tasks, courses or skills..."
+                                aria-label="Search NEDIKE"
+                            >
+                        </label>
+
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </form>
+
+                    <div class="search-tabs" aria-label="Choose what to search">
+                        <button class="search-tab" type="button" data-search-type="services" aria-pressed="true">
+                            Services
+                        </button>
+                        <button class="search-tab" type="button" data-search-type="tasks" aria-pressed="false">
+                            Tasks
+                        </button>
+                        <button class="search-tab" type="button" data-search-type="courses" aria-pressed="false">
+                            Courses
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">Find your area</span>
+                        <h2>Explore top categories</h2>
+                        <p>Start with a skill, an idea or something you need done.</p>
+                    </div>
+                    <a href="services.html">All services →</a>
+                </div>
+
+                <div class="grid grid-4">
+                    <a class="category-card" href="services.html?category=graphic-design">
+                        <span class="category-icon" aria-hidden="true">✳</span>
+                        <strong>Graphic Design</strong>
+                    </a>
+                    <a class="category-card" href="services.html?category=web-development">
+                        <span class="category-icon" aria-hidden="true">⌘</span>
+                        <strong>Web Development</strong>
+                    </a>
+                    <a class="category-card" href="services.html?category=mobile-app-development">
+                        <span class="category-icon" aria-hidden="true">▣</span>
+                        <strong>Mobile App Development</strong>
+                    </a>
+                    <a class="category-card" href="services.html?category=photography">
+                        <span class="category-icon" aria-hidden="true">◎</span>
+                        <strong>Photography and Videography</strong>
+                    </a>
+                    <a class="category-card" href="services.html?category=writing">
+                        <span class="category-icon" aria-hidden="true">≡</span>
+                        <strong>Writing and Content</strong>
+                    </a>
+                    <a class="category-card" href="services.html?category=digital-marketing">
+                        <span class="category-icon" aria-hidden="true">↗</span>
+                        <strong>Digital Marketing</strong>
+                    </a>
+                    <a class="category-card" href="services.html?category=business">
+                        <span class="category-icon" aria-hidden="true">▤</span>
+                        <strong>Business Services</strong>
+                    </a>
+                    <a class="category-card" href="services.html?category=personal-services">
+                        <span class="category-icon" aria-hidden="true">◇</span>
+                        <strong>Home and Personal Services</strong>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--compact">
+            <div class="container">
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">Student talent</span>
+                        <h2>Discover featured services</h2>
+                        <p>Useful skills, presented by the people who offer them.</p>
+                    </div>
+                    <a href="services.html">Explore services →</a>
+                </div>
+
+                <div class="grid grid-4">
+                    <article class="card">
+                        <img class="card-image" src="https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=600&q=80" alt="Graphic design work displayed on a screen" loading="lazy">
+                        <div class="card-body">
+                            <p class="small mb-0">Graphic Design</p>
+                            <h3 class="card-title"><a href="service-details.html?id=business-flyer">Business Flyer Design</a></h3>
+                            <p class="card-description">Clear, attractive promotional designs for your business.</p>
+                            <div class="flex-between"><span class="price">₦5,000</span><span class="small muted">Remote</span></div>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <img class="card-image" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80" alt="Website analytics displayed on a laptop" loading="lazy">
+                        <div class="card-body">
+                            <p class="small mb-0">Web Development</p>
+                            <h3 class="card-title"><a href="service-details.html?id=business-website">Responsive Business Website</a></h3>
+                            <p class="card-description">A professional website designed for your business.</p>
+                            <div class="flex-between"><span class="price">₦45,000</span><span class="small muted">Remote</span></div>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <img class="card-image" src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=600&q=80" alt="Camera equipment used for photography" loading="lazy">
+                        <div class="card-body">
+                            <p class="small mb-0">Photography</p>
+                            <h3 class="card-title"><a href="service-details.html?id=product-photography">Product Photography</a></h3>
+                            <p class="card-description">Clean product images for shops and online businesses.</p>
+                            <div class="flex-between"><span class="price">₦15,000</span><span class="small muted">Awka</span></div>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <img class="card-image" src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80" alt="Notebook and writing tools on a desk" loading="lazy">
+                        <div class="card-body">
+                            <p class="small mb-0">Writing</p>
+                            <h3 class="card-title"><a href="service-details.html?id=content-writing">Writing and Content Creation</a></h3>
+                            <p class="card-description">Well-structured content for your audience and business.</p>
+                            <div class="flex-between"><span class="price">₦10,000</span><span class="small muted">Remote</span></div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--compact">
+            <div class="container">
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">Opportunities</span>
+                        <h2>Tasks students are working on</h2>
+                        <p>Discover projects that match your skills and availability.</p>
+                    </div>
+                    <a href="tasks.html">View all tasks →</a>
+                </div>
+
+                <div class="grid grid-3">
+                    <article class="card"><div class="card-body">
+                        <span class="badge">Graphic Design</span>
+                        <h3 class="card-title mt-2"><a href="task-details.html?id=social-media-banner">Design a social media banner</a></h3>
+                        <p class="card-description">Create a promotional banner for a student business.</p>
+                        <div class="flex-between"><span class="price">₦8,000</span><span class="small muted">2 days</span></div>
+                    </div></article>
+
+                    <article class="card"><div class="card-body">
+                        <span class="badge">Web Development</span>
+                        <h3 class="card-title mt-2"><a href="task-details.html?id=portfolio-website">Build a simple portfolio website</a></h3>
+                        <p class="card-description">Create a responsive portfolio for a creative professional.</p>
+                        <div class="flex-between"><span class="price">₦25,000</span><span class="small muted">5 days</span></div>
+                    </div></article>
+
+                    <article class="card"><div class="card-body">
+                        <span class="badge">Writing</span>
+                        <h3 class="card-title mt-2"><a href="task-details.html?id=blog-articles">Write five blog articles</a></h3>
+                        <p class="card-description">Produce clear, original articles on agreed topics.</p>
+                        <div class="flex-between"><span class="price">₦15,000</span><span class="small muted">4 days</span></div>
+                    </div></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--compact">
+            <div class="container">
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">Keep growing</span>
+                        <h2>Learning opportunities</h2>
+                        <p>Build useful skills and learn from other students.</p>
+                    </div>
+                    <a href="learning.html">Explore courses →</a>
+                </div>
+
+                <div class="grid grid-4">
+                    <article class="card">
+                        <img class="card-image" src="https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=600&q=80" alt="Design workspace" loading="lazy">
+                        <div class="card-body"><h3 class="card-title"><a href="course-details.html?id=ui-ux-basics">UI/UX Design Basics</a></h3><p class="card-description">Beginner · 2 weeks</p><span class="price">₦10,000</span></div>
+                    </article>
+                    <article class="card">
+                        <img class="card-image" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80" alt="Laptop used for learning web development" loading="lazy">
+                        <div class="card-body"><h3 class="card-title"><a href="course-details.html?id=web-development">Web Development Bootcamp</a></h3><p class="card-description">Beginner · 4 weeks</p><span class="price">₦25,000</span></div>
+                    </article>
+                    <article class="card">
+                        <img class="card-image" src="https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?auto=format&fit=crop&w=600&q=80" alt="Digital marketing work on a laptop" loading="lazy">
+                        <div class="card-body"><h3 class="card-title"><a href="course-details.html?id=digital-marketing">Digital Marketing Essentials</a></h3><p class="card-description">Beginner · 3 weeks</p><span class="price">₦12,000</span></div>
+                    </article>
+                    <article class="card">
+                        <img class="card-image" src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?auto=format&fit=crop&w=600&q=80" alt="Camera used for photography practice" loading="lazy">
+                        <div class="card-body"><h3 class="card-title"><a href="course-details.html?id=photography">Photography Masterclass</a></h3><p class="card-description">Beginner · 2 weeks</p><span class="price">₦15,000</span></div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--compact">
+            <div class="container">
+                <div class="content-panel">
+                    <span class="eyebrow">Getting started</span>
+                    <h2>Simple steps. Real opportunities.</h2>
+                    <p>Make your skills visible and discover what you can achieve.</p>
+
+                    <div class="grid grid-4 mt-3">
+                        <div><span class="category-icon" aria-hidden="true">01</span><h3 class="mt-2">Create an account</h3><p class="small">Build your student profile.</p></div>
+                        <div><span class="category-icon" aria-hidden="true">02</span><h3 class="mt-2">Explore and connect</h3><p class="small">Discover services, tasks and courses.</p></div>
+                        <div><span class="category-icon" aria-hidden="true">03</span><h3 class="mt-2">Take action</h3><p class="small">Offer a service, apply or start learning.</p></div>
+                        <div><span class="category-icon" aria-hidden="true">04</span><h3 class="mt-2">Grow your skills</h3><p class="small">Build experience and share your progress.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--compact">
+            <div class="container">
+                <div class="cta-panel">
+                    <div>
+                        <h2>Have a skill worth sharing?</h2>
+                        <p class="mb-0">Create your student profile and explore what NEDIKE can offer.</p>
+                    </div>
+                    <a class="btn btn-primary" href="register.html">Get started <span aria-hidden="true">→</span></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <a class="brand" href="index.html">
+                        <img src="assets/images/nedike-icon.png" alt="">
+                        <span class="brand-name">NEDIKE</span>
+                    </a>
+                    <p class="mt-2">A platform for student skills, services, tasks and learning.</p>
+                    <strong>Learn. Work. Earn. Teach.</strong>
+                </div>
+
+                <div><h3>Explore</h3><nav class="footer-links" aria-label="Explore links">
+                    <a href="index.html">Home</a><a href="services.html">Services</a><a href="tasks.html">Tasks</a><a href="learning.html">Learning</a>
+                </nav></div>
+
+                <div><h3>Support</h3><nav class="footer-links" aria-label="Support links">
+                    <a href="help.html">Help and FAQs</a><a href="contact.html">Contact</a><a href="about.html">About NEDIKE</a>
+                </nav></div>
+
+                <div><h3>Information</h3><nav class="footer-links" aria-label="Legal links">
+                    <a href="terms.html">Terms of use</a><a href="privacy.html">Privacy policy</a><a href="register.html">Join NEDIKE</a>
+                </nav></div>
+            </div>
+
+            <div class="footer-bottom">
+                <span>© <span data-current-year></span> NEDIKE. All rights reserved.</span>
+                <span>Built for student skills and opportunities.</span>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
