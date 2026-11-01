@@ -1,0 +1,1365 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#102B46">
+    <meta name="description" content="Explore course details, learning objectives and curriculum on NEDIKE.">
+    <title>Course Details | NEDIKE</title>
+
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #102B46;
+            --navy-dark: #0B2035;
+            --green: #16845B;
+            --green-dark: #106D4A;
+            --green-light: #EAF4EE;
+            --background: #F4F7F5;
+            --white: #FFFFFF;
+            --text: #263746;
+            --muted: #718096;
+            --border: #E3EAE6;
+            --orange: #B7791F;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 30;
+        }
+
+        .header-inner {
+            max-width: 1240px;
+            height: 72px;
+            margin: auto;
+            padding: 0 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            flex-shrink: 0;
+        }
+
+        .brand img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .brand strong {
+            color: var(--navy);
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 23px;
+        }
+
+        .nav a {
+            color: #586878;
+            font-size: 11px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            color: var(--green);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-link {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: 0;
+            color: var(--navy);
+            font-size: 22px;
+        }
+
+        .breadcrumb {
+            max-width: 1120px;
+            margin: auto;
+            padding: 25px 25px 18px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--green);
+        }
+
+        .course-hero {
+            background: var(--navy);
+            color: white;
+        }
+
+        .hero-inner {
+            max-width: 1120px;
+            margin: auto;
+            padding: 46px 25px 50px;
+            display: grid;
+            grid-template-columns: 1fr 330px;
+            gap: 45px;
+            align-items: center;
+        }
+
+        .course-category {
+            display: inline-block;
+            color: #A7DEC1;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 17px;
+        }
+
+        .hero-content h1 {
+            max-width: 650px;
+            font-size: clamp(27px, 4vw, 39px);
+            line-height: 1.22;
+            letter-spacing: -1.5px;
+        }
+
+        .hero-description {
+            max-width: 620px;
+            margin-top: 17px;
+            color: #CFD9E2;
+            font-size: 12px;
+            line-height: 1.9;
+        }
+
+        .course-meta {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 19px;
+            margin-top: 25px;
+            color: #D5DFE7;
+            font-size: 10px;
+        }
+
+        .course-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hero-instructor {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-top: 27px;
+        }
+
+        .instructor-avatar {
+            width: 39px;
+            height: 39px;
+            border-radius: 50%;
+            background: #D8E9DE;
+            color: var(--green-dark);
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 800;
+            overflow: hidden;
+        }
+
+        .instructor-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-instructor small {
+            display: block;
+            color: #B9C8D4;
+            font-size: 9px;
+            margin-bottom: 4px;
+        }
+
+        .hero-instructor strong {
+            font-size: 11px;
+        }
+
+        .course-cover {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            background: #1D405D;
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .course-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .cover-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(140deg, #173B58, #205C4A);
+        }
+
+        .cover-placeholder span {
+            font-size: 44px;
+            font-weight: 800;
+            color: rgba(255,255,255,.9);
+            letter-spacing: -3px;
+        }
+
+        .cover-placeholder small {
+            color: #C8E3D3;
+            font-size: 10px;
+            margin-top: 12px;
+            line-height: 1.7;
+        }
+
+        .main-container {
+            max-width: 1120px;
+            margin: auto;
+            padding: 36px 25px 70px;
+            display: grid;
+            grid-template-columns: 1fr 310px;
+            gap: 35px;
+            align-items: start;
+        }
+
+        .content-section {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 25px;
+            margin-bottom: 19px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            color: var(--navy);
+            letter-spacing: -.4px;
+            margin-bottom: 17px;
+        }
+
+        .section-text {
+            color: #596B79;
+            font-size: 11px;
+            line-height: 2;
+            white-space: pre-wrap;
+        }
+
+        .learning-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 13px 20px;
+        }
+
+        .learning-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            color: #596B79;
+            font-size: 10px;
+            line-height: 1.8;
+        }
+
+        .check {
+            width: 19px;
+            height: 19px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            background: var(--green-light);
+            color: var(--green);
+            border-radius: 50%;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .curriculum-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .module {
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .module-button {
+            width: 100%;
+            border: 0;
+            background: white;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            text-align: left;
+        }
+
+        .module-button:hover {
+            background: #FAFCFB;
+        }
+
+        .module-heading {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .module-number {
+            width: 30px;
+            height: 30px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            background: var(--green-light);
+            color: var(--green);
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .module-heading strong {
+            display: block;
+            color: var(--navy);
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+        .module-heading small {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            margin-top: 5px;
+        }
+
+        .module-toggle {
+            color: var(--green);
+            font-size: 18px;
+        }
+
+        .module-content {
+            display: none;
+            padding: 0 17px 17px 58px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.9;
+        }
+
+        .module.open .module-content {
+            display: block;
+        }
+
+        .module.open .module-toggle {
+            transform: rotate(45deg);
+        }
+
+        .requirements-list {
+            padding-left: 17px;
+            color: #596B79;
+            font-size: 10px;
+            line-height: 2.1;
+        }
+
+        .instructor-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .instructor-photo {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green);
+            display: grid;
+            place-items: center;
+            font-size: 15px;
+            font-weight: 800;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .instructor-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .instructor-info h3 {
+            color: var(--navy);
+            font-size: 12px;
+        }
+
+        .instructor-info p {
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 5px;
+        }
+
+        .instructor-bio {
+            margin-top: 17px;
+            color: #596B79;
+            font-size: 10px;
+            line-height: 1.9;
+        }
+
+        .sidebar-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            overflow: hidden;
+            position: sticky;
+            top: 95px;
+        }
+
+        .sidebar-price {
+            padding: 24px 22px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .price-label {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .price-value {
+            color: var(--navy);
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-top: 8px;
+        }
+
+        .price-note {
+            color: var(--muted);
+            font-size: 9px;
+            margin-top: 7px;
+        }
+
+        .enrolment-area {
+            padding: 20px 22px;
+        }
+
+        .enrol-button {
+            width: 100%;
+            height: 45px;
+            border: 0;
+            border-radius: 4px;
+            background: var(--green);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .enrol-button:hover {
+            background: var(--green-dark);
+        }
+
+        .enrol-button:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .enrol-note {
+            text-align: center;
+            color: var(--muted);
+            font-size: 9px;
+            line-height: 1.7;
+            margin-top: 12px;
+        }
+
+        .course-facts {
+            padding: 0 22px 20px;
+            display: grid;
+            gap: 15px;
+        }
+
+        .fact {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            font-size: 10px;
+        }
+
+        .fact span:first-child {
+            color: var(--muted);
+        }
+
+        .fact span:last-child {
+            color: var(--navy);
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 0 22px 18px;
+        }
+
+        .sidebar-links {
+            padding: 0 22px 20px;
+            display: grid;
+            gap: 13px;
+        }
+
+        .sidebar-links a {
+            color: var(--green);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .message {
+            display: none;
+            margin-top: 13px;
+            padding: 11px;
+            border-radius: 4px;
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        .message.success {
+            display: block;
+            background: var(--green-light);
+            color: var(--green-dark);
+        }
+
+        .message.error {
+            display: block;
+            background: #FCEEEE;
+            color: #A72E2E;
+        }
+
+        .not-found {
+            display: none;
+            max-width: 650px;
+            margin: 70px auto;
+            padding: 35px 25px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .not-found h2 {
+            color: var(--navy);
+            font-size: 22px;
+        }
+
+        .not-found p {
+            color: var(--muted);
+            font-size: 11px;
+            margin: 12px 0 20px;
+            line-height: 1.8;
+        }
+
+        .not-found a {
+            display: inline-block;
+            background: var(--green);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        footer {
+            background: var(--navy-dark);
+            color: #AAB9C5;
+            text-align: center;
+            padding: 25px 15px;
+            font-size: 10px;
+        }
+
+        footer strong {
+            color: white;
+        }
+
+        @media (max-width: 850px) {
+            .nav {
+                gap: 13px;
+            }
+
+            .nav a {
+                font-size: 10px;
+            }
+
+            .hero-inner {
+                grid-template-columns: 1fr 260px;
+                gap: 25px;
+            }
+
+            .main-container {
+                grid-template-columns: 1fr 280px;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .header-inner {
+                height: 65px;
+                padding: 0 17px;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav {
+                display: none;
+                position: absolute;
+                top: 65px;
+                left: 0;
+                right: 0;
+                padding: 19px;
+                background: white;
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 19px;
+            }
+
+            .nav.open {
+                display: flex;
+            }
+
+            .breadcrumb {
+                padding: 20px 17px 15px;
+            }
+
+            .hero-inner {
+                padding: 35px 17px;
+                grid-template-columns: 1fr;
+            }
+
+            .course-cover {
+                max-width: 420px;
+            }
+
+            .main-container {
+                padding: 25px 16px 50px;
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar-card {
+                position: static;
+                grid-row: 1;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .content-section {
+                padding: 19px;
+            }
+
+            .learning-list {
+                grid-template-columns: 1fr;
+            }
+
+            .course-meta {
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-inner">
+
+        <a href="index.html" class="brand">
+            <img src="assets/images/nedike-icon.png" alt="NEDIKE logo">
+            <strong>NEDIKE</strong>
+        </a>
+
+        <nav class="nav" id="mainNav">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="tasks.html">Tasks</a>
+            <a href="learning.html" class="active">Learn</a>
+            <a href="my-learning.html">My Learning</a>
+            <a href="about.html">About</a>
+            <a href="help.html">Help</a>
+        </nav>
+
+        <div class="header-right">
+            <a href="profile.html" class="profile-link" id="profileInitial">U</a>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">☰</button>
+        </div>
+
+    </div>
+</header>
+
+<div id="coursePage">
+
+    <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>/</span>
+        <a href="learning.html">Learning</a>
+        <span>/</span>
+        <span id="breadcrumbTitle">Course Details</span>
+    </div>
+
+    <section class="course-hero">
+        <div class="hero-inner">
+
+            <div class="hero-content">
+                <span class="course-category" id="courseCategory">COURSE CATEGORY</span>
+
+                <h1 id="courseTitle">Loading course...</h1>
+
+                <p class="hero-description" id="courseDescription">
+                    Course information will appear here.
+                </p>
+
+                <div class="course-meta">
+                    <span id="courseLevel">Level: Not specified</span>
+                    <span id="courseDuration">Duration: Not specified</span>
+                    <span id="courseStudents">Students: Not specified</span>
+                </div>
+
+                <div class="hero-instructor">
+                    <div class="instructor-avatar" id="heroInstructorAvatar">I</div>
+                    <div>
+                        <small>Course instructor</small>
+                        <strong id="heroInstructorName">Instructor</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-cover">
+                <img id="courseImage" alt="Course cover">
+                <div class="cover-placeholder" id="coverPlaceholder">
+                    <span>NEDIKE</span>
+                    <small>Learn new skills.<br>Build your future.</small>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <main class="main-container">
+
+        <div class="course-content">
+
+            <section class="content-section">
+                <h2 class="section-title">About this course</h2>
+                <p class="section-text" id="aboutCourse">
+                    Course description will appear here.
+                </p>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">What you will learn</h2>
+                <div class="learning-list" id="learningObjectives"></div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Course curriculum</h2>
+                <div class="curriculum-list" id="curriculumList"></div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Requirements</h2>
+                <ul class="requirements-list" id="requirementsList"></ul>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">Meet your instructor</h2>
+
+                <div class="instructor-card">
+                    <div class="instructor-photo" id="instructorPhoto">I</div>
+                    <div class="instructor-info">
+                        <h3 id="instructorName">Instructor name</h3>
+                        <p id="instructorTitle">Course instructor</p>
+                    </div>
+                </div>
+
+                <p class="instructor-bio" id="instructorBio">
+                    Instructor information will appear here.
+                </p>
+            </section>
+
+        </div>
+
+        <aside class="sidebar-card">
+
+            <div class="sidebar-price">
+                <div class="price-label">Course fee</div>
+                <div class="price-value" id="coursePrice">Free</div>
+                <p class="price-note" id="priceNote">Course enrolment information</p>
+            </div>
+
+            <div class="enrolment-area">
+                <button class="enrol-button" id="enrolButton">
+                    Enrol in this Course
+                </button>
+
+                <p class="enrol-note">
+                    Review the course details before enrolling.
+                </p>
+
+                <div class="message" id="enrolMessage" role="status" aria-live="polite"></div>
+            </div>
+
+            <div class="course-facts">
+                <div class="fact">
+                    <span>Course level</span>
+                    <span id="factLevel">Not specified</span>
+                </div>
+
+                <div class="fact">
+                    <span>Duration</span>
+                    <span id="factDuration">Not specified</span>
+                </div>
+
+                <div class="fact">
+                    <span>Category</span>
+                    <span id="factCategory">Not specified</span>
+                </div>
+
+                <div class="fact">
+                    <span>Availability</span>
+                    <span id="factAvailability">Available</span>
+                </div>
+            </div>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="sidebar-links">
+                <a href="my-learning.html">View My Learning →</a>
+                <a href="learning.html">Explore More Courses →</a>
+                <a href="contact.html">Need Help? Contact Us →</a>
+            </div>
+
+        </aside>
+
+    </main>
+
+</div>
+
+<section class="not-found" id="notFound">
+    <h2>Course not found</h2>
+    <p>
+        We could not find the course you requested. It may have been removed,
+        or the course link may be incorrect.
+    </p>
+    <a href="learning.html">Browse Available Courses</a>
+</section>
+
+<footer>
+    <strong>NEDIKE</strong> — Learn. Work. Earn. Teach.
+    <br><br>
+    © <span id="year"></span> NEDIKE. All rights reserved.
+</footer>
+
+<script>
+    const COURSE_KEY = "nedike_courses";
+    const USER_KEY = "nedike_current_user";
+    const ENROLMENT_KEY = "nedike_enrolments";
+
+    let currentCourse = null;
+    let currentUser = null;
+
+    function readJSON(key, fallback) {
+        try {
+            return JSON.parse(localStorage.getItem(key)) ?? fallback;
+        } catch {
+            return fallback;
+        }
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        })[char]);
+    }
+
+    function getCourseId(course) {
+        return String(course.id || course.courseId || course._id || "");
+    }
+
+    function getUserId(user) {
+        return String(
+            user?.id ||
+            user?.userId ||
+            user?.email ||
+            user?.username ||
+            ""
+        ).trim();
+    }
+
+    function getCourseTitle(course) {
+        return course.title || course.courseTitle || course.name || "Untitled Course";
+    }
+
+    function getInstructor(course) {
+        return course.instructorName ||
+            course.teacherName ||
+            course.author ||
+            course.instructor ||
+            "NEDIKE Instructor";
+    }
+
+    function getCoursePrice(course) {
+        const value = course.price ?? course.coursePrice ?? course.amount ?? 0;
+
+        if (String(value).toLowerCase() === "free" || Number(value) === 0) {
+            return "Free";
+        }
+
+        const amount = Number(String(value).replace(/[₦,\s]/g, ""));
+
+        return Number.isFinite(amount)
+            ? "₦" + amount.toLocaleString("en-NG")
+            : String(value);
+    }
+
+    function getImage(course) {
+        return course.image ||
+            course.imageUrl ||
+            course.thumbnail ||
+            course.coverImage ||
+            "";
+    }
+
+    function toArray(value) {
+        if (Array.isArray(value)) return value;
+
+        if (typeof value === "string" && value.trim()) {
+            return value.split(/\r?\n|;/).map(item => item.trim()).filter(Boolean);
+        }
+
+        return [];
+    }
+
+    function normaliseCurriculum(value) {
+        if (!Array.isArray(value)) return [];
+
+        return value.map((item, index) => {
+            if (typeof item === "string") {
+                return {
+                    title: item,
+                    description: "Explore the topics covered in this module.",
+                    lessons: 0
+                };
+            }
+
+            return {
+                title: item.title || item.name || `Module ${index + 1}`,
+                description: item.description || item.content || "Explore the topics covered in this module.",
+                lessons: Number(item.lessons || item.lessonCount || 0)
+            };
+        });
+    }
+
+    function showMessage(message, type) {
+        const box = document.getElementById("enrolMessage");
+        box.textContent = message;
+        box.className = "message " + type;
+    }
+
+    function setImage(element, url, placeholder) {
+        if (!url) return;
+
+        try {
+            const parsed = new URL(url, window.location.href);
+
+            if (!["http:", "https:"].includes(parsed.protocol)) return;
+
+            element.onload = () => {
+                element.style.display = "block";
+                if (placeholder) placeholder.style.display = "none";
+            };
+
+            element.onerror = () => {
+                element.style.display = "none";
+                if (placeholder) placeholder.style.display = "flex";
+            };
+
+            element.src = parsed.href;
+        } catch {
+            element.style.display = "none";
+        }
+    }
+
+    function loadCourse() {
+        const params = new URLSearchParams(window.location.search);
+        const requestedId = params.get("id");
+
+        const courses = readJSON(COURSE_KEY, []);
+
+        if (!Array.isArray(courses) || !requestedId) return null;
+
+        return courses.find(course => getCourseId(course) === requestedId) || null;
+    }
+
+    function renderCourse(course) {
+        const title = getCourseTitle(course);
+        const category = course.category || course.courseCategory || "General";
+        const description = course.description ||
+            course.overview ||
+            "Explore this course and develop useful skills.";
+
+        const instructor = getInstructor(course);
+        const instructorBio = course.instructorBio ||
+            course.teacherBio ||
+            course.authorBio ||
+            "Instructor biography has not been added yet.";
+
+        const level = course.level || course.courseLevel || "All levels";
+        const duration = course.duration || course.courseDuration || "Not specified";
+        const objectives = toArray(
+            course.learningObjectives || course.objectives || course.outcomes
+        );
+
+        const requirements = toArray(
+            course.requirements || course.prerequisites
+        );
+
+        const curriculum = normaliseCurriculum(
+            course.curriculum || course.modules || course.lessons
+        );
+
+        document.title = title + " | NEDIKE";
+
+        document.getElementById("breadcrumbTitle").textContent = title;
+        document.getElementById("courseCategory").textContent = category;
+        document.getElementById("courseTitle").textContent = title;
+        document.getElementById("courseDescription").textContent = description;
+        document.getElementById("aboutCourse").textContent = course.about || description;
+
+        document.getElementById("courseLevel").textContent = "Level: " + level;
+        document.getElementById("courseDuration").textContent = "Duration: " + duration;
+
+        const enrolledCount = Number(course.enrolledCount || course.studentsCount || 0);
+
+        document.getElementById("courseStudents").textContent =
+            "Students: " + enrolledCount.toLocaleString("en-NG");
+
+        document.getElementById("heroInstructorName").textContent = instructor;
+        document.getElementById("instructorName").textContent = instructor;
+
+        document.getElementById("instructorTitle").textContent =
+            course.instructorTitle || course.teacherTitle || "Course Instructor";
+
+        document.getElementById("instructorBio").textContent = instructorBio;
+
+        const initials = instructor.trim().split(/\s+/)
+            .map(part => part.charAt(0)).join("").slice(0, 2).toUpperCase() || "I";
+
+        document.getElementById("heroInstructorAvatar").textContent = initials;
+        document.getElementById("instructorPhoto").textContent = initials;
+
+        const instructorImage = course.instructorImage || course.teacherImage || "";
+
+        if (instructorImage) {
+            const heroAvatar = document.getElementById("heroInstructorAvatar");
+            const profileAvatar = document.getElementById("instructorPhoto");
+
+            const img1 = document.createElement("img");
+            const img2 = document.createElement("img");
+
+            setImage(img1, instructorImage);
+            setImage(img2, instructorImage);
+
+            heroAvatar.textContent = "";
+            profileAvatar.textContent = "";
+
+            heroAvatar.appendChild(img1);
+            profileAvatar.appendChild(img2);
+        }
+
+        const coverImage = document.getElementById("courseImage");
+        setImage(coverImage, getImage(course), document.getElementById("coverPlaceholder"));
+
+        document.getElementById("coursePrice").textContent = getCoursePrice(course);
+
+        document.getElementById("priceNote").textContent =
+            getCoursePrice(course) === "Free"
+                ? "No course fee is listed."
+                : "Course fee shown by the course creator.";
+
+        document.getElementById("factLevel").textContent = level;
+        document.getElementById("factDuration").textContent = duration;
+        document.getElementById("factCategory").textContent = category;
+
+        const status = String(course.status || "active").toLowerCase();
+        const available = !["inactive", "disabled", "archived", "draft", "closed"].includes(status);
+
+        document.getElementById("factAvailability").textContent =
+            available ? "Available" : "Unavailable";
+
+        const enrolButton = document.getElementById("enrolButton");
+
+        if (!available) {
+            enrolButton.disabled = true;
+            enrolButton.textContent = "Currently Unavailable";
+        }
+
+        renderList("learningObjectives", objectives, "No learning objectives have been added yet.");
+        renderList("requirementsList", requirements, "No specific prerequisites have been listed.", true);
+        renderCurriculum(curriculum);
+    }
+
+    function renderList(elementId, items, emptyMessage, isOrdered = false) {
+        const container = document.getElementById(elementId);
+
+        if (!items.length) {
+            if (isOrdered) {
+                container.innerHTML = `<li>${escapeHTML(emptyMessage)}</li>`;
+            } else {
+                container.innerHTML = `<p class="section-text">${escapeHTML(emptyMessage)}</p>`;
+            }
+            return;
+        }
+
+        if (isOrdered) {
+            container.innerHTML = items.map(item =>
+                `<li>${escapeHTML(item)}</li>`
+            ).join("");
+        } else {
+            container.innerHTML = items.map(item => `
+                <div class="learning-item">
+                    <span class="check">✓</span>
+                    <span>${escapeHTML(item)}</span>
+                </div>
+            `).join("");
+        }
+    }
+
+    function renderCurriculum(modules) {
+        const container = document.getElementById("curriculumList");
+
+        if (!modules.length) {
+            container.innerHTML = `
+                <p class="section-text">
+                    The course creator has not added a curriculum yet.
+                </p>
+            `;
+            return;
+        }
+
+        container.innerHTML = modules.map((module, index) => `
+            <div class="module">
+                <button class="module-button" type="button" aria-expanded="false">
+                    <div class="module-heading">
+                        <span class="module-number">${String(index + 1).padStart(2, "0")}</span>
+                        <div>
+                            <strong>${escapeHTML(module.title)}</strong>
+                            <small>${module.lessons ? module.lessons + " lessons" : "Course module"}</small>
+                        </div>
+                    </div>
+                    <span class="module-toggle">+</span>
+                </button>
+                <div class="module-content">
+                    ${escapeHTML(module.description)}
+                </div>
+            </div>
+        `).join("");
+
+        container.querySelectorAll(".module-button").forEach(button => {
+            button.addEventListener("click", () => {
+                const module = button.closest(".module");
+                const isOpen = module.classList.toggle("open");
+                button.setAttribute("aria-expanded", String(isOpen));
+            });
+        });
+    }
+
+    function getMyEnrolments() {
+        const all = readJSON(ENROLMENT_KEY, []);
+        const userId = getUserId(currentUser);
+        const courseId = getCourseId(currentCourse);
+
+        if (!Array.isArray(all) || !userId) return [];
+
+        return all.filter(item =>
+            String(item.userId || item.studentId || item.email || "").toLowerCase() === userId.toLowerCase() &&
+            String(item.courseId || item.id || "") === courseId
+        );
+    }
+
+    function enrolInCourse() {
+        if (!currentUser) {
+            const returnUrl = "course-details.html?id=" +
+                encodeURIComponent(getCourseId(currentCourse));
+
+            window.location.href = "login.html?redirect=" + encodeURIComponent(returnUrl);
+            return;
+        }
+
+        const messageBox = document.getElementById("enrolMessage");
+        const button = document.getElementById("enrolButton");
+
+        if (getMyEnrolments().length) {
+            showMessage("You are already enrolled in this course.", "success");
+            button.textContent = "Already Enrolled";
+            button.disabled = true;
+            return;
+        }
+
+        const all = readJSON(ENROLMENT_KEY, []);
+
+        if (!Array.isArray(all)) {
+            showMessage("Your enrolment could not be saved. Please try again.", "error");
+            return;
+        }
+
+        const userId = getUserId(currentUser);
+
+        if (!userId) {
+            showMessage("Your account identifier is missing. Please update your profile.", "error");
+            return;
+        }
+
+        const enrolment = {
+            id: "ENR-" + Date.now(),
+            courseId: getCourseId(currentCourse),
+            courseTitle: getCourseTitle(currentCourse),
+            userId: userId,
+            studentName: currentUser.fullName ||
+                currentUser.name ||
+                [currentUser.firstName, currentUser.lastName].filter(Boolean).join(" "),
+            email: currentUser.email || "",
+            status: "enrolled",
+            enrolledAt: new Date().toISOString()
+        };
+
+        all.push(enrolment);
+
+        try {
+            localStorage.setItem(ENROLMENT_KEY, JSON.stringify(all));
+
+            showMessage("Your enrolment has been saved in this browser.", "success");
+
+            button.textContent = "Already Enrolled";
+            button.disabled = true;
+
+        } catch {
+            showMessage("Unable to save your enrolment. Check your browser storage.", "error");
+        }
+    }
+
+    // Navigation
+    document.getElementById("mobileToggle").addEventListener("click", () => {
+        document.getElementById("mainNav").classList.toggle("open");
+    });
+
+    // Current account
+    currentUser = readJSON(USER_KEY, null);
+
+    if (currentUser) {
+        const name = currentUser.fullName ||
+            currentUser.name ||
+            [currentUser.firstName, currentUser.lastName].filter(Boolean).join(" ");
+
+        document.getElementById("profileInitial").textContent =
+            name.trim().charAt(0).toUpperCase() || "U";
+    } else {
+        document.getElementById("profileInitial").href =
+            "login.html?redirect=" + encodeURIComponent(window.location.href);
+    }
+
+    document.getElementById("enrolButton").addEventListener("click", enrolInCourse);
+
+    // Load course by ID from URL.
+    currentCourse = loadCourse();
+
+    if (currentCourse) {
+        renderCourse(currentCourse);
+
+        if (currentUser && getMyEnrolments().length) {
+            document.getElementById("enrolButton").textContent = "Already Enrolled";
+            document.getElementById("enrolButton").disabled = true;
+        }
+    } else {
+        document.getElementById("coursePage").style.display = "none";
+        document.getElementById("notFound").style.display = "block";
+    }
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

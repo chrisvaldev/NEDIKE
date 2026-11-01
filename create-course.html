@@ -1,0 +1,1549 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#102B46">
+    <meta name="description" content="Create and publish a learning course on NEDIKE.">
+    <title>Create a Course | NEDIKE</title>
+
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #102B46;
+            --navy-dark: #0B2035;
+            --green: #16845B;
+            --green-dark: #106D4A;
+            --green-light: #EAF4EE;
+            --background: #F4F7F5;
+            --white: #FFFFFF;
+            --text: #263746;
+            --muted: #718096;
+            --border: #E3EAE6;
+            --danger: #C0392B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input, textarea, select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .header {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .header-inner {
+            max-width: 1240px;
+            height: 100%;
+            margin: auto;
+            padding: 0 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .brand img {
+            width: 37px;
+            height: 37px;
+            object-fit: contain;
+        }
+
+        .brand strong {
+            font-size: 21px;
+            font-weight: 800;
+            color: var(--navy);
+            letter-spacing: -1px;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .nav a {
+            font-size: 11px;
+            font-weight: 600;
+            color: #596B79;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            color: var(--green);
+        }
+
+        .profile-link {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green);
+            font-weight: 800;
+        }
+
+        .mobile-toggle {
+            display: none;
+            border: 0;
+            background: transparent;
+            color: var(--navy);
+            font-size: 22px;
+        }
+
+        .page-container {
+            max-width: 1080px;
+            margin: auto;
+            padding: 35px 25px 70px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            color: var(--muted);
+            font-size: 10px;
+            margin-bottom: 22px;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--green);
+        }
+
+        .page-heading {
+            margin-bottom: 27px;
+        }
+
+        .page-heading h1 {
+            color: var(--navy);
+            font-size: 27px;
+            letter-spacing: -1px;
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 9px;
+            line-height: 1.8;
+        }
+
+        .form-layout {
+            display: grid;
+            grid-template-columns: 1fr 275px;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .form-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 27px;
+            margin-bottom: 18px;
+        }
+
+        .section-heading {
+            padding-bottom: 17px;
+            margin-bottom: 21px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-heading h2 {
+            color: var(--navy);
+            font-size: 14px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 6px;
+            line-height: 1.7;
+        }
+
+        .form-group {
+            margin-bottom: 19px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 10px;
+            color: var(--navy);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .required {
+            color: var(--danger);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            background: #FCFDFC;
+            color: var(--text);
+            padding: 12px 13px;
+            outline: none;
+            border-radius: 4px;
+            font-size: 11px;
+            transition: .2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--green);
+            background: white;
+        }
+
+        .form-group textarea {
+            min-height: 125px;
+            resize: vertical;
+            line-height: 1.8;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #A0ACB5;
+        }
+
+        .help-text {
+            color: var(--muted);
+            font-size: 9px;
+            line-height: 1.7;
+            margin-top: 7px;
+        }
+
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .image-upload {
+            border: 1px dashed #B8C9BF;
+            border-radius: 4px;
+            padding: 22px;
+            text-align: center;
+            background: #FAFCFB;
+        }
+
+        .image-upload input {
+            display: none;
+        }
+
+        .upload-symbol {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green);
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+            margin: 0 auto 11px;
+        }
+
+        .upload-label {
+            display: inline-block;
+            color: var(--green);
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .image-upload p {
+            color: var(--muted);
+            font-size: 9px;
+            margin-top: 7px;
+        }
+
+        .image-preview {
+            display: none;
+            width: 100%;
+            max-height: 210px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+
+        .dynamic-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .dynamic-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .dynamic-item input,
+        .dynamic-item textarea {
+            flex: 1;
+            min-width: 0;
+            border: 1px solid var(--border);
+            padding: 11px;
+            border-radius: 4px;
+            font-size: 10px;
+            outline: none;
+        }
+
+        .dynamic-item input:focus,
+        .dynamic-item textarea:focus {
+            border-color: var(--green);
+        }
+
+        .remove-item {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+            border: 1px solid #F0D9D6;
+            background: #FFF8F7;
+            color: var(--danger);
+            border-radius: 4px;
+            font-size: 15px;
+        }
+
+        .add-button {
+            border: 0;
+            background: transparent;
+            color: var(--green);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 12px 0 0;
+        }
+
+        .add-button:hover {
+            color: var(--green-dark);
+        }
+
+        .module-item {
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 15px;
+        }
+
+        .module-item-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .module-item-top strong {
+            color: var(--navy);
+            font-size: 10px;
+        }
+
+        .module-fields {
+            display: grid;
+            gap: 10px;
+        }
+
+        .module-fields input,
+        .module-fields textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            outline: none;
+            font-size: 10px;
+        }
+
+        .module-fields textarea {
+            min-height: 75px;
+            resize: vertical;
+        }
+
+        .module-fields input:focus,
+        .module-fields textarea:focus {
+            border-color: var(--green);
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 95px;
+        }
+
+        .sidebar-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 21px;
+            margin-bottom: 15px;
+        }
+
+        .sidebar-card h3 {
+            color: var(--navy);
+            font-size: 12px;
+            margin-bottom: 13px;
+        }
+
+        .sidebar-card p {
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.9;
+        }
+
+        .tips-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .tip {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            color: #596B79;
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        .tip-mark {
+            color: var(--green);
+            font-weight: 800;
+        }
+
+        .notice {
+            background: var(--green-light);
+            color: var(--green-dark);
+            border-left: 3px solid var(--green);
+            padding: 13px;
+            font-size: 9px;
+            line-height: 1.8;
+            margin-top: 15px;
+        }
+
+        .form-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .primary-button,
+        .secondary-button {
+            min-height: 43px;
+            padding: 0 20px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .primary-button {
+            background: var(--green);
+            color: white;
+            border: 1px solid var(--green);
+        }
+
+        .primary-button:hover {
+            background: var(--green-dark);
+        }
+
+        .secondary-button {
+            background: white;
+            color: var(--navy);
+            border: 1px solid var(--border);
+        }
+
+        .secondary-button:hover {
+            border-color: var(--green);
+        }
+
+        .status-message {
+            display: none;
+            padding: 13px;
+            border-radius: 4px;
+            font-size: 10px;
+            line-height: 1.7;
+            margin-top: 16px;
+        }
+
+        .status-message.success {
+            display: block;
+            background: var(--green-light);
+            color: var(--green-dark);
+        }
+
+        .status-message.error {
+            display: block;
+            background: #FCEEEE;
+            color: #A72E2E;
+        }
+
+        footer {
+            background: var(--navy-dark);
+            color: #AAB9C5;
+            text-align: center;
+            padding: 25px 15px;
+            font-size: 10px;
+        }
+
+        footer strong {
+            color: white;
+        }
+
+        @media (max-width: 850px) {
+            .nav {
+                gap: 13px;
+            }
+
+            .nav a {
+                font-size: 10px;
+            }
+
+            .form-layout {
+                grid-template-columns: 1fr 245px;
+                gap: 17px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .header {
+                height: 65px;
+            }
+
+            .header-inner {
+                padding: 0 17px;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav {
+                display: none;
+                position: absolute;
+                top: 65px;
+                left: 0;
+                right: 0;
+                padding: 20px;
+                background: white;
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 18px;
+            }
+
+            .nav.open {
+                display: flex;
+            }
+
+            .page-container {
+                padding: 25px 16px 50px;
+            }
+
+            .form-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+                grid-row: 1;
+            }
+
+            .sidebar-card {
+                margin-bottom: 12px;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .form-actions button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-inner">
+
+        <a href="index.html" class="brand">
+            <img src="assets/images/nedike-icon.png" alt="NEDIKE logo">
+            <strong>NEDIKE</strong>
+        </a>
+
+        <nav class="nav" id="mainNav">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="tasks.html">Tasks</a>
+            <a href="learning.html" class="active">Learn</a>
+            <a href="my-learning.html">My Learning</a>
+            <a href="about.html">About</a>
+            <a href="help.html">Help</a>
+        </nav>
+
+        <a href="profile.html" class="profile-link" id="profileInitial">U</a>
+
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">☰</button>
+
+    </div>
+</header>
+
+<main class="page-container">
+
+    <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>/</span>
+        <a href="learning.html">Learning</a>
+        <span>/</span>
+        <span>Create Course</span>
+    </div>
+
+    <div class="page-heading">
+        <h1 id="pageTitle">Create a Course</h1>
+        <p>
+            Share your knowledge, teach valuable skills and help other students
+            grow through learning on NEDIKE.
+        </p>
+    </div>
+
+    <form id="courseForm" novalidate>
+
+        <div class="form-layout">
+
+            <div class="form-main">
+
+                <!-- COURSE INFORMATION -->
+                <section class="form-card">
+                    <div class="section-heading">
+                        <h2>Course Information</h2>
+                        <p>Start with the basic information about your course.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="courseTitle">Course title <span class="required">*</span></label>
+                        <input type="text" id="courseTitle" maxlength="100"
+                            placeholder="e.g. Complete Graphic Design Masterclass" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Course category <span class="required">*</span></label>
+                        <select id="category" required>
+                            <option value="">Select a category</option>
+                            <option>Graphic Design</option>
+                            <option>Web Development</option>
+                            <option>Mobile App Development</option>
+                            <option>Photography and Videography</option>
+                            <option>Writing and Content Creation</option>
+                            <option>Digital Marketing</option>
+                            <option>Business and Entrepreneurship</option>
+                            <option>Academic and Professional Skills</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shortDescription">Short description <span class="required">*</span></label>
+                        <textarea id="shortDescription" maxlength="350"
+                            placeholder="Briefly explain what students will gain from this course..." required></textarea>
+                        <p class="help-text">Write a clear introduction. Maximum 350 characters.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="about">Full course description <span class="required">*</span></label>
+                        <textarea id="about" maxlength="5000"
+                            placeholder="Describe your course, what it covers and who it is designed for..." required></textarea>
+                    </div>
+
+                    <div class="two-columns">
+                        <div class="form-group">
+                            <label for="level">Course level <span class="required">*</span></label>
+                            <select id="level" required>
+                                <option value="">Select level</option>
+                                <option>Beginner</option>
+                                <option>Intermediate</option>
+                                <option>Advanced</option>
+                                <option>All Levels</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="duration">Course duration <span class="required">*</span></label>
+                            <input type="text" id="duration" maxlength="50"
+                                placeholder="e.g. 4 weeks" required>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- COURSE IMAGE -->
+                <section class="form-card">
+                    <div class="section-heading">
+                        <h2>Course Cover Image</h2>
+                        <p>Add a visual that represents your course.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="image-upload">
+                            <div class="upload-symbol">↑</div>
+
+                            <label for="courseImage" class="upload-label">
+                                Choose an image
+                            </label>
+
+                            <input type="file" id="courseImage" accept="image/jpeg,image/png,image/webp">
+
+                            <p>JPG, PNG or WebP. Maximum file size: 2MB.</p>
+
+                            <img id="imagePreview" class="image-preview" alt="Course image preview">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- LEARNING OBJECTIVES -->
+                <section class="form-card">
+                    <div class="section-heading">
+                        <h2>Learning Objectives</h2>
+                        <p>What should students be able to do after completing this course?</p>
+                    </div>
+
+                    <div class="dynamic-list" id="objectivesList">
+                        <div class="dynamic-item">
+                            <input type="text" class="objective-input"
+                                maxlength="180" placeholder="e.g. Understand the fundamentals of graphic design">
+                            <button type="button" class="remove-item" aria-label="Remove objective">×</button>
+                        </div>
+                    </div>
+
+                    <button type="button" class="add-button" id="addObjective">
+                        + Add another learning objective
+                    </button>
+                </section>
+
+                <!-- CURRICULUM -->
+                <section class="form-card">
+                    <div class="section-heading">
+                        <h2>Course Curriculum</h2>
+                        <p>Break your course into modules or learning sections.</p>
+                    </div>
+
+                    <div class="dynamic-list" id="curriculumList">
+                        <div class="module-item">
+                            <div class="module-item-top">
+                                <strong>Module 1</strong>
+                                <button type="button" class="remove-item" aria-label="Remove module">×</button>
+                            </div>
+
+                            <div class="module-fields">
+                                <input type="text" class="module-title"
+                                    maxlength="100" placeholder="Module title">
+
+                                <textarea class="module-description"
+                                    maxlength="1000" placeholder="Describe what this module covers..."></textarea>
+
+                                <input type="number" class="module-lessons"
+                                    min="0" max="1000" placeholder="Number of lessons (optional)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="add-button" id="addModule">
+                        + Add another module
+                    </button>
+                </section>
+
+                <!-- REQUIREMENTS -->
+                <section class="form-card">
+                    <div class="section-heading">
+                        <h2>Course Requirements</h2>
+                        <p>List any tools, knowledge or materials students need before starting.</p>
+                    </div>
+
+                    <div class="dynamic-list" id="requirementsList">
+                        <div class="dynamic-item">
+                            <input type="text" class="requirement-input"
+                                maxlength="180" placeholder="e.g. A smartphone or laptop">
+                            <button type="button" class="remove-item" aria-label="Remove requirement">×</button>
+                        </div>
+                    </div>
+
+                    <button type="button" class="add-button" id="addRequirement">
+                        + Add another requirement
+                    </button>
+                </section>
+
+                <!-- INSTRUCTOR -->
+                <section class="form-card">
+                    <div class="section-heading">
+                        <h2>Instructor Information</h2>
+                        <p>Tell students who will be teaching this course.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="instructorName">Instructor name <span class="required">*</span></label>
+                        <input type="text" id="instructorName" maxlength="100" required
+                            placeholder="Your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="instructorTitle">Professional title</label>
+                        <input type="text" id="instructorTitle" maxlength="100"
+                            placeholder="e.g. Graphic Designer and Educator">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="instructorBio">Instructor biography</label>
+                        <textarea id="instructorBio" maxlength="1200"
+                            placeholder="Introduce yourself and describe your experience..."></textarea>
+                    </div>
+                </section>
+
+                <!-- PRICING -->
+                <section class="form-card">
+                    <div class="section-heading">
+                        <h2>Course Pricing</h2>
+                        <p>Choose whether your course is free or paid.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pricingType">Pricing type <span class="required">*</span></label>
+                        <select id="pricingType" required>
+                            <option value="free">Free Course</option>
+                            <option value="paid">Paid Course</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="priceGroup" style="display:none;">
+                        <label for="coursePrice">Course price (₦) <span class="required">*</span></label>
+                        <input type="number" id="coursePrice" min="1" step="1"
+                            placeholder="e.g. 5000">
+                        <p class="help-text">Enter the amount in Nigerian Naira.</p>
+                    </div>
+                </section>
+
+                <div class="form-card">
+                    <div class="section-heading">
+                        <h2>Publishing</h2>
+                        <p>Review your information before making the course available.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="publishStatus">Course status</label>
+                        <select id="publishStatus">
+                            <option value="active">Publish course</option>
+                            <option value="draft">Save as draft</option>
+                        </select>
+                        <p class="help-text">
+                            Publishing makes the course available in the course listing stored in this browser.
+                        </p>
+                    </div>
+
+                    <div class="notice">
+                        NEDIKE currently saves course information in this browser.
+                        This prototype does not upload course videos, process payments
+                        or publish information to a central server.
+                    </div>
+
+                    <div class="status-message" id="statusMessage" role="status" aria-live="polite"></div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="primary-button" id="submitButton">
+                            Publish Course
+                        </button>
+
+                        <button type="button" class="secondary-button" id="cancelButton">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+
+                <div class="sidebar-card">
+                    <h3>Creating a good course</h3>
+
+                    <div class="tips-list">
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>Choose a clear title that explains what your course teaches.</span>
+                        </div>
+
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>Write a useful description that sets clear expectations.</span>
+                        </div>
+
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>Organise your curriculum into logical learning modules.</span>
+                        </div>
+
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>Include practical learning objectives and requirements.</span>
+                        </div>
+
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>Use an appropriate cover image to represent your course.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>Need assistance?</h3>
+                    <p>
+                        If you need help creating your course, visit the NEDIKE
+                        Help Centre or contact the support team.
+                    </p>
+
+                    <div style="margin-top:15px;">
+                        <a href="help.html" style="color:var(--green);font-weight:700;font-size:10px;">
+                            Visit Help Centre →
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>Course management</h3>
+                    <p>
+                        You can manage your created courses from your learning
+                        dashboard when that feature is connected.
+                    </p>
+
+                    <div style="margin-top:15px;">
+                        <a href="learning.html" style="color:var(--green);font-weight:700;font-size:10px;">
+                            Explore Learning →
+                        </a>
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </form>
+
+</main>
+
+<footer>
+    <strong>NEDIKE</strong> — Learn. Work. Earn. Teach.
+    <br><br>
+    © <span id="year"></span> NEDIKE. All rights reserved.
+</footer>
+
+<script>
+    const COURSE_KEY = "nedike_courses";
+    const USER_KEY = "nedike_current_user";
+    const IMAGE_LIMIT = 2 * 1024 * 1024;
+
+    const form = document.getElementById("courseForm");
+    const statusMessage = document.getElementById("statusMessage");
+
+    let currentUser = null;
+    let editingCourseId = null;
+    let selectedImage = "";
+    let existingImage = "";
+
+    function readJSON(key, fallback) {
+        try {
+            return JSON.parse(localStorage.getItem(key)) ?? fallback;
+        } catch {
+            return fallback;
+        }
+    }
+
+    function getUserId(user) {
+        return String(
+            user?.id ||
+            user?.userId ||
+            user?.email ||
+            user?.username ||
+            ""
+        ).trim();
+    }
+
+    function getUserName(user) {
+        return user?.fullName ||
+            user?.name ||
+            [user?.firstName, user?.lastName].filter(Boolean).join(" ") ||
+            "";
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        })[char]);
+    }
+
+    function showStatus(message, type) {
+        statusMessage.textContent = message;
+        statusMessage.className = "status-message " + type;
+    }
+
+    function getCourseId(course) {
+        return String(course.id || course.courseId || course._id || "");
+    }
+
+    function getCourseOwner(course) {
+        return String(
+            course.userId ||
+            course.ownerId ||
+            course.instructorId ||
+            course.creatorId ||
+            course.email ||
+            ""
+        ).trim().toLowerCase();
+    }
+
+    function getCourseTitle(course) {
+        return course.title || course.courseTitle || course.name || "";
+    }
+
+    function getQueryId() {
+        return new URLSearchParams(window.location.search).get("edit");
+    }
+
+    function getArrayFromInputs(selector) {
+        return [...document.querySelectorAll(selector)]
+            .map(input => input.value.trim())
+            .filter(Boolean);
+    }
+
+    function addDynamicInput(containerId, className, placeholder) {
+        const container = document.getElementById(containerId);
+        const item = document.createElement("div");
+
+        item.className = "dynamic-item";
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.className = className;
+        input.maxLength = 180;
+        input.placeholder = placeholder;
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "remove-item";
+        remove.textContent = "×";
+        remove.setAttribute("aria-label", "Remove item");
+
+        item.append(input, remove);
+        container.appendChild(item);
+    }
+
+    function addModule(data = {}) {
+        const container = document.getElementById("curriculumList");
+        const item = document.createElement("div");
+
+        item.className = "module-item";
+
+        const top = document.createElement("div");
+        top.className = "module-item-top";
+
+        const heading = document.createElement("strong");
+        heading.textContent = "Module " + (container.children.length + 1);
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "remove-item";
+        remove.textContent = "×";
+        remove.setAttribute("aria-label", "Remove module");
+
+        top.append(heading, remove);
+
+        const fields = document.createElement("div");
+        fields.className = "module-fields";
+
+        const title = document.createElement("input");
+        title.type = "text";
+        title.className = "module-title";
+        title.maxLength = 100;
+        title.placeholder = "Module title";
+        title.value = data.title || "";
+
+        const description = document.createElement("textarea");
+        description.className = "module-description";
+        description.maxLength = 1000;
+        description.placeholder = "Describe what this module covers...";
+        description.value = data.description || "";
+
+        const lessons = document.createElement("input");
+        lessons.type = "number";
+        lessons.className = "module-lessons";
+        lessons.min = "0";
+        lessons.max = "1000";
+        lessons.placeholder = "Number of lessons (optional)";
+        lessons.value = data.lessons || "";
+
+        fields.append(title, description, lessons);
+        item.append(top, fields);
+        container.appendChild(item);
+
+        updateModuleNumbers();
+    }
+
+    function updateModuleNumbers() {
+        document.querySelectorAll(".module-item-top strong").forEach((heading, index) => {
+            heading.textContent = "Module " + (index + 1);
+        });
+    }
+
+    function collectModules() {
+        return [...document.querySelectorAll(".module-item")].map(item => {
+            const title = item.querySelector(".module-title").value.trim();
+            const description = item.querySelector(".module-description").value.trim();
+            const lessons = Number(item.querySelector(".module-lessons").value || 0);
+
+            return { title, description, lessons };
+        }).filter(module => module.title || module.description);
+    }
+
+    function normaliseModules(value) {
+        if (!Array.isArray(value)) return [];
+
+        return value.map(item => {
+            if (typeof item === "string") {
+                return { title: item, description: "", lessons: 0 };
+            }
+
+            return {
+                title: item.title || item.name || "",
+                description: item.description || item.content || "",
+                lessons: Number(item.lessons || item.lessonCount || 0)
+            };
+        });
+    }
+
+    function showImagePreview(data) {
+        const preview = document.getElementById("imagePreview");
+
+        if (!data) {
+            preview.removeAttribute("src");
+            preview.style.display = "none";
+            return;
+        }
+
+        preview.src = data;
+        preview.style.display = "block";
+    }
+
+    function loadExistingCourse(id) {
+        const courses = readJSON(COURSE_KEY, []);
+
+        if (!Array.isArray(courses)) return false;
+
+        const course = courses.find(item => getCourseId(item) === id);
+
+        if (!course) return false;
+
+        const currentId = getUserId(currentUser).toLowerCase();
+        const ownerId = getCourseOwner(course);
+
+        if (!currentId || !ownerId || currentId !== ownerId) {
+            showStatus("You cannot edit this course because it does not belong to your account.", "error");
+            form.style.display = "none";
+            return false;
+        }
+
+        editingCourseId = id;
+
+        document.getElementById("pageTitle").textContent = "Edit Course";
+        document.getElementById("submitButton").textContent = "Save Changes";
+
+        document.getElementById("courseTitle").value = getCourseTitle(course);
+        document.getElementById("category").value = course.category || "";
+        document.getElementById("shortDescription").value = course.description || "";
+        document.getElementById("about").value = course.about || course.description || "";
+        document.getElementById("level").value = course.level || "All Levels";
+        document.getElementById("duration").value = course.duration || "";
+
+        document.getElementById("instructorName").value =
+            course.instructorName || course.instructor || getUserName(currentUser);
+
+        document.getElementById("instructorTitle").value = course.instructorTitle || "";
+        document.getElementById("instructorBio").value = course.instructorBio || "";
+
+        const price = Number(course.price || 0);
+        const isPaid = price > 0 || course.pricingType === "paid";
+
+        document.getElementById("pricingType").value = isPaid ? "paid" : "free";
+        document.getElementById("coursePrice").value = price || "";
+        document.getElementById("priceGroup").style.display = isPaid ? "block" : "none";
+
+        document.getElementById("publishStatus").value =
+            ["draft", "inactive"].includes(String(course.status).toLowerCase())
+                ? "draft"
+                : "active";
+
+        existingImage = course.image || course.imageUrl || course.thumbnail || "";
+        selectedImage = existingImage;
+        showImagePreview(existingImage);
+
+        const objectives = Array.isArray(course.learningObjectives || course.objectives)
+            ? (course.learningObjectives || course.objectives)
+            : [];
+
+        document.getElementById("objectivesList").innerHTML = "";
+
+        (objectives.length ? objectives : [""]).forEach(objective => {
+            addDynamicInput("objectivesList", "objective-input", "Learning objective");
+            const inputs = document.querySelectorAll(".objective-input");
+            inputs[inputs.length - 1].value = objective;
+        });
+
+        const requirements = Array.isArray(course.requirements)
+            ? course.requirements
+            : [];
+
+        document.getElementById("requirementsList").innerHTML = "";
+
+        (requirements.length ? requirements : [""]).forEach(requirement => {
+            addDynamicInput("requirementsList", "requirement-input", "Course requirement");
+            const inputs = document.querySelectorAll(".requirement-input");
+            inputs[inputs.length - 1].value = requirement;
+        });
+
+        const modules = normaliseModules(course.curriculum || course.modules);
+
+        document.getElementById("curriculumList").innerHTML = "";
+
+        (modules.length ? modules : [{}]).forEach(module => addModule(module));
+
+        return true;
+    }
+
+    function validateCourse(data) {
+        if (!data.title || !data.category || !data.description ||
+            !data.about || !data.level || !data.duration ||
+            !data.instructorName) {
+            showStatus("Please complete all required course information.", "error");
+            return false;
+        }
+
+        if (data.title.length < 5) {
+            showStatus("Your course title should contain at least 5 characters.", "error");
+            return false;
+        }
+
+        if (data.description.length < 20) {
+            showStatus("Please write a more detailed short course description.", "error");
+            return false;
+        }
+
+        if (data.about.length < 30) {
+            showStatus("Please provide a fuller course description.", "error");
+            return false;
+        }
+
+        if (data.pricingType === "paid" && (!Number.isFinite(data.price) || data.price <= 0)) {
+            showStatus("Enter a valid course price greater than zero.", "error");
+            return false;
+        }
+
+        if (!data.objectives.length) {
+            showStatus("Add at least one learning objective.", "error");
+            return false;
+        }
+
+        if (!data.curriculum.length || !data.curriculum.some(module => module.title)) {
+            showStatus("Add at least one course module with a title.", "error");
+            return false;
+        }
+
+        return true;
+    }
+
+    function saveCourse(event) {
+        event.preventDefault();
+
+        const userId = getUserId(currentUser);
+
+        if (!userId) {
+            showStatus("Your account identifier is missing. Please update your profile.", "error");
+            return;
+        }
+
+        const pricingType = document.getElementById("pricingType").value;
+
+        const data = {
+            title: document.getElementById("courseTitle").value.trim(),
+            category: document.getElementById("category").value,
+            description: document.getElementById("shortDescription").value.trim(),
+            about: document.getElementById("about").value.trim(),
+            level: document.getElementById("level").value,
+            duration: document.getElementById("duration").value.trim(),
+            instructorName: document.getElementById("instructorName").value.trim(),
+            instructorTitle: document.getElementById("instructorTitle").value.trim(),
+            instructorBio: document.getElementById("instructorBio").value.trim(),
+            pricingType,
+            price: pricingType === "paid"
+                ? Number(document.getElementById("coursePrice").value)
+                : 0,
+            learningObjectives: getArrayFromInputs(".objective-input"),
+            requirements: getArrayFromInputs(".requirement-input"),
+            curriculum: collectModules(),
+            image: selectedImage || "",
+            status: document.getElementById("publishStatus").value
+        };
+
+        if (!validateCourse(data)) return;
+
+        const courses = readJSON(COURSE_KEY, []);
+
+        if (!Array.isArray(courses)) {
+            showStatus("Course storage is not available. Please check your browser data.", "error");
+            return;
+        }
+
+        const now = new Date().toISOString();
+
+        if (editingCourseId) {
+            const index = courses.findIndex(item => getCourseId(item) === editingCourseId);
+
+            if (index === -1) {
+                showStatus("This course could not be found. It may have been removed.", "error");
+                return;
+            }
+
+            const oldCourse = courses[index];
+
+            if (getCourseOwner(oldCourse) !== userId.toLowerCase()) {
+                showStatus("You do not have permission to edit this course.", "error");
+                return;
+            }
+
+            courses[index] = {
+                ...oldCourse,
+                ...data,
+                updatedAt: now
+            };
+
+        } else {
+            courses.push({
+                id: "COURSE-" + Date.now() + "-" + Math.random().toString(36).slice(2, 7),
+                ...data,
+                userId,
+                instructorId: userId,
+                enrolledCount: 0,
+                createdAt: now,
+                updatedAt: now
+            });
+        }
+
+        try {
+            localStorage.setItem(COURSE_KEY, JSON.stringify(courses));
+
+            showStatus(
+                editingCourseId
+                    ? "Your course has been updated successfully."
+                    : data.status === "draft"
+                        ? "Your course draft has been saved in this browser."
+                        : "Your course has been published successfully.",
+                "success"
+            );
+
+            const savedCourse = editingCourseId
+                ? courses.find(item => getCourseId(item) === editingCourseId)
+                : courses[courses.length - 1];
+
+            const button = document.getElementById("submitButton");
+            button.disabled = true;
+            button.textContent = "Saved";
+
+            setTimeout(() => {
+                window.location.href = "course-details.html?id=" +
+                    encodeURIComponent(getCourseId(savedCourse));
+            }, 1000);
+
+        } catch (error) {
+            showStatus(
+                "Unable to save this course. The image may be too large for browser storage. Try a smaller image.",
+                "error"
+            );
+        }
+    }
+
+    // Image upload
+    document.getElementById("courseImage").addEventListener("change", event => {
+        const file = event.target.files[0];
+
+        if (!file) return;
+
+        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+            showStatus("Please select a JPG, PNG or WebP image.", "error");
+            event.target.value = "";
+            return;
+        }
+
+        if (file.size > IMAGE_LIMIT) {
+            showStatus("Your image is larger than 2MB. Please choose a smaller image.", "error");
+            event.target.value = "";
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            selectedImage = reader.result;
+            showImagePreview(selectedImage);
+            statusMessage.className = "status-message";
+        };
+
+        reader.onerror = () => {
+            showStatus("The selected image could not be read.", "error");
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+    // Add and remove objectives, requirements and modules.
+    document.getElementById("addObjective").addEventListener("click", () => {
+        addDynamicInput(
+            "objectivesList",
+            "objective-input",
+            "Enter a learning objective"
+        );
+    });
+
+    document.getElementById("addRequirement").addEventListener("click", () => {
+        addDynamicInput(
+            "requirementsList",
+            "requirement-input",
+            "Enter a course requirement"
+        );
+    });
+
+    document.getElementById("addModule").addEventListener("click", () => {
+        addModule();
+    });
+
+    document.addEventListener("click", event => {
+        const removeButton = event.target.closest(".remove-item");
+
+        if (!removeButton) return;
+
+        const item = removeButton.closest(".dynamic-item, .module-item");
+
+        if (!item) return;
+
+        const parent = item.parentElement;
+
+        if (parent.children.length <= 1) {
+            const inputs = item.querySelectorAll("input, textarea");
+            inputs.forEach(input => input.value = "");
+            return;
+        }
+
+        item.remove();
+        updateModuleNumbers();
+    });
+
+    // Paid/free pricing
+    document.getElementById("pricingType").addEventListener("change", event => {
+        const paid = event.target.value === "paid";
+
+        document.getElementById("priceGroup").style.display =
+            paid ? "block" : "none";
+
+        document.getElementById("coursePrice").required = paid;
+    });
+
+    // Mobile navigation
+    document.getElementById("mobileToggle").addEventListener("click", () => {
+        document.getElementById("mainNav").classList.toggle("open");
+    });
+
+    // Cancel
+    document.getElementById("cancelButton").addEventListener("click", () => {
+        if (confirm("Leave this page? Any unsaved changes will be lost.")) {
+            window.location.href = "learning.html";
+        }
+    });
+
+    // Submit
+    form.addEventListener("submit", saveCourse);
+
+    // Initialize account
+    currentUser = readJSON(USER_KEY, null);
+
+    if (!currentUser || !getUserId(currentUser)) {
+        const redirect = "create-course.html" + window.location.search;
+        window.location.href = "login.html?redirect=" + encodeURIComponent(redirect);
+    } else {
+        const name = getUserName(currentUser);
+
+        document.getElementById("profileInitial").textContent =
+            name.charAt(0).toUpperCase() || "U";
+
+        document.getElementById("instructorName").value = name;
+
+        const editId = getQueryId();
+
+        if (editId) {
+            loadExistingCourse(editId);
+        }
+    }
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

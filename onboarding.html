@@ -1,0 +1,1072 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#102B46">
+    <title>Welcome to NEDIKE | Get Started</title>
+
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #102B46;
+            --navy-dark: #0B2035;
+            --green: #16845B;
+            --green-dark: #106D4A;
+            --green-light: #EAF4EE;
+            --background: #F4F7F5;
+            --white: #FFFFFF;
+            --text: #263746;
+            --muted: #718096;
+            --border: #E3EAE6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .topbar {
+            height: 76px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+        }
+
+        .container {
+            width: min(1100px, 91%);
+            margin: auto;
+        }
+
+        .topbar-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--navy);
+        }
+
+        .brand img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .skip-link {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .skip-link:hover {
+            color: var(--green);
+        }
+
+        .main {
+            padding: 55px 0 70px;
+        }
+
+        .welcome {
+            text-align: center;
+            max-width: 690px;
+            margin: 0 auto 38px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            color: var(--green-dark);
+            background: var(--green-light);
+            padding: 8px 13px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .welcome h1 {
+            color: var(--navy);
+            font-size: clamp(30px, 5vw, 43px);
+            line-height: 1.2;
+            letter-spacing: -1.8px;
+            margin-bottom: 15px;
+        }
+
+        .welcome h1 span {
+            color: var(--green);
+        }
+
+        .welcome p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* PROGRESS */
+        .progress-area {
+            max-width: 690px;
+            margin: 0 auto 28px;
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 600;
+            margin-bottom: 9px;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 5px;
+            background: #E1E9E4;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 33.333%;
+            background: var(--green);
+            transition: width .3s ease;
+        }
+
+        /* ONBOARDING CARD */
+        .onboarding-card {
+            max-width: 790px;
+            margin: auto;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            box-shadow: 0 12px 40px rgba(16, 43, 70, .06);
+            overflow: hidden;
+        }
+
+        .step {
+            display: none;
+            padding: 38px 45px 35px;
+            animation: appear .25s ease;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(7px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-number {
+            color: var(--green);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .step h2 {
+            color: var(--navy);
+            font-size: 24px;
+            letter-spacing: -.7px;
+            margin-bottom: 8px;
+        }
+
+        .step-description {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+
+        /* ROLE OPTIONS */
+        .role-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .role-option {
+            position: relative;
+        }
+
+        .role-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .role-label {
+            display: block;
+            min-height: 175px;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            padding: 22px;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .role-label:hover {
+            border-color: #A9CDB8;
+        }
+
+        .role-option input:checked + .role-label {
+            border: 2px solid var(--green);
+            background: #F8FCF9;
+            padding: 21px;
+        }
+
+        .role-symbol {
+            width: 43px;
+            height: 43px;
+            border-radius: 6px;
+            display: grid;
+            place-items: center;
+            background: var(--green-light);
+            color: var(--green-dark);
+            font-size: 21px;
+            margin-bottom: 16px;
+        }
+
+        .role-label h3 {
+            color: var(--navy);
+            font-size: 14px;
+            margin-bottom: 7px;
+        }
+
+        .role-label p {
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        /* PROFILE FIELDS */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            color: var(--navy);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 12px;
+            outline: none;
+            background: white;
+            color: var(--text);
+            font-size: 11px;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--green);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .field-note {
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        /* INTERESTS */
+        .interest-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 11px;
+        }
+
+        .interest-option {
+            position: relative;
+        }
+
+        .interest-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .interest-option label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 48px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            color: var(--text);
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .interest-option label::before {
+            content: "";
+            width: 15px;
+            height: 15px;
+            border: 1px solid #C9D5CE;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .interest-option input:checked + label {
+            border-color: var(--green);
+            background: #F8FCF9;
+            color: var(--green-dark);
+        }
+
+        .interest-option input:checked + label::before {
+            background: var(--green);
+            border-color: var(--green);
+            box-shadow: inset 0 0 0 3px white;
+        }
+
+        /* STEP NAVIGATION */
+        .card-footer {
+            border-top: 1px solid var(--border);
+            padding: 20px 45px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .back-btn {
+            background: white;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .back-btn:hover {
+            border-color: var(--navy);
+            color: var(--navy);
+        }
+
+        .next-btn {
+            background: var(--green);
+            color: white;
+            border: 1px solid var(--green);
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .next-btn:hover {
+            background: var(--green-dark);
+        }
+
+        .next-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .footer-note {
+            text-align: center;
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 25px;
+        }
+
+        .footer-note a {
+            color: var(--green-dark);
+            font-weight: 700;
+        }
+
+        /* SUCCESS */
+        .success-step {
+            text-align: center;
+            padding-top: 55px;
+            padding-bottom: 55px;
+        }
+
+        .success-icon {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green-dark);
+            display: grid;
+            place-items: center;
+            font-size: 32px;
+            margin: 0 auto 22px;
+        }
+
+        .success-step h2 {
+            font-size: 27px;
+            margin-bottom: 12px;
+        }
+
+        .success-step p {
+            max-width: 440px;
+            margin: 0 auto 25px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .success-btn {
+            display: inline-block;
+            background: var(--green);
+            color: white;
+            padding: 13px 25px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .success-btn:hover {
+            background: var(--green-dark);
+        }
+
+        @media (max-width: 600px) {
+            .main {
+                padding-top: 35px;
+            }
+
+            .welcome {
+                margin-bottom: 28px;
+            }
+
+            .step {
+                padding: 28px 20px;
+            }
+
+            .card-footer {
+                padding: 16px 20px;
+            }
+
+            .role-options,
+            .interest-grid,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .role-label {
+                min-height: auto;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .welcome p {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="container topbar-content">
+        <a href="index.html" class="brand">
+            <img src="assets/images/nedike-icon.png" alt="NEDIKE">
+            NEDIKE
+        </a>
+
+        <a href="dashboard.html" class="skip-link">Skip for now →</a>
+    </div>
+</header>
+
+<main class="main">
+    <div class="container">
+
+        <section class="welcome">
+            <span class="eyebrow">Your journey starts here</span>
+            <h1>Welcome to <span>NEDIKE.</span></h1>
+            <p>
+                A platform where students discover opportunities, showcase
+                their abilities, connect with others and turn their skills
+                into meaningful experiences.
+            </p>
+        </section>
+
+        <div class="progress-area" id="progressArea">
+            <div class="progress-top">
+                <span id="progressLabel">Step 1 of 3</span>
+                <span id="progressPercent">33% completed</span>
+            </div>
+
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <section class="onboarding-card">
+
+            <!-- STEP 1 -->
+            <div class="step active" data-step="1">
+                <div class="step-number">STEP 01 — YOUR PURPOSE</div>
+                <h2>How do you want to use NEDIKE?</h2>
+                <p class="step-description">
+                    Choose the option that best describes what you want to do.
+                    You can explore other opportunities on the platform too.
+                </p>
+
+                <div class="role-options">
+
+                    <div class="role-option">
+                        <input type="radio" name="role" id="roleProvider" value="provider">
+                        <label for="roleProvider" class="role-label">
+                            <div class="role-symbol">✦</div>
+                            <h3>Offer my skills</h3>
+                            <p>
+                                Showcase what you can do, create service
+                                listings and connect with people who need your skills.
+                            </p>
+                        </label>
+                    </div>
+
+                    <div class="role-option">
+                        <input type="radio" name="role" id="roleSeeker" value="seeker">
+                        <label for="roleSeeker" class="role-label">
+                            <div class="role-symbol">⌕</div>
+                            <h3>Find services and talent</h3>
+                            <p>
+                                Discover skilled students, explore services
+                                and find people who can help with your projects.
+                            </p>
+                        </label>
+                    </div>
+
+                    <div class="role-option">
+                        <input type="radio" name="role" id="roleBoth" value="both">
+                        <label for="roleBoth" class="role-label">
+                            <div class="role-symbol">↗</div>
+                            <h3>Both</h3>
+                            <p>
+                                Offer your skills while also discovering
+                                services and opportunities from other students.
+                            </p>
+                        </label>
+                    </div>
+
+                    <div class="role-option">
+                        <input type="radio" name="role" id="roleLearn" value="learner">
+                        <label for="roleLearn" class="role-label">
+                            <div class="role-symbol">▤</div>
+                            <h3>Learn and grow</h3>
+                            <p>
+                                Discover learning opportunities, develop
+                                useful skills and grow your experience.
+                            </p>
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="step" data-step="2">
+                <div class="step-number">STEP 02 — YOUR PROFILE</div>
+                <h2>Tell us about yourself</h2>
+                <p class="step-description">
+                    Help other members understand who you are and what you do.
+                    You can update these details later.
+                </p>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="firstName">First name</label>
+                        <input type="text" id="firstName" placeholder="Enter first name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Last name</label>
+                        <input type="text" id="lastName" placeholder="Enter last name">
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="school">Institution</label>
+                        <input type="text" id="school" placeholder="Your university or institution">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="course">Course of study</label>
+                        <input type="text" id="course" placeholder="e.g. Software Engineering">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="level">Current level</label>
+                        <select id="level">
+                            <option value="">Select level</option>
+                            <option>100 Level</option>
+                            <option>200 Level</option>
+                            <option>300 Level</option>
+                            <option>400 Level</option>
+                            <option>500 Level</option>
+                            <option>600 Level</option>
+                            <option>Graduate</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" placeholder="e.g. Onitsha, Anambra State">
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="bio">A short introduction</label>
+                        <textarea id="bio" placeholder="Tell people a little about yourself, your interests and what you do..."></textarea>
+                        <span class="field-note">A short introduction helps people connect with you.</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="step" data-step="3">
+                <div class="step-number">STEP 03 — YOUR INTERESTS</div>
+                <h2>What are you interested in?</h2>
+                <p class="step-description">
+                    Select the areas that interest you. This helps shape
+                    your experience on NEDIKE.
+                </p>
+
+                <div class="interest-grid">
+
+                    <div class="interest-option">
+                        <input type="checkbox" id="interestDesign" value="Graphic Design">
+                        <label for="interestDesign">Graphic Design</label>
+                    </div>
+
+                    <div class="interest-option">
+                        <input type="checkbox" id="interestWeb" value="Web Development">
+                        <label for="interestWeb">Web Development</label>
+                    </div>
+
+                    <div class="interest-option">
+                        <input type="checkbox" id="interestMobile" value="Mobile App Development">
+                        <label for="interestMobile">Mobile App Development</label>
+                    </div>
+
+                    <div class="interest-option">
+                        <input type="checkbox" id="interestPhoto" value="Photography/Videography">
+                        <label for="interestPhoto">Photography & Videography</label>
+                    </div>
+
+                    <div class="interest-option">
+                        <input type="checkbox" id="interestWriting" value="Writing/Content">
+                        <label for="interestWriting">Writing & Content</label>
+                    </div>
+
+                    <div class="interest-option">
+                        <input type="checkbox" id="interestMarketing" value="Digital Marketing">
+                        <label for="interestMarketing">Digital Marketing</label>
+                    </div>
+
+                    <div class="interest-option">
+                        <input type="checkbox" id="interestBusiness" value="Business/Professional Services">
+                        <label for="interestBusiness">Business & Professional Services</label>
+                    </div>
+
+                    <div class="interest-option">
+                        <input type="checkbox" id="interestPersonal" value="Home/Personal Services">
+                        <label for="interestPersonal">Home & Personal Services</label>
+                    </div>
+
+                    <div class="interest-option">
+                        <input type="checkbox" id="interestLearning" value="Learning and Development">
+                        <label for="interestLearning">Learning & Development</label>
+                    </div>
+
+                    <div class="interest-option">
+                        <input type="checkbox" id="interestOther" value="Other">
+                        <label for="interestOther">Other interests</label>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- SUCCESS -->
+            <div class="step success-step" data-step="4">
+                <div class="success-icon">✓</div>
+                <h2>You're ready to get started!</h2>
+                <p>
+                    Your onboarding information has been saved.
+                    Explore NEDIKE, complete your profile and start
+                    discovering what the community has to offer.
+                </p>
+                <a href="dashboard.html" class="success-btn">Go to my dashboard →</a>
+            </div>
+
+            <div class="card-footer" id="cardFooter">
+                <button class="back-btn" id="backBtn" type="button" disabled>
+                    Back
+                </button>
+
+                <button class="next-btn" id="nextBtn" type="button">
+                    Continue →
+                </button>
+            </div>
+
+        </section>
+
+        <p class="footer-note">
+            Already have an account?
+            <a href="login.html">Sign in</a>
+        </p>
+
+    </div>
+</main>
+
+<script>
+    const ONBOARDING_KEY = "nedike_onboarding";
+
+    const steps = document.querySelectorAll(".step");
+    const progressFill = document.getElementById("progressFill");
+    const progressLabel = document.getElementById("progressLabel");
+    const progressPercent = document.getElementById("progressPercent");
+    const progressArea = document.getElementById("progressArea");
+    const cardFooter = document.getElementById("cardFooter");
+
+    const backBtn = document.getElementById("backBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    let currentStep = 1;
+
+    function getCurrentUser() {
+        try {
+            return JSON.parse(
+                localStorage.getItem("nedike_current_user") || "null"
+            );
+        } catch (error) {
+            return null;
+        }
+    }
+
+    function getUserKey(user) {
+        if (!user) return null;
+
+        return String(
+            user.id ||
+            user.userId ||
+            user.email ||
+            user.username ||
+            ""
+        ).toLowerCase();
+    }
+
+    function getSelectedRole() {
+        return document.querySelector('input[name="role"]:checked')?.value || "";
+    }
+
+    function getInterests() {
+        return [...document.querySelectorAll(".interest-option input:checked")]
+            .map(input => input.value);
+    }
+
+    function showStep(stepNumber) {
+        currentStep = stepNumber;
+
+        steps.forEach(step => {
+            step.classList.toggle(
+                "active",
+                Number(step.dataset.step) === stepNumber
+            );
+        });
+
+        if (stepNumber === 4) {
+            progressArea.style.display = "none";
+            cardFooter.style.display = "none";
+            return;
+        }
+
+        progressArea.style.display = "block";
+        cardFooter.style.display = "flex";
+
+        const percentage = Math.round((stepNumber / 3) * 100);
+
+        progressFill.style.width = percentage + "%";
+        progressLabel.textContent = `Step ${stepNumber} of 3`;
+        progressPercent.textContent = `${percentage}% completed`;
+
+        backBtn.disabled = stepNumber === 1;
+        nextBtn.textContent =
+            stepNumber === 3 ? "Complete onboarding ✓" : "Continue →";
+    }
+
+    function validateStep() {
+        if (currentStep === 1) {
+            if (!getSelectedRole()) {
+                alert("Please select how you want to use NEDIKE.");
+                return false;
+            }
+        }
+
+        if (currentStep === 2) {
+            const requiredFields = [
+                ["firstName", "Enter your first name."],
+                ["lastName", "Enter your last name."],
+                ["school", "Enter your institution."]
+            ];
+
+            for (const [id, message] of requiredFields) {
+                if (!document.getElementById(id).value.trim()) {
+                    alert(message);
+                    document.getElementById(id).focus();
+                    return false;
+                }
+            }
+        }
+
+        if (currentStep === 3) {
+            if (!getInterests().length) {
+                alert("Please select at least one interest.");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function saveOnboarding() {
+        const user = getCurrentUser();
+
+        if (!user) {
+            alert("Please sign in before completing onboarding.");
+            window.location.href = "login.html";
+            return false;
+        }
+
+        const userKey = getUserKey(user);
+
+        const onboardingData = {
+            userId: userKey,
+            role: getSelectedRole(),
+            interests: getInterests(),
+            completed: true,
+            completedAt: new Date().toISOString()
+        };
+
+        const profileData = {
+            firstName: document.getElementById("firstName").value.trim(),
+            lastName: document.getElementById("lastName").value.trim(),
+            school: document.getElementById("school").value.trim(),
+            course: document.getElementById("course").value.trim(),
+            level: document.getElementById("level").value,
+            location: document.getElementById("location").value.trim(),
+            bio: document.getElementById("bio").value.trim()
+        };
+
+        try {
+            const savedOnboarding = JSON.parse(
+                localStorage.getItem(ONBOARDING_KEY) || "[]"
+            );
+
+            const allOnboarding = Array.isArray(savedOnboarding)
+                ? savedOnboarding
+                : [];
+
+            const existingIndex = allOnboarding.findIndex(item =>
+                String(item.userId).toLowerCase() === userKey
+            );
+
+            if (existingIndex >= 0) {
+                allOnboarding[existingIndex] = onboardingData;
+            } else {
+                allOnboarding.push(onboardingData);
+            }
+
+            localStorage.setItem(
+                ONBOARDING_KEY,
+                JSON.stringify(allOnboarding)
+            );
+
+            // Update the current browser user profile while
+            // preserving all existing account properties.
+            const updatedUser = {
+                ...user,
+                ...profileData,
+                onboardingCompleted: true,
+                interests: onboardingData.interests,
+                preferredRole: onboardingData.role
+            };
+
+            localStorage.setItem(
+                "nedike_current_user",
+                JSON.stringify(updatedUser)
+            );
+
+            // Update the registered users list if this project
+            // stores account records in localStorage.
+            const usersKey = "nedike_users";
+
+            try {
+                const users = JSON.parse(
+                    localStorage.getItem(usersKey) || "[]"
+                );
+
+                if (Array.isArray(users)) {
+                    const userIndex = users.findIndex(item => {
+                        const itemKey = getUserKey(item);
+                        return itemKey && itemKey === userKey;
+                    });
+
+                    if (userIndex >= 0) {
+                        users[userIndex] = {
+                            ...users[userIndex],
+                            ...profileData,
+                            onboardingCompleted: true,
+                            interests: onboardingData.interests,
+                            preferredRole: onboardingData.role
+                        };
+
+                        localStorage.setItem(usersKey, JSON.stringify(users));
+                    }
+                }
+            } catch (error) {
+                console.warn("Registered user profile was not updated.", error);
+            }
+
+            return true;
+
+        } catch (error) {
+            console.error("Onboarding save failed:", error);
+            alert("We couldn't save your information. Please try again.");
+            return false;
+        }
+    }
+
+    nextBtn.addEventListener("click", () => {
+        if (!validateStep()) return;
+
+        if (currentStep < 3) {
+            showStep(currentStep + 1);
+            return;
+        }
+
+        if (saveOnboarding()) {
+            showStep(4);
+        }
+    });
+
+    backBtn.addEventListener("click", () => {
+        if (currentStep > 1) {
+            showStep(currentStep - 1);
+        }
+    });
+
+    function loadExistingProfile() {
+        const user = getCurrentUser();
+
+        if (!user) return;
+
+        const fields = {
+            firstName: user.firstName || user.first_name || "",
+            lastName: user.lastName || user.last_name || "",
+            school: user.school || user.institution || "",
+            course: user.course || "",
+            level: user.level || "",
+            location: user.location || "",
+            bio: user.bio || ""
+        };
+
+        Object.entries(fields).forEach(([id, value]) => {
+            const field = document.getElementById(id);
+            if (field) field.value = value;
+        });
+
+        const role = user.preferredRole;
+
+        if (role) {
+            const roleInput = document.querySelector(
+                `input[name="role"][value="${role}"]`
+            );
+
+            if (roleInput) roleInput.checked = true;
+        }
+
+        if (Array.isArray(user.interests)) {
+            document.querySelectorAll(".interest-option input").forEach(input => {
+                input.checked = user.interests.includes(input.value);
+            });
+        }
+    }
+
+    // Require an authenticated account for this onboarding flow.
+    if (!getCurrentUser()) {
+        window.location.href = "login.html";
+    } else {
+        loadExistingProfile();
+    }
+
+    showStep(1);
+</script>
+
+</body>
+</html>

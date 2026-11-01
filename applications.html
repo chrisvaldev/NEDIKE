@@ -1,0 +1,1289 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#102B46">
+    <title>My Applications | NEDIKE</title>
+
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #102B46;
+            --navy-dark: #0B2035;
+            --green: #16845B;
+            --green-dark: #106D4A;
+            --green-light: #EAF4EE;
+            --background: #F4F7F5;
+            --white: #FFFFFF;
+            --text: #263746;
+            --muted: #718096;
+            --border: #E3EAE6;
+            --red: #C74444;
+            --red-light: #FCEEEE;
+            --orange: #B7791F;
+            --orange-light: #FFF6E5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .site-header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 30;
+        }
+
+        .header-inner {
+            max-width: 1250px;
+            height: 72px;
+            margin: auto;
+            padding: 0 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            flex-shrink: 0;
+        }
+
+        .brand img {
+            width: 37px;
+            height: 37px;
+            object-fit: contain;
+        }
+
+        .brand strong {
+            font-size: 21px;
+            letter-spacing: -1px;
+            color: var(--navy);
+            font-weight: 800;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav a {
+            color: #586878;
+            font-size: 11px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            color: var(--green);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .profile-link {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: 0;
+            font-size: 22px;
+            color: var(--navy);
+        }
+
+        .page-container {
+            max-width: 1120px;
+            padding: 35px 25px 65px;
+            margin: auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            color: var(--muted);
+            font-size: 10px;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--green);
+        }
+
+        .page-heading {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 26px;
+        }
+
+        .page-heading h1 {
+            font-size: 26px;
+            color: var(--navy);
+            letter-spacing: -1px;
+        }
+
+        .page-heading p {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        .browse-button {
+            background: var(--green);
+            color: white;
+            padding: 12px 17px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: .2s;
+        }
+
+        .browse-button:hover {
+            background: var(--green-dark);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 26px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 18px;
+            border-radius: 5px;
+        }
+
+        .stat-card span {
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .stat-card h2 {
+            font-size: 26px;
+            color: var(--navy);
+            margin-top: 12px;
+            letter-spacing: -1px;
+        }
+
+        .stat-card small {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            margin-top: 5px;
+        }
+
+        .applications-panel {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .panel-heading {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .panel-heading h3 {
+            color: var(--navy);
+            font-size: 13px;
+        }
+
+        .panel-heading p {
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 5px;
+        }
+
+        .application-count {
+            background: var(--green-light);
+            color: var(--green);
+            padding: 7px 10px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .toolbar {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .search {
+            flex: 1;
+            min-width: 190px;
+        }
+
+        .search input {
+            height: 39px;
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0 12px;
+            outline: none;
+            font-size: 10px;
+        }
+
+        .search input:focus,
+        .toolbar select:focus {
+            border-color: var(--green);
+        }
+
+        .toolbar select {
+            height: 39px;
+            min-width: 140px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: white;
+            color: var(--text);
+            padding: 0 10px;
+            font-size: 10px;
+            outline: none;
+        }
+
+        .filter-tabs {
+            padding: 0 20px;
+            display: flex;
+            gap: 23px;
+            overflow-x: auto;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .filter-tab {
+            padding: 15px 0;
+            border: 0;
+            border-bottom: 2px solid transparent;
+            background: transparent;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .filter-tab.active {
+            color: var(--green);
+            border-bottom-color: var(--green);
+        }
+
+        .application-list {
+            display: grid;
+        }
+
+        .application-card {
+            padding: 21px 20px;
+            border-bottom: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: center;
+            transition: background .2s;
+        }
+
+        .application-card:last-child {
+            border-bottom: 0;
+        }
+
+        .application-card:hover {
+            background: #FBFDFC;
+        }
+
+        .card-main {
+            min-width: 0;
+        }
+
+        .card-topline {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 9px;
+        }
+
+        .category {
+            color: var(--green);
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .status {
+            padding: 5px 9px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .status.pending {
+            background: var(--orange-light);
+            color: var(--orange);
+        }
+
+        .status.approved {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+        .status.rejected {
+            background: var(--red-light);
+            color: var(--red);
+        }
+
+        .status.withdrawn {
+            background: #EDF0F2;
+            color: #64748B;
+        }
+
+        .application-card h3 {
+            font-size: 14px;
+            color: var(--navy);
+            margin-bottom: 9px;
+            line-height: 1.5;
+        }
+
+        .task-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .task-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .card-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
+        }
+
+        .price-label {
+            font-size: 9px;
+            color: var(--muted);
+        }
+
+        .price {
+            color: var(--navy);
+            font-size: 16px;
+            font-weight: 800;
+            margin-top: 4px;
+        }
+
+        .card-actions {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .btn {
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--text);
+            padding: 8px 11px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .btn:hover {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .btn-primary {
+            background: var(--green);
+            border-color: var(--green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--green-dark);
+            color: white;
+        }
+
+        .btn-danger {
+            color: var(--red);
+        }
+
+        .btn-danger:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 65px 20px;
+            display: none;
+        }
+
+        .empty-icon {
+            width: 55px;
+            height: 55px;
+            margin: 0 auto 17px;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green);
+            display: grid;
+            place-items: center;
+            font-size: 22px;
+        }
+
+        .empty-state h3 {
+            color: var(--navy);
+            font-size: 15px;
+        }
+
+        .empty-state p {
+            color: var(--muted);
+            font-size: 10px;
+            margin: 9px auto 19px;
+            max-width: 340px;
+            line-height: 1.7;
+        }
+
+        .empty-state a {
+            display: inline-block;
+            background: var(--green);
+            color: white;
+            padding: 11px 17px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* Details modal */
+
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(8, 25, 40, .58);
+            z-index: 60;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+        }
+
+        .modal-backdrop.show {
+            display: flex;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: white;
+            border-radius: 6px;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 19px 21px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-header h3 {
+            color: var(--navy);
+            font-size: 14px;
+        }
+
+        .close-modal {
+            background: none;
+            border: 0;
+            font-size: 22px;
+            color: var(--muted);
+        }
+
+        .modal-body {
+            padding: 22px;
+        }
+
+        .detail-group {
+            margin-bottom: 18px;
+        }
+
+        .detail-group label {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            margin-bottom: 7px;
+        }
+
+        .detail-group p {
+            font-size: 11px;
+            color: var(--navy);
+            line-height: 1.8;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .modal-actions {
+            padding: 16px 21px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        footer {
+            background: white;
+            border-top: 1px solid var(--border);
+            padding: 24px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        footer strong {
+            color: var(--navy);
+        }
+
+        @media (max-width: 850px) {
+            .nav {
+                gap: 14px;
+            }
+
+            .nav a {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .header-inner {
+                height: 65px;
+                padding: 0 17px;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav {
+                display: none;
+                position: absolute;
+                top: 65px;
+                left: 0;
+                right: 0;
+                background: white;
+                border-bottom: 1px solid var(--border);
+                padding: 17px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 19px;
+            }
+
+            .nav.open {
+                display: flex;
+            }
+
+            .page-container {
+                padding: 25px 16px 45px;
+            }
+
+            .page-heading {
+                flex-direction: column;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 9px;
+            }
+
+            .stat-card {
+                padding: 14px;
+            }
+
+            .application-card {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .card-right {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+
+            .task-meta {
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .toolbar {
+                padding: 13px;
+            }
+
+            .search {
+                flex-basis: 100%;
+            }
+
+            .toolbar select {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .panel-heading {
+                padding: 16px;
+            }
+
+            .application-card {
+                padding: 17px 15px;
+            }
+
+            .card-right {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="header-inner">
+
+            <a href="index.html" class="brand">
+                <img src="assets/images/nedike-icon.png" alt="NEDIKE logo">
+                <strong>NEDIKE</strong>
+            </a>
+
+            <nav class="nav" id="mainNav">
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="tasks.html">Tasks</a>
+                <a href="learning.html">Learn</a>
+                <a href="messages.html">Messages</a>
+                <a href="applications.html" class="active">Applications</a>
+                <a href="about.html">About</a>
+                <a href="help.html">Help</a>
+            </nav>
+
+            <div class="header-right">
+                <a href="profile.html" class="profile-link" id="profileInitial">U</a>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">☰</button>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="page-container">
+
+        <div class="breadcrumb">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <span>My Applications</span>
+        </div>
+
+        <section class="page-heading">
+            <div>
+                <h1>My Applications</h1>
+                <p>Keep track of the tasks you have applied for and monitor your application progress.</p>
+            </div>
+
+            <a href="tasks.html" class="browse-button">Explore Tasks</a>
+        </section>
+
+        <section class="stats">
+            <div class="stat-card">
+                <span>Total Applications</span>
+                <h2 id="totalCount">0</h2>
+                <small>All submitted applications</small>
+            </div>
+
+            <div class="stat-card">
+                <span>Pending</span>
+                <h2 id="pendingCount">0</h2>
+                <small>Awaiting a decision</small>
+            </div>
+
+            <div class="stat-card">
+                <span>Approved</span>
+                <h2 id="approvedCount">0</h2>
+                <small>Accepted applications</small>
+            </div>
+
+            <div class="stat-card">
+                <span>Rejected</span>
+                <h2 id="rejectedCount">0</h2>
+                <small>Unsuccessful applications</small>
+            </div>
+        </section>
+
+        <section class="applications-panel">
+
+            <div class="panel-heading">
+                <div>
+                    <h3>Application History</h3>
+                    <p>Your submitted task applications appear here.</p>
+                </div>
+
+                <span class="application-count" id="applicationCount">0 Applications</span>
+            </div>
+
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">All Applications</button>
+                <button class="filter-tab" data-filter="pending">Pending</button>
+                <button class="filter-tab" data-filter="approved">Approved</button>
+                <button class="filter-tab" data-filter="rejected">Rejected</button>
+                <button class="filter-tab" data-filter="withdrawn">Withdrawn</button>
+            </div>
+
+            <div class="toolbar">
+                <div class="search">
+                    <input type="search" id="searchInput" placeholder="Search by task title or category...">
+                </div>
+
+                <select id="sortFilter">
+                    <option value="newest">Newest first</option>
+                    <option value="oldest">Oldest first</option>
+                </select>
+            </div>
+
+            <div class="application-list" id="applicationList"></div>
+
+            <div class="empty-state" id="emptyState">
+                <div class="empty-icon">▤</div>
+                <h3 id="emptyTitle">You haven't applied for any tasks yet</h3>
+                <p id="emptyMessage">Explore available opportunities, find tasks that match your skills and submit your first application.</p>
+                <a href="tasks.html">Explore Available Tasks</a>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <strong>NEDIKE</strong> — Learn. Work. Earn. Teach.
+        <br><br>
+        © <span id="year"></span> NEDIKE. All rights reserved.
+    </footer>
+
+    <!-- Application details modal -->
+    <div class="modal-backdrop" id="detailsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Application Details</h3>
+                <button class="close-modal" id="closeModal" aria-label="Close">&times;</button>
+            </div>
+
+            <div class="modal-body" id="modalBody"></div>
+
+            <div class="modal-actions" id="modalActions"></div>
+        </div>
+    </div>
+
+    <script>
+        const APPLICATION_KEY = "nedike_applications";
+        const USER_KEY = "nedike_current_user";
+
+        let applications = [];
+        let activeFilter = "all";
+        let selectedIndex = null;
+
+        const list = document.getElementById("applicationList");
+        const emptyState = document.getElementById("emptyState");
+        const modal = document.getElementById("detailsModal");
+
+        function readJSON(key, fallback) {
+            try {
+                return JSON.parse(localStorage.getItem(key)) ?? fallback;
+            } catch {
+                return fallback;
+            }
+        }
+
+        function escapeHTML(value) {
+            return String(value ?? "").replace(/[&<>"']/g, char => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;"
+            })[char]);
+        }
+
+        function getCurrentUser() {
+            return readJSON(USER_KEY, null);
+        }
+
+        function getUserIdentifier(user) {
+            if (!user) return "";
+
+            return String(
+                user.id ||
+                user.userId ||
+                user.email ||
+                user.username ||
+                ""
+            ).trim().toLowerCase();
+        }
+
+        function getApplicationOwner(application) {
+            return String(
+                application.userId ||
+                application.applicantId ||
+                application.studentId ||
+                application.ownerId ||
+                application.user_id ||
+                application.applicantEmail ||
+                application.studentEmail ||
+                application.email ||
+                ""
+            ).trim().toLowerCase();
+        }
+
+        function getMyApplications() {
+            const user = getCurrentUser();
+            const userIdentifier = getUserIdentifier(user);
+
+            if (!userIdentifier) return [];
+
+            return applications
+                .map((application, index) => ({ application, index }))
+                .filter(({ application }) => {
+                    return getApplicationOwner(application) === userIdentifier;
+                });
+        }
+
+        function getName(application) {
+            return application.taskTitle ||
+                application.taskName ||
+                application.title ||
+                application.task ||
+                "Untitled Task";
+        }
+
+        function getCategory(application) {
+            return application.category ||
+                application.taskCategory ||
+                application.serviceCategory ||
+                "General";
+        }
+
+        function getStatus(application) {
+            const value = String(application.status || "pending").toLowerCase();
+
+            if (["approved", "accepted", "selected"].includes(value)) return "approved";
+            if (["rejected", "declined", "denied"].includes(value)) return "rejected";
+            if (["withdrawn", "cancelled", "canceled"].includes(value)) return "withdrawn";
+
+            return "pending";
+        }
+
+        function getDate(application) {
+            const raw = application.appliedAt ||
+                application.createdAt ||
+                application.dateApplied ||
+                application.date ||
+                "";
+
+            if (!raw) return null;
+
+            const date = new Date(raw);
+            return Number.isNaN(date.getTime()) ? null : date;
+        }
+
+        function formatDate(application) {
+            const date = getDate(application);
+
+            return date
+                ? date.toLocaleDateString("en-NG", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric"
+                })
+                : "Date unavailable";
+        }
+
+        function getPrice(application) {
+            const raw = application.proposedPrice ??
+                application.bidAmount ??
+                application.price ??
+                application.amount ??
+                "";
+
+            if (raw === "") return "Not specified";
+
+            const amount = Number(String(raw).replace(/[₦,\s]/g, ""));
+
+            return Number.isFinite(amount)
+                ? "₦" + amount.toLocaleString("en-NG")
+                : String(raw);
+        }
+
+        function saveApplications() {
+            localStorage.setItem(APPLICATION_KEY, JSON.stringify(applications));
+        }
+
+        function updateStats() {
+            const mine = getMyApplications();
+
+            document.getElementById("totalCount").textContent = mine.length;
+            document.getElementById("pendingCount").textContent =
+                mine.filter(item => getStatus(item.application) === "pending").length;
+            document.getElementById("approvedCount").textContent =
+                mine.filter(item => getStatus(item.application) === "approved").length;
+            document.getElementById("rejectedCount").textContent =
+                mine.filter(item => getStatus(item.application) === "rejected").length;
+        }
+
+        function renderApplications() {
+            const search = document.getElementById("searchInput")
+                .value.trim().toLowerCase();
+
+            const sort = document.getElementById("sortFilter").value;
+
+            let mine = getMyApplications();
+
+            mine = mine.filter(({ application }) => {
+                const matchesStatus = activeFilter === "all" ||
+                    getStatus(application) === activeFilter;
+
+                const matchesSearch =
+                    getName(application).toLowerCase().includes(search) ||
+                    getCategory(application).toLowerCase().includes(search);
+
+                return matchesStatus && matchesSearch;
+            });
+
+            mine.sort((a, b) => {
+                const dateA = getDate(a.application)?.getTime() || 0;
+                const dateB = getDate(b.application)?.getTime() || 0;
+
+                return sort === "oldest" ? dateA - dateB : dateB - dateA;
+            });
+
+            list.innerHTML = "";
+
+            mine.forEach(({ application, index }) => {
+                const status = getStatus(application);
+                const card = document.createElement("article");
+
+                card.className = "application-card";
+
+                card.innerHTML = `
+                    <div class="card-main">
+                        <div class="card-topline">
+                            <span class="category">${escapeHTML(getCategory(application))}</span>
+                            <span class="status ${status}">
+                                ${status.charAt(0).toUpperCase() + status.slice(1)}
+                            </span>
+                        </div>
+
+                        <h3>${escapeHTML(getName(application))}</h3>
+
+                        <div class="task-meta">
+                            <span>Applied: ${escapeHTML(formatDate(application))}</span>
+                            <span>Application ID: ${escapeHTML(application.id || application.applicationId || "Not assigned")}</span>
+                        </div>
+                    </div>
+
+                    <div class="card-right">
+                        <div>
+                            <div class="price-label">Your proposed price</div>
+                            <div class="price">${escapeHTML(getPrice(application))}</div>
+                        </div>
+
+                        <div class="card-actions">
+                            <button class="btn" data-action="view" data-index="${index}">
+                                View Details
+                            </button>
+
+                            ${status === "pending" ? `
+                                <button class="btn btn-danger" data-action="withdraw" data-index="${index}">
+                                    Withdraw
+                                </button>
+                            ` : ""}
+                        </div>
+                    </div>
+                `;
+
+                list.appendChild(card);
+            });
+
+            const hasResults = mine.length > 0;
+
+            list.style.display = hasResults ? "grid" : "none";
+            emptyState.style.display = hasResults ? "none" : "block";
+
+            document.getElementById("applicationCount").textContent =
+                `${getMyApplications().length} Applications`;
+
+            if (!hasResults) {
+                if (getMyApplications().length === 0) {
+                    document.getElementById("emptyTitle").textContent =
+                        "You haven't applied for any tasks yet";
+
+                    document.getElementById("emptyMessage").textContent =
+                        "Explore available opportunities, find tasks that match your skills and submit your first application.";
+                } else {
+                    document.getElementById("emptyTitle").textContent =
+                        "No matching applications";
+
+                    document.getElementById("emptyMessage").textContent =
+                        "Try changing your search or selecting another application status.";
+                }
+            }
+        }
+
+        function showDetails(index) {
+            const application = applications[index];
+
+            if (!application) return;
+
+            selectedIndex = index;
+
+            const description = application.coverLetter ||
+                application.message ||
+                application.proposal ||
+                application.description ||
+                "No application message was provided.";
+
+            const status = getStatus(application);
+
+            document.getElementById("modalBody").innerHTML = `
+                <div class="detail-group">
+                    <label>Task title</label>
+                    <p>${escapeHTML(getName(application))}</p>
+                </div>
+
+                <div class="detail-group">
+                    <label>Category</label>
+                    <p>${escapeHTML(getCategory(application))}</p>
+                </div>
+
+                <div class="detail-group">
+                    <label>Proposed price</label>
+                    <p>${escapeHTML(getPrice(application))}</p>
+                </div>
+
+                <div class="detail-group">
+                    <label>Date submitted</label>
+                    <p>${escapeHTML(formatDate(application))}</p>
+                </div>
+
+                <div class="detail-group">
+                    <label>Application status</label>
+                    <p>${escapeHTML(status.charAt(0).toUpperCase() + status.slice(1))}</p>
+                </div>
+
+                <div class="detail-group">
+                    <label>Your application message</label>
+                    <p>${escapeHTML(description)}</p>
+                </div>
+
+                ${application.reviewedAt ? `
+                    <div class="detail-group">
+                        <label>Last reviewed</label>
+                        <p>${escapeHTML(new Date(application.reviewedAt).toLocaleString())}</p>
+                    </div>
+                ` : ""}
+            `;
+
+            const actions = document.getElementById("modalActions");
+
+            actions.innerHTML = `
+                <button class="btn" id="closeDetails">Close</button>
+                ${status === "pending" ? `
+                    <button class="btn btn-danger" id="modalWithdraw">Withdraw Application</button>
+                ` : ""}
+            `;
+
+            document.getElementById("closeDetails").onclick = closeModal;
+
+            const withdrawButton = document.getElementById("modalWithdraw");
+
+            if (withdrawButton) {
+                withdrawButton.onclick = () => withdrawApplication(index);
+            }
+
+            modal.classList.add("show");
+        }
+
+        function closeModal() {
+            modal.classList.remove("show");
+            selectedIndex = null;
+        }
+
+        function withdrawApplication(index) {
+            const application = applications[index];
+
+            if (!application || getStatus(application) !== "pending") return;
+
+            if (!confirm("Are you sure you want to withdraw this application?")) {
+                return;
+            }
+
+            applications[index] = {
+                ...application,
+                status: "withdrawn",
+                withdrawnAt: new Date().toISOString()
+            };
+
+            saveApplications();
+            closeModal();
+            updateStats();
+            renderApplications();
+        }
+
+        // Application card actions
+        list.addEventListener("click", event => {
+            const button = event.target.closest("button[data-action]");
+
+            if (!button) return;
+
+            const index = Number(button.dataset.index);
+
+            if (!Number.isInteger(index)) return;
+
+            if (button.dataset.action === "view") {
+                showDetails(index);
+            }
+
+            if (button.dataset.action === "withdraw") {
+                withdrawApplication(index);
+            }
+        });
+
+        // Status tabs
+        document.querySelectorAll(".filter-tab").forEach(button => {
+            button.addEventListener("click", () => {
+                document.querySelectorAll(".filter-tab").forEach(tab => {
+                    tab.classList.remove("active");
+                });
+
+                button.classList.add("active");
+                activeFilter = button.dataset.filter;
+                renderApplications();
+            });
+        });
+
+        document.getElementById("searchInput")
+            .addEventListener("input", renderApplications);
+
+        document.getElementById("sortFilter")
+            .addEventListener("change", renderApplications);
+
+        document.getElementById("closeModal")
+            .addEventListener("click", closeModal);
+
+        modal.addEventListener("click", event => {
+            if (event.target === modal) closeModal();
+        });
+
+        document.getElementById("mobileToggle")
+            .addEventListener("click", () => {
+                document.getElementById("mainNav").classList.toggle("open");
+            });
+
+        // Identify the signed-in student.
+        const user = getCurrentUser();
+
+        if (!user) {
+            window.location.href = "login.html";
+        } else {
+            const fullName = user.fullName ||
+                user.name ||
+                [user.firstName, user.lastName].filter(Boolean).join(" ") ||
+                "User";
+
+            document.getElementById("profileInitial").textContent =
+                fullName.trim().charAt(0).toUpperCase() || "U";
+        }
+
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        applications = readJSON(APPLICATION_KEY, []);
+
+        if (!Array.isArray(applications)) applications = [];
+
+        updateStats();
+        renderApplications();
+
+        // Keep this page updated when the same browser changes applications.
+        window.addEventListener("storage", event => {
+            if (event.key === APPLICATION_KEY) {
+                applications = readJSON(APPLICATION_KEY, []);
+                if (!Array.isArray(applications)) applications = [];
+                updateStats();
+                renderApplications();
+            }
+        });
+    </script>
+
+</body>
+</html>

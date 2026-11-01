@@ -1,0 +1,1181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#102B46">
+    <meta name="description" content="View student profiles and discover skills on NEDIKE.">
+    <title>Student Profile | NEDIKE</title>
+
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #102B46;
+            --navy-dark: #0B2035;
+            --green: #16845B;
+            --green-dark: #106D4A;
+            --green-light: #EAF4EE;
+            --background: #F4F7F5;
+            --white: #FFFFFF;
+            --text: #263746;
+            --muted: #718096;
+            --border: #E3EAE6;
+            --red: #C74444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .container {
+            width: min(1100px, 91%);
+            margin: auto;
+        }
+
+        /* HEADER */
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            min-height: 76px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--navy);
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .brand img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 19px;
+        }
+
+        .nav-links a {
+            color: #607080;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: var(--green);
+        }
+
+        .profile-link {
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green-dark);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 25px;
+            color: var(--navy);
+        }
+
+        /* PAGE */
+        .page {
+            padding: 35px 0 75px;
+        }
+
+        .breadcrumb {
+            color: var(--muted);
+            font-size: 11px;
+            margin-bottom: 23px;
+        }
+
+        .breadcrumb a {
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        /* PROFILE HEADER */
+        .profile-cover {
+            height: 175px;
+            background: var(--navy);
+            border-radius: 7px 7px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: .13;
+            background-image:
+                linear-gradient(135deg, transparent 48%, #FFFFFF 49%, transparent 50%),
+                linear-gradient(45deg, transparent 48%, #FFFFFF 49%, transparent 50%);
+            background-size: 55px 55px;
+        }
+
+        .profile-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 7px 7px;
+            padding: 0 28px 25px;
+        }
+
+        .profile-top {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: -47px;
+            position: relative;
+        }
+
+        .identity {
+            display: flex;
+            align-items: flex-end;
+            gap: 19px;
+            min-width: 0;
+        }
+
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border: 5px solid white;
+            border-radius: 7px;
+            background: var(--green-light);
+            color: var(--green-dark);
+            display: grid;
+            place-items: center;
+            font-size: 31px;
+            font-weight: 800;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .identity-text {
+            padding-bottom: 8px;
+        }
+
+        .identity-text h1 {
+            color: var(--navy);
+            font-size: clamp(20px, 3vw, 27px);
+            letter-spacing: -.8px;
+            line-height: 1.3;
+            overflow-wrap: anywhere;
+        }
+
+        .student-title {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .verification {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--green-dark);
+            font-size: 9px;
+            font-weight: 700;
+            margin-top: 7px;
+        }
+
+        .profile-actions {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding-bottom: 9px;
+        }
+
+        .btn {
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--navy);
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+            transition: .2s;
+        }
+
+        .btn:hover {
+            border-color: var(--green);
+            color: var(--green-dark);
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: white;
+            border-color: var(--green);
+        }
+
+        .btn-primary:hover {
+            background: var(--green-dark);
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .profile-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 19px;
+            padding: 17px 0 0 129px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* CONTENT GRID */
+        .content-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 295px;
+            align-items: start;
+            gap: 20px;
+            margin-top: 21px;
+        }
+
+        .main-column,
+        .side-column {
+            display: flex;
+            flex-direction: column;
+            gap: 17px;
+            min-width: 0;
+        }
+
+        .section-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            overflow: hidden;
+        }
+
+        .section-heading {
+            padding: 17px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-heading h2 {
+            color: var(--navy);
+            font-size: 14px;
+        }
+
+        .section-heading a {
+            color: var(--green);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .section-body {
+            padding: 19px 20px;
+        }
+
+        .bio {
+            color: #526477;
+            font-size: 11px;
+            line-height: 1.9;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .empty-description {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* SKILLS */
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            padding: 8px 11px;
+            border: 1px solid #DCE9E0;
+            background: #F7FAF8;
+            color: var(--green-dark);
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* SERVICES */
+        .listing-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .listing {
+            padding: 14px 0;
+            border-bottom: 1px solid #EDF1EE;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .listing:first-child {
+            padding-top: 0;
+        }
+
+        .listing:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .listing-info {
+            min-width: 0;
+        }
+
+        .listing-info h3 {
+            color: var(--navy);
+            font-size: 11px;
+            margin-bottom: 4px;
+            overflow-wrap: anywhere;
+        }
+
+        .listing-info p {
+            color: var(--muted);
+            font-size: 9px;
+            line-height: 1.7;
+        }
+
+        .listing-price {
+            color: var(--green-dark);
+            font-size: 11px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .listing-status {
+            display: inline-block;
+            margin-top: 7px;
+            color: var(--green-dark);
+            background: var(--green-light);
+            padding: 4px 7px;
+            font-size: 8px;
+            font-weight: 700;
+            border-radius: 3px;
+        }
+
+        /* SIDEBAR */
+        .info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .info-item span {
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        .info-item strong {
+            color: var(--text);
+            font-size: 10px;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .stat-box {
+            background: #F7FAF8;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 13px;
+        }
+
+        .stat-box strong {
+            display: block;
+            color: var(--navy);
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+
+        .stat-box span {
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        .profile-note {
+            background: var(--green-light);
+            border-radius: 5px;
+            padding: 14px;
+        }
+
+        .profile-note h3 {
+            color: var(--green-dark);
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+
+        .profile-note p {
+            color: #587366;
+            font-size: 9px;
+            line-height: 1.8;
+        }
+
+        .not-found {
+            background: white;
+            padding: 40px 20px;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            text-align: center;
+        }
+
+        .not-found h2 {
+            color: var(--navy);
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .not-found p {
+            color: var(--muted);
+            font-size: 11px;
+            margin-bottom: 18px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--navy-dark);
+            padding: 27px 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-content p,
+        .footer-links a {
+            color: #B7C5D1;
+            font-size: 10px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        @media (max-width: 850px) {
+            .content-grid {
+                grid-template-columns: minmax(0, 1fr) 250px;
+            }
+
+            .profile-meta {
+                padding-left: 0;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav {
+                min-height: 68px;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 68px;
+                left: 0;
+                width: 100%;
+                padding: 18px 5%;
+                flex-direction: column;
+                align-items: flex-start;
+                background: white;
+                border-bottom: 1px solid var(--border);
+                gap: 17px;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .page {
+                padding-top: 25px;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-card {
+                padding: 0 17px 20px;
+            }
+
+            .profile-top {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .identity {
+                align-items: flex-end;
+                gap: 12px;
+            }
+
+            .avatar {
+                width: 88px;
+                height: 88px;
+                font-size: 25px;
+            }
+
+            .identity-text {
+                padding-bottom: 4px;
+            }
+
+            .profile-actions {
+                padding-bottom: 0;
+                width: 100%;
+            }
+
+            .profile-actions .btn {
+                flex: 1;
+            }
+
+            .profile-meta {
+                gap: 11px 17px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .profile-cover {
+                height: 135px;
+            }
+
+            .identity-text h1 {
+                font-size: 19px;
+            }
+
+            .profile-meta {
+                font-size: 9px;
+            }
+
+            .section-body {
+                padding: 16px;
+            }
+
+            .section-heading {
+                padding: 15px 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="container nav">
+        <a href="index.html" class="brand">
+            <img src="assets/images/nedike-icon.png" alt="NEDIKE logo">
+            NEDIKE
+        </a>
+
+        <nav class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="tasks.html">Tasks</a>
+            <a href="learning.html">Learn</a>
+            <a href="messages.html">Messages</a>
+            <a href="about.html">About</a>
+            <a href="help.html">Help</a>
+        </nav>
+
+        <div style="display:flex;align-items:center;gap:13px">
+            <a href="profile.html" class="profile-link" id="navInitials">U</a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+        </div>
+    </div>
+</header>
+
+<main class="page">
+    <div class="container">
+
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="services.html">Community</a> /
+            Student Profile
+        </div>
+
+        <div id="profileContent">
+
+            <section class="profile-header">
+                <div class="profile-cover">
+                    <div class="cover-pattern"></div>
+                </div>
+
+                <div class="profile-card">
+                    <div class="profile-top">
+
+                        <div class="identity">
+                            <div class="avatar" id="studentAvatar">U</div>
+
+                            <div class="identity-text">
+                                <h1 id="studentName">Student Name</h1>
+                                <p class="student-title" id="studentTitle">Student</p>
+                                <div class="verification" id="verificationLabel">
+                                    ● NEDIKE student profile
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-actions">
+                            <a href="profile.html" class="btn" id="editProfileBtn">Edit profile</a>
+                            <button class="btn btn-primary" id="shareProfileBtn" type="button">
+                                Share profile
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div class="profile-meta">
+                        <div class="meta-item" id="schoolMeta">▣ <span>Institution not added</span></div>
+                        <div class="meta-item" id="locationMeta">⌖ <span>Location not added</span></div>
+                        <div class="meta-item" id="joinedMeta">◷ <span>NEDIKE member</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="content-grid">
+
+                <div class="main-column">
+
+                    <section class="section-card">
+                        <div class="section-heading">
+                            <h2>About</h2>
+                        </div>
+
+                        <div class="section-body">
+                            <p class="bio" id="studentBio">
+                                This student has not added a biography yet.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="section-card">
+                        <div class="section-heading">
+                            <h2>Skills and Specialties</h2>
+                        </div>
+
+                        <div class="section-body">
+                            <div class="skills-list" id="skillsList">
+                                <p class="empty-description">No skills added yet.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="section-card">
+                        <div class="section-heading">
+                            <h2>Services Offered</h2>
+                            <a href="services.html">Explore services</a>
+                        </div>
+
+                        <div class="section-body">
+                            <div class="listing-list" id="servicesList">
+                                <p class="empty-description">No services available.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="section-card">
+                        <div class="section-heading">
+                            <h2>Tasks Posted</h2>
+                            <a href="tasks.html">Explore tasks</a>
+                        </div>
+
+                        <div class="section-body">
+                            <div class="listing-list" id="tasksList">
+                                <p class="empty-description">No tasks posted yet.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+                <aside class="side-column">
+
+                    <section class="section-card">
+                        <div class="section-heading">
+                            <h2>Student Information</h2>
+                        </div>
+
+                        <div class="section-body">
+                            <div class="info-list">
+                                <div class="info-item">
+                                    <span>Institution</span>
+                                    <strong id="schoolInfo">Not provided</strong>
+                                </div>
+
+                                <div class="info-item">
+                                    <span>Course of study</span>
+                                    <strong id="courseInfo">Not provided</strong>
+                                </div>
+
+                                <div class="info-item">
+                                    <span>Current level</span>
+                                    <strong id="levelInfo">Not provided</strong>
+                                </div>
+
+                                <div class="info-item">
+                                    <span>Location</span>
+                                    <strong id="locationInfo">Not provided</strong>
+                                </div>
+
+                                <div class="info-item">
+                                    <span>Skills</span>
+                                    <strong id="skillCount">0 skills listed</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="section-card">
+                        <div class="section-heading">
+                            <h2>Activity Overview</h2>
+                        </div>
+
+                        <div class="section-body">
+                            <div class="stats-grid">
+                                <div class="stat-box">
+                                    <strong id="serviceCount">0</strong>
+                                    <span>Services</span>
+                                </div>
+
+                                <div class="stat-box">
+                                    <strong id="taskCount">0</strong>
+                                    <span>Tasks posted</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="profile-note">
+                        <h3>Your skills have a place here.</h3>
+                        <p>Build your profile, showcase what you can do and connect with opportunities within the NEDIKE community.</p>
+                    </div>
+
+                </aside>
+
+            </div>
+        </div>
+
+        <div class="not-found" id="notFound" hidden>
+            <h2>Profile unavailable</h2>
+            <p>We could not find the requested student profile on this browser.</p>
+            <a href="services.html" class="btn btn-primary">Explore NEDIKE</a>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <div class="container footer-content">
+        <p>© <span id="year"></span> NEDIKE. Learn. Work. Earn. Teach.</p>
+
+        <div class="footer-links">
+            <a href="about.html">About</a>
+            <a href="help.html">Help Centre</a>
+            <a href="terms.html">Terms</a>
+            <a href="privacy.html">Privacy</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const CURRENT_USER_KEY = "nedike_current_user";
+
+    function readJSON(key, fallback = []) {
+        try {
+            const value = JSON.parse(localStorage.getItem(key));
+            return value ?? fallback;
+        } catch (error) {
+            return fallback;
+        }
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, character => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        })[character]);
+    }
+
+    function getCurrentUser() {
+        return readJSON(CURRENT_USER_KEY, null);
+    }
+
+    function getFullName(user) {
+        if (!user) return "Student";
+
+        const first = user.firstName || user.first_name || user.name || "";
+        const last = user.lastName || user.last_name || "";
+
+        return `${first} ${last}`.trim() || "Student";
+    }
+
+    function getInitials(name) {
+        const parts = String(name).trim().split(/\s+/).filter(Boolean);
+
+        if (!parts.length) return "U";
+
+        return parts.length > 1
+            ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+            : parts[0].slice(0, 2).toUpperCase();
+    }
+
+    function getSkills(user) {
+        const skills = user?.skills || user?.specialties || [];
+
+        if (Array.isArray(skills)) {
+            return skills.map(skill =>
+                typeof skill === "string"
+                    ? skill.trim()
+                    : skill?.name?.trim()
+            ).filter(Boolean);
+        }
+
+        if (typeof skills === "string") {
+            return skills.split(/[,;\n]/).map(skill => skill.trim()).filter(Boolean);
+        }
+
+        return [];
+    }
+
+    function getUserId(user) {
+        return String(
+            user?.id ||
+            user?.userId ||
+            user?.email ||
+            user?.username ||
+            ""
+        ).toLowerCase();
+    }
+
+    function getOwnerId(item) {
+        return String(
+            item?.userId ||
+            item?.ownerId ||
+            item?.providerId ||
+            item?.sellerId ||
+            item?.posterId ||
+            item?.createdBy ||
+            item?.user_id ||
+            item?.owner_id ||
+            item?.email ||
+            item?.providerEmail ||
+            item?.sellerEmail ||
+            item?.posterEmail ||
+            ""
+        ).toLowerCase();
+    }
+
+    function getUserRecords(key, user) {
+        const records = readJSON(key, []);
+        if (!Array.isArray(records) || !user) return [];
+
+        const userId = getUserId(user);
+        const email = String(user.email || "").toLowerCase();
+
+        return records.filter(item => {
+            const owner = getOwnerId(item);
+
+            // Legacy records without ownership data cannot be
+            // reliably attributed to a particular student.
+            if (!owner) return false;
+
+            return owner === userId || owner === email;
+        });
+    }
+
+    function getValue(object, fields) {
+        for (const field of fields) {
+            const value = object?.[field];
+
+            if (value !== undefined && value !== null && value !== "") {
+                return value;
+            }
+        }
+
+        return "";
+    }
+
+    function getPrice(item) {
+        const price = getValue(item, ["price", "budget", "amount"]);
+
+        if (typeof price === "number") {
+            return `₦${price.toLocaleString("en-NG")}`;
+        }
+
+        return String(price || "Price not specified");
+    }
+
+    function getDate(value) {
+        if (!value) return "";
+
+        const date = new Date(value);
+
+        if (Number.isNaN(date.getTime())) return "";
+
+        return date.toLocaleDateString("en-NG", {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+        });
+    }
+
+    function renderStudentProfile(user) {
+        const name = getFullName(user);
+        const initials = getInitials(name);
+
+        const school = getValue(user, ["school", "institution", "university"]);
+        const course = getValue(user, ["course", "department", "courseOfStudy"]);
+        const level = getValue(user, ["level", "currentLevel", "academicLevel"]);
+        const location = getValue(user, ["location", "city", "address"]);
+        const bio = getValue(user, ["bio", "about", "description"]);
+        const image = getValue(user, ["profilePicture", "profileImage", "avatar", "photo"]);
+
+        document.getElementById("studentName").textContent = name;
+
+        document.getElementById("studentTitle").textContent =
+            [course, level ? `${level} Level` : ""].filter(Boolean).join(" · ") ||
+            "NEDIKE Student";
+
+        document.getElementById("studentBio").textContent =
+            bio || "This student has not added a biography yet.";
+
+        document.getElementById("schoolMeta").innerHTML =
+            `▣ <span>${escapeHTML(school || "Institution not added")}</span>`;
+
+        document.getElementById("locationMeta").innerHTML =
+            `⌖ <span>${escapeHTML(location || "Location not added")}</span>`;
+
+        const joined = getDate(user.createdAt || user.dateJoined || user.joinedAt);
+
+        document.getElementById("joinedMeta").innerHTML =
+            `◷ <span>${joined ? `Joined ${escapeHTML(joined)}` : "NEDIKE member"}</span>`;
+
+        document.getElementById("schoolInfo").textContent = school || "Not provided";
+        document.getElementById("courseInfo").textContent = course || "Not provided";
+        document.getElementById("levelInfo").textContent = level || "Not provided";
+        document.getElementById("locationInfo").textContent = location || "Not provided";
+
+        document.getElementById("studentAvatar").innerHTML = image
+            ? `<img src="${escapeHTML(image)}" alt="${escapeHTML(name)}" onerror="this.remove();this.parentElement.textContent='${escapeHTML(initials)}'">`
+            : escapeHTML(initials);
+
+        document.getElementById("navInitials").textContent = initials;
+
+        const skills = getSkills(user);
+
+        document.getElementById("skillCount").textContent =
+            `${skills.length} ${skills.length === 1 ? "skill" : "skills"} listed`;
+
+        document.getElementById("skillsList").innerHTML = skills.length
+            ? skills.map(skill =>
+                `<span class="skill-tag">${escapeHTML(skill)}</span>`
+              ).join("")
+            : `<p class="empty-description">No skills added yet.</p>`;
+
+        const services = getUserRecords("nedike_services", user);
+        const tasks = getUserRecords("nedike_tasks", user);
+
+        document.getElementById("serviceCount").textContent = services.length;
+        document.getElementById("taskCount").textContent = tasks.length;
+
+        renderListings("servicesList", services, "service");
+        renderListings("tasksList", tasks, "task");
+
+        const isOwnProfile = true;
+        document.getElementById("editProfileBtn").style.display =
+            isOwnProfile ? "inline-flex" : "none";
+    }
+
+    function renderListings(containerId, records, type) {
+        const container = document.getElementById(containerId);
+
+        if (!records.length) {
+            container.innerHTML =
+                `<p class="empty-description">No ${type === "service" ? "services" : "tasks"} available yet.</p>`;
+            return;
+        }
+
+        container.innerHTML = records.slice(0, 5).map(item => {
+            const title = getValue(item, ["title", "name", "serviceName", "taskTitle"]) ||
+                (type === "service" ? "Untitled service" : "Untitled task");
+
+            const description = getValue(item, ["description", "details", "summary"]);
+            const price = getPrice(item);
+            const status = getValue(item, ["status"]) || "Available";
+            const date = getDate(item.createdAt || item.date || item.created_at);
+
+            const id = getValue(item, ["id", "serviceId", "taskId"]);
+            const fallbackPage = type === "service"
+                ? "service-details.html"
+                : "task-details.html";
+
+            const link = getValue(item, ["url", "link", "href"]) ||
+                (id ? `${fallbackPage}?id=${encodeURIComponent(id)}` : "");
+
+            return `
+                <article class="listing">
+                    <div class="listing-info">
+                        <h3>${escapeHTML(title)}</h3>
+                        <p>${escapeHTML(description || "No description provided.")}</p>
+                        <span class="listing-status">${escapeHTML(status)}</span>
+                        ${date ? `<p style="margin-top:5px">${escapeHTML(date)}</p>` : ""}
+                        ${link ? `<a href="${escapeHTML(link)}" style="display:inline-block;color:var(--green);font-size:9px;font-weight:700;margin-top:8px">View details →</a>` : ""}
+                    </div>
+
+                    <div class="listing-price">${escapeHTML(price)}</div>
+                </article>
+            `;
+        }).join("");
+    }
+
+    function showUnavailable() {
+        document.getElementById("profileContent").hidden = true;
+        document.getElementById("notFound").hidden = false;
+    }
+
+    async function shareProfile() {
+        const shareData = {
+            title: `${getFullName(currentUser)} | NEDIKE`,
+            text: "View this student profile on NEDIKE.",
+            url: window.location.href
+        };
+
+        try {
+            if (navigator.share) {
+                await navigator.share(shareData);
+            } else if (navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(window.location.href);
+                alert("Profile link copied.");
+            } else {
+                window.prompt("Copy your profile link:", window.location.href);
+            }
+        } catch (error) {
+            if (error.name !== "AbortError") {
+                alert("Unable to share this profile right now.");
+            }
+        }
+    }
+
+    const currentUser = getCurrentUser();
+
+    document.getElementById("shareProfileBtn").addEventListener("click", shareProfile);
+
+    document.getElementById("menuToggle").addEventListener("click", () => {
+        document.getElementById("navLinks").classList.toggle("show");
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    if (currentUser) {
+        renderStudentProfile(currentUser);
+    } else {
+        showUnavailable();
+    }
+</script>
+
+</body>
+</html>

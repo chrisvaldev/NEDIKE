@@ -1,461 +1,667 @@
+
 "use strict";
 
-/*
- * NEDIKE FRONTEND AUTHENTICATION DEMO
- *
- * For local frontend prototyping only.
- * This is not secure production authentication.
- * Do not use browser storage for real passwords.
- */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
 
-(() => {
-    const USERS_KEY = "nedike_demo_users";
-    const SESSION_KEY = "nedike_current_user";
-    const YEAR_SELECTOR = "[data-auth-year]";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signOut,
+  setPersistence,
+  browserLocalPersistence,
+  browserSessionPersistence,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
-    function getElement(id) {
-        return document.getElementById(id);
+// NEDIKE Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDNGiOxRrWq2h3wHRH2eI-TQXygvwf7BXg",
+  authDomain: "nedike.firebaseapp.com",
+  projectId: "nedike",
+  storageBucket: "nedike.firebasestorage.app",
+  messagingSenderId: "255269352987",
+  appId: "1:255269352987:web:9f7a8c666183a5e817aabe",
+  measurementId: "G-67PPMB3XKX"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+
+googleProvider.setCustomParameters({
+  prompt: "select_account"
+});
+
+const USERS_KEY = "nedike_demo_users";
+const SESSION_KEY = "nedike_current_user";
+const YEAR_SELECTOR = "[data-auth-year]";
+
+let currentProfile = null;
+
+function normaliseEmail(email) {
+  return String(email || "").trim().toLowerCase();
+}
+
+function readJSON(key, fallback) {
+  try {
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function saveProfile(profile) {
+  try {
+    localStorage.setItem(SESSION_KEY, JSON.stringify(profile));
+    currentProfile = profile;
+    return true;
+  } catch (error) {
+    console.error("NEDIKE: Could not save profile cache.", error);
+    return false;
+  }
+}
+
+function getLegacyProfile(email) {
+  const users = readJSON(USERS_KEY, []);
+
+  if (!Array.isArray(users)) return {};
+
+  const legacyUser = users.find(
+    user => normaliseEmail(user?.email) === normaliseEmail(email)
+  );
+
+  if (!legacyUser) return {};
+
+  const {
+    password,
+    ...safeUser
+  } = legacyUser;
+
+  return safeUser;
+}
+
+function buildProfile(firebaseUser, extraData = {}) {
+  const existing = readJSON(SESSION_KEY, null);
+  const legacy = getLegacyProfile(firebaseUser.email);
+
+  const existingMatches =
+    existing &&
+    normaliseEmail(existing.email) === normaliseEmail(firebaseUser.email)
+      ? existing
+      : {};
+
+  const legacyMatches =
+    normaliseEmail(legacy.email) === normaliseEmail(firebaseUser.email)
+      ? legacy
+      : {};
+
+  const displayName = firebaseUser.displayName || "";
+
+  const nameParts = displayName.trim().split(/\s+/).filter(Boolean);
+
+  const firstName =
+    extraData.firstName ||
+    existingMatches.firstName ||
+    legacyMatches.firstName ||
+    nameParts[0] ||
+    "";
+
+  const lastName =
+    extraData.lastName ||
+    existingMatches.lastName ||
+    legacyMatches.lastName ||
+    nameParts.slice(1).join(" ") ||
+    "";
+
+  return {
+    ...legacyMatches,
+    ...existingMatches,
+    ...extraData,
+
+    id: firebaseUser.uid,
+    uid: firebaseUser.uid,
+    userId: firebaseUser.uid,
+
+    firstName,
+    lastName,
+    first_name: firstName,
+    last_name: lastName,
+
+    name: `${firstName} ${lastName}`.trim(),
+    fullName: `${firstName} ${lastName}`.trim(),
+
+    email: normaliseEmail(firebaseUser.email),
+
+    school:
+      extraData.school ||
+      existingMatches.school ||
+      legacyMatches.school ||
+      "",
+
+    course:
+      extraData.course ||
+      existingMatches.course ||
+      legacyMatches.course ||
+      "",
+
+    department:
+      extraData.course ||
+      existingMatches.department ||
+      legacyMatches.department ||
+      "",
+
+    level:
+      extraData.level ||
+      existingMatches.level ||
+      legacyMatches.level ||
+      "",
+
+    profilePicture:
+      firebaseUser.photoURL ||
+      extraData.profilePicture ||
+      existingMatches.profilePicture ||
+      legacyMatches.profilePicture ||
+      "",
+
+    profileImage:
+      firebaseUser.photoURL ||
+      existingMatches.profileImage ||
+      "",
+
+    avatar:
+      firebaseUser.photoURL ||
+      existingMatches.avatar ||
+      "",
+
+    bio: extraData.bio || existingMatches.bio || legacyMatches.bio || "",
+    skills: extraData.skills || existingMatches.skills || legacyMatches.skills || [],
+    location: extraData.location || existingMatches.location || legacyMatches.location || "",
+
+    authProvider: firebaseUser.providerData.some(
+      provider => provider.providerId === "google.com"
+    ) ? "google" : "password",
+
+    createdAt:
+      existingMatches.createdAt ||
+      legacyMatches.createdAt ||
+      firebaseUser.metadata.creationTime ||
+      new Date().toISOString(),
+
+    updatedAt: new Date().toISOString()
+  };
+}
+
+function showMessage(element, message, type = "error") {
+  if (!element) return;
+
+  element.textContent = message;
+  element.className = `notice ${type}`;
+}
+
+function clearMessage(element) {
+  if (!element) return;
+
+  element.textContent = "";
+  element.className = "notice hidden";
+}
+
+function getSafeReturnUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const requested = params.get("next");
+
+  const allowedPages = new Set([
+    "profile.html",
+    "dashboard.html",
+    "task-details.html",
+    "service-details.html",
+    "course-details.html",
+    "services.html",
+    "tasks.html",
+    "learning.html",
+    "create-service.html",
+    "create-task.html",
+    "edit-profile.html",
+    "my-service.html",
+    "my-task.html",
+    "applications.html"
+  ]);
+
+  if (!requested) return "profile.html";
+
+  try {
+    const destination = new URL(requested, window.location.href);
+
+    if (
+      destination.origin !== window.location.origin ||
+      destination.pathname.includes("/") ||
+      !allowedPages.has(destination.pathname)
+    ) {
+      return "profile.html";
     }
 
-    function readUsers() {
-        try {
-            const stored = localStorage.getItem(USERS_KEY);
+    const page = destination.pathname;
 
-            if (!stored) return [];
+    if (
+      ["task-details.html", "service-details.html", "course-details.html"]
+        .includes(page)
+    ) {
+      const id = destination.searchParams.get("id");
 
-            const users = JSON.parse(stored);
-
-            return Array.isArray(users) ? users : [];
-        } catch (error) {
-            console.error("NEDIKE: Unable to read demo accounts.", error);
-            return null;
-        }
+      if (id && /^[a-zA-Z0-9_-]+$/.test(id)) {
+        return `${page}?id=${encodeURIComponent(id)}`;
+      }
     }
 
-    function saveUsers(users) {
-        try {
-            localStorage.setItem(USERS_KEY, JSON.stringify(users));
-            return true;
-        } catch (error) {
-            console.error("NEDIKE: Unable to save demo accounts.", error);
-            return false;
-        }
+    return page;
+  } catch {
+    return "profile.html";
+  }
+}
+
+function redirectAfterLogin() {
+  window.location.href = getSafeReturnUrl();
+}
+
+function firebaseErrorMessage(error) {
+  const messages = {
+    "auth/invalid-email": "Enter a valid email address.",
+    "auth/user-not-found": "No account was found with this email address.",
+    "auth/wrong-password": "The email address or password is incorrect.",
+    "auth/invalid-credential": "The email address or password is incorrect.",
+    "auth/email-already-in-use": "An account with this email already exists. Try signing in.",
+    "auth/weak-password": "Choose a stronger password of at least 8 characters.",
+    "auth/popup-closed-by-user": "Google sign-in was cancelled.",
+    "auth/popup-blocked": "Your browser blocked the Google sign-in window. Allow pop-ups and try again.",
+    "auth/unauthorized-domain": "This website domain is not authorised in Firebase Authentication.",
+    "auth/network-request-failed": "Network connection failed. Check your internet connection.",
+    "auth/account-exists-with-different-credential": "An account already exists with this email using another sign-in method. Sign in with that method first."
+  };
+
+  return messages[error.code] ||
+    "Authentication could not be completed. Please try again.";
+}
+
+async function setRememberPreference(remember) {
+  await setPersistence(
+    auth,
+    remember ? browserLocalPersistence : browserSessionPersistence
+  );
+}
+
+async function completeAuthentication(firebaseUser, extraData = {}) {
+  const profile = buildProfile(firebaseUser, extraData);
+
+  if (!saveProfile(profile)) {
+    throw new Error("Your profile could not be saved in this browser.");
+  }
+
+  return profile;
+}
+
+async function googleSignIn(messageElement, button) {
+  clearMessage(messageElement);
+
+  const originalText = button?.textContent || "Continue with Google";
+
+  try {
+    if (button) {
+      button.disabled = true;
+      button.textContent = "Connecting to Google...";
     }
 
-    function showMessage(element, message, type = "error") {
-        if (!element) return;
+    const remember =
+      document.getElementById("remember-me")?.checked ?? true;
 
-        element.textContent = message;
-        element.classList.remove("hidden", "error", "success");
-        element.classList.add(type);
+    await setRememberPreference(remember);
+
+    const result = await signInWithPopup(auth, googleProvider);
+
+    const profile = await completeAuthentication(result.user);
+
+    showMessage(
+      messageElement,
+      "Google sign-in successful. Opening your NEDIKE account...",
+      "success"
+    );
+
+    window.setTimeout(redirectAfterLogin, 500);
+
+    return profile;
+
+  } catch (error) {
+    console.error("NEDIKE Google authentication:", error);
+
+    showMessage(
+      messageElement,
+      firebaseErrorMessage(error),
+      "error"
+    );
+
+  } finally {
+    if (button) {
+      button.disabled = false;
+      button.textContent = originalText;
+    }
+  }
+}
+
+// Password visibility
+document.querySelectorAll("[data-toggle-password]").forEach(button => {
+  button.addEventListener("click", () => {
+    const input = document.getElementById(button.dataset.togglePassword);
+
+    if (!input) return;
+
+    const visible = input.type === "password";
+    input.type = visible ? "text" : "password";
+    button.textContent = visible ? "Hide" : "Show";
+    button.setAttribute("aria-pressed", String(visible));
+  });
+});
+
+// Footer year
+document.querySelectorAll(YEAR_SELECTOR).forEach(element => {
+  element.textContent = String(new Date().getFullYear());
+});
+
+// Google buttons
+document.querySelectorAll("[data-google-signin]").forEach(button => {
+  button.addEventListener("click", () => {
+    const messageElement = document.getElementById(
+      button.dataset.messageTarget ||
+      (document.getElementById("register-form")
+        ? "register-message"
+        : "login-message")
+    );
+
+    googleSignIn(messageElement, button);
+  });
+});
+
+// Registration
+const registerForm = document.getElementById("register-form");
+
+if (registerForm) {
+  const message = document.getElementById("register-message");
+
+  registerForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    clearMessage(message);
+
+    const firstName = document.getElementById("first-name")?.value.trim() || "";
+    const lastName = document.getElementById("last-name")?.value.trim() || "";
+    const email = normaliseEmail(document.getElementById("email")?.value);
+    const school = document.getElementById("school")?.value.trim() || "";
+    const course = document.getElementById("course")?.value.trim() || "";
+    const level = document.getElementById("level")?.value || "";
+    const password = document.getElementById("password")?.value || "";
+    const confirmPassword = document.getElementById("confirm-password")?.value || "";
+    const acceptedTerms = document.getElementById("accept-terms")?.checked || false;
+
+    if (!firstName || !lastName || !email || !school || !course || !level || !password || !confirmPassword) {
+      showMessage(message, "Please complete every required field.");
+      return;
     }
 
-    function clearMessage(element) {
-        if (!element) return;
-
-        element.textContent = "";
-        element.classList.add("hidden");
-        element.classList.remove("error", "success");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showMessage(message, "Enter a valid email address.");
+      return;
     }
 
-    function normaliseEmail(email) {
-        return String(email || "").trim().toLowerCase();
+    if (password.length < 8) {
+      showMessage(message, "Your password must contain at least 8 characters.");
+      return;
     }
 
-    function isValidEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (password !== confirmPassword) {
+      showMessage(message, "Your passwords do not match.");
+      return;
     }
 
-    function getSafeReturnUrl() {
-        const params = new URLSearchParams(window.location.search);
-        const requested = params.get("next");
-
-        // Allow only a simple local HTML filename.
-        if (
-            requested &&
-            /^[a-zA-Z0-9_-]+\.html$/.test(requested)
-        ) {
-            return requested;
-        }
-
-        return "profile.html";
+    if (!acceptedTerms) {
+      showMessage(message, "Please agree to the Terms of Use and Privacy Policy.");
+      return;
     }
 
-    function setSession(user, remember) {
-        try {
-            const session = {
-                email: user.email,
-                signedInAt: new Date().toISOString()
-            };
+    const submitButton = registerForm.querySelector('[type="submit"]');
+    const originalText = submitButton?.textContent || "Create my account";
 
-            if (remember) {
-                localStorage.setItem(
-                    SESSION_KEY,
-                    JSON.stringify(session)
-                );
+    try {
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Creating account...";
+      }
 
-                sessionStorage.removeItem(SESSION_KEY);
-            } else {
-                sessionStorage.setItem(
-                    SESSION_KEY,
-                    JSON.stringify(session)
-                );
+      await setRememberPreference(true);
 
-                localStorage.removeItem(SESSION_KEY);
-            }
+      const credential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
-            return true;
-        } catch (error) {
-            console.error("NEDIKE: Unable to create a demo session.", error);
-            return false;
-        }
+      const fullName = `${firstName} ${lastName}`.trim();
+
+      await updateProfile(credential.user, {
+        displayName: fullName
+      });
+
+      await completeAuthentication(credential.user, {
+        firstName,
+        lastName,
+        school,
+        course,
+        department: course,
+        level,
+        bio: "",
+        skills: [],
+        location: "",
+        profilePicture: ""
+      });
+
+      showMessage(
+        message,
+        "Your NEDIKE account has been created successfully. Redirecting...",
+        "success"
+      );
+
+      registerForm.reset();
+
+      window.setTimeout(redirectAfterLogin, 800);
+
+    } catch (error) {
+      console.error("NEDIKE registration:", error);
+      showMessage(message, firebaseErrorMessage(error));
+
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+      }
+    }
+  });
+}
+
+// Login
+const loginForm = document.getElementById("login-form");
+
+if (loginForm) {
+  const message = document.getElementById("login-message");
+
+  loginForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    clearMessage(message);
+
+    const email = normaliseEmail(
+      document.getElementById("login-email")?.value
+    );
+
+    const password =
+      document.getElementById("login-password")?.value || "";
+
+    const remember =
+      document.getElementById("remember-me")?.checked || false;
+
+    if (!email || !password) {
+      showMessage(message, "Enter your email address and password.");
+      return;
     }
 
-    function getStoredSession() {
-        try {
-            const persistent = localStorage.getItem(SESSION_KEY);
-            const temporary = sessionStorage.getItem(SESSION_KEY);
-            const stored = persistent || temporary;
-
-            if (!stored) return null;
-
-            const session = JSON.parse(stored);
-
-            if (!session || typeof session.email !== "string") {
-                return null;
-            }
-
-            return session;
-        } catch (error) {
-            return null;
-        }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showMessage(message, "Enter a valid email address.");
+      return;
     }
 
-    function clearSession() {
-        try {
-            localStorage.removeItem(SESSION_KEY);
-            sessionStorage.removeItem(SESSION_KEY);
-        } catch (error) {
-            console.error("NEDIKE: Unable to clear the demo session.", error);
-        }
+    const submitButton = loginForm.querySelector('[type="submit"]');
+    const originalText = submitButton?.textContent || "Log in";
+
+    try {
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Signing in...";
+      }
+
+      await setRememberPreference(remember);
+
+      const credential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      await completeAuthentication(credential.user);
+
+      showMessage(message, "Login successful. Opening your account...", "success");
+
+      window.setTimeout(redirectAfterLogin, 500);
+
+    } catch (error) {
+      console.error("NEDIKE login:", error);
+      showMessage(message, firebaseErrorMessage(error));
+
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+      }
+    }
+  });
+}
+
+// Keep the local profile cache in sync with Firebase authentication.
+onAuthStateChanged(auth, async firebaseUser => {
+  if (firebaseUser) {
+    try {
+      await completeAuthentication(firebaseUser);
+    } catch (error) {
+      console.error("NEDIKE profile synchronisation:", error);
+    }
+  } else {
+    currentProfile = null;
+
+    // Do not remove a profile cache here.
+    // Firebase may still be restoring its saved session.
+  }
+});
+
+// Public authentication helpers used by other NEDIKE pages.
+window.NEDIKEAuth = Object.freeze({
+  getCurrentUser() {
+    const stored = readJSON(SESSION_KEY, null);
+
+    if (!stored || !stored.email) return null;
+
+    const { password, ...safeUser } = stored;
+    return safeUser;
+  },
+
+  isLoggedIn() {
+    return this.getCurrentUser() !== null;
+  },
+
+  getFirebaseUser() {
+    return auth.currentUser;
+  },
+
+  async logout() {
+    try {
+      await signOut(auth);
+      localStorage.removeItem(SESSION_KEY);
+      sessionStorage.removeItem(SESSION_KEY);
+      currentProfile = null;
+      window.location.href = "login.html";
+    } catch (error) {
+      console.error("NEDIKE logout:", error);
+      throw error;
+    }
+  },
+
+  async updateProfile(updates) {
+    if (!auth.currentUser || !updates || typeof updates !== "object") {
+      return false;
     }
 
-    function getUserByEmail(email) {
-        const users = readUsers();
+    const allowedFields = [
+      "firstName",
+      "lastName",
+      "school",
+      "course",
+      "level",
+      "location",
+      "bio",
+      "skills",
+      "profilePicture",
+      "headline",
+      "professionalTitle",
+      "specialties",
+      "state",
+      "city",
+      "website",
+      "portfolio"
+    ];
 
-        if (!users) return null;
+    const safeUpdates = {};
 
-        return users.find(
-            (user) => normaliseEmail(user.email) === normaliseEmail(email)
-        ) || null;
-    }
-
-    // Password visibility controls.
-    document.querySelectorAll("[data-toggle-password]").forEach((button) => {
-        button.addEventListener("click", () => {
-            const input = getElement(button.dataset.togglePassword);
-
-            if (!input) return;
-
-            const shouldShow = input.type === "password";
-
-            input.type = shouldShow ? "text" : "password";
-            button.textContent = shouldShow ? "Hide" : "Show";
-
-            button.setAttribute(
-                "aria-label",
-                shouldShow ? "Hide password" : "Show password"
-            );
-        });
+    allowedFields.forEach(field => {
+      if (Object.prototype.hasOwnProperty.call(updates, field)) {
+        safeUpdates[field] = updates[field];
+      }
     });
 
-    // Footer year.
-    document.querySelectorAll(YEAR_SELECTOR).forEach((element) => {
-        element.textContent = String(new Date().getFullYear());
-    });
+    try {
+      const existing = this.getCurrentUser() || {};
 
-    // Registration.
-    const registerForm = getElement("register-form");
+      const merged = {
+        ...existing,
+        ...safeUpdates
+      };
 
-    if (registerForm) {
-        const message = getElement("register-message");
+      const firstName = merged.firstName || "";
+      const lastName = merged.lastName || "";
+      const fullName = `${firstName} ${lastName}`.trim();
 
-        registerForm.addEventListener("submit", (event) => {
-            event.preventDefault();
-            clearMessage(message);
+      await updateProfile(auth.currentUser, {
+        displayName: fullName || auth.currentUser.displayName || ""
+      });
 
-            const firstName = getElement("first-name")?.value.trim() || "";
-            const lastName = getElement("last-name")?.value.trim() || "";
-            const email = normaliseEmail(getElement("email")?.value);
-            const school = getElement("school")?.value.trim() || "";
-            const course = getElement("course")?.value.trim() || "";
-            const level = getElement("level")?.value || "";
-            const password = getElement("password")?.value || "";
-            const confirmPassword =
-                getElement("confirm-password")?.value || "";
-            const acceptedTerms =
-                getElement("accept-terms")?.checked || false;
+      const updated = buildProfile(auth.currentUser, {
+        ...merged,
+        firstName,
+        lastName,
+        name: fullName,
+        fullName
+      });
 
-            if (
-                !firstName ||
-                !lastName ||
-                !email ||
-                !school ||
-                !course ||
-                !level ||
-                !password ||
-                !confirmPassword
-            ) {
-                showMessage(message, "Please complete every required field.");
-                return;
-            }
+      return saveProfile(updated);
 
-            if (!isValidEmail(email)) {
-                showMessage(message, "Enter a valid email address.");
-                getElement("email")?.focus();
-                return;
-            }
-
-            if (password.length < 8) {
-                showMessage(
-                    message,
-                    "Your password must contain at least 8 characters."
-                );
-                getElement("password")?.focus();
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                showMessage(message, "Your passwords do not match.");
-                getElement("confirm-password")?.focus();
-                return;
-            }
-
-            if (!acceptedTerms) {
-                showMessage(
-                    message,
-                    "Please agree to the Terms of Use and Privacy Policy."
-                );
-                getElement("accept-terms")?.focus();
-                return;
-            }
-
-            const users = readUsers();
-
-            if (!users) {
-                showMessage(
-                    message,
-                    "Account storage is unavailable. Check your browser settings and try again."
-                );
-                return;
-            }
-
-            const existingUser = users.some(
-                (user) => normaliseEmail(user.email) === email
-            );
-
-            if (existingUser) {
-                showMessage(
-                    message,
-                    "An account with this email already exists. Please log in instead."
-                );
-                return;
-            }
-
-            /*
-             * Demo-only storage.
-             * Passwords are stored as plain text.
-             * Never use this approach for a deployed application.
-             */
-            const user = {
-                id: `demo_${Date.now()}_${Math.random()
-                    .toString(36)
-                    .slice(2, 8)}`,
-                firstName,
-                lastName,
-                fullName: `${firstName} ${lastName}`,
-                email,
-                school,
-                course,
-                level,
-                password,
-                bio: "",
-                skills: [],
-                profilePicture: "",
-                location: "",
-                createdAt: new Date().toISOString()
-            };
-
-            users.push(user);
-
-            if (!saveUsers(users)) {
-                showMessage(
-                    message,
-                    "Your account could not be saved. Please check browser storage and try again."
-                );
-                return;
-            }
-
-            showMessage(
-                message,
-                "Account created successfully. Redirecting to login...",
-                "success"
-            );
-
-            registerForm.reset();
-
-            window.setTimeout(() => {
-                window.location.href = "login.html";
-            }, 900);
-        });
+    } catch (error) {
+      console.error("NEDIKE: Profile update failed.", error);
+      return false;
     }
-
-    // Login.
-    const loginForm = getElement("login-form");
-
-    if (loginForm) {
-        const message = getElement("login-message");
-
-        loginForm.addEventListener("submit", (event) => {
-            event.preventDefault();
-            clearMessage(message);
-
-            const email = normaliseEmail(
-                getElement("login-email")?.value
-            );
-
-            const password = getElement("login-password")?.value || "";
-            const remember = getElement("remember-me")?.checked || false;
-
-            if (!email || !password) {
-                showMessage(
-                    message,
-                    "Enter your email address and password."
-                );
-                return;
-            }
-
-            if (!isValidEmail(email)) {
-                showMessage(message, "Enter a valid email address.");
-                getElement("login-email")?.focus();
-                return;
-            }
-
-            const users = readUsers();
-
-            if (!users) {
-                showMessage(
-                    message,
-                    "Account storage is unavailable. Check your browser settings and try again."
-                );
-                return;
-            }
-
-            const user = users.find(
-                (item) =>
-                    normaliseEmail(item.email) === email &&
-                    item.password === password
-            );
-
-            if (!user) {
-                showMessage(
-                    message,
-                    "The email address or password is incorrect. Check your details or create an account."
-                );
-                return;
-            }
-
-            if (!setSession(user, remember)) {
-                showMessage(
-                    message,
-                    "We could not create your session. Check browser storage and try again."
-                );
-                return;
-            }
-
-            showMessage(
-                message,
-                "Login successful. Opening your profile...",
-                "success"
-            );
-
-            window.setTimeout(() => {
-                window.location.href = getSafeReturnUrl();
-            }, 500);
-        });
-    }
-
-    // Helpers for other NEDIKE frontend pages.
-    window.NEDIKEAuth = Object.freeze({
-        getCurrentUser() {
-            const session = getStoredSession();
-
-            if (!session) return null;
-
-            const user = getUserByEmail(session.email);
-
-            if (!user) return null;
-
-            // Never expose the stored password to profile pages.
-            const { password, ...safeUser } = user;
-
-            return safeUser;
-        },
-
-        isLoggedIn() {
-            return this.getCurrentUser() !== null;
-        },
-
-        logout() {
-            clearSession();
-            window.location.href = "login.html";
-        },
-
-        updateProfile(updates) {
-            const session = getStoredSession();
-
-            if (!session || !updates || typeof updates !== "object") {
-                return false;
-            }
-
-            const users = readUsers();
-
-            if (!users) return false;
-
-            const index = users.findIndex(
-                (item) =>
-                    normaliseEmail(item.email) ===
-                    normaliseEmail(session.email)
-            );
-
-            if (index === -1) return false;
-
-            const allowedFields = [
-                "firstName",
-                "lastName",
-                "school",
-                "course",
-                "level",
-                "location",
-                "bio",
-                "skills",
-                "profilePicture"
-            ];
-
-            allowedFields.forEach((field) => {
-                if (
-                    Object.prototype.hasOwnProperty.call(updates, field)
-                ) {
-                    users[index][field] = updates[field];
-                }
-            });
-
-            users[index].fullName =
-                `${users[index].firstName || ""} ${
-                    users[index].lastName || ""
-                }`.trim();
-
-            return saveUsers(users);
-        }
-    });
-})();
+  }
+});

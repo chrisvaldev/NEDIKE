@@ -1,0 +1,1120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#102B46">
+    <meta name="description" content="NEDIKE administration dashboard.">
+    <title>Admin Dashboard | NEDIKE</title>
+
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #102B46;
+            --navy-dark: #0B2035;
+            --green: #16845B;
+            --green-light: #EAF4EE;
+            --background: #F4F7F5;
+            --white: #FFFFFF;
+            --text: #263746;
+            --muted: #718096;
+            --border: #E3EAE6;
+            --red: #C74444;
+            --orange: #B7791F;
+            --sidebar-width: 245px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .layout {
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            inset: 0 auto 0 0;
+            width: var(--sidebar-width);
+            background: var(--navy-dark);
+            color: white;
+            padding: 25px 17px;
+            display: flex;
+            flex-direction: column;
+            z-index: 20;
+            overflow-y: auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px 27px;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+        }
+
+        .brand img {
+            width: 37px;
+            height: 37px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .brand small {
+            display: block;
+            margin-top: 3px;
+            color: #A8BAC9;
+            font-size: 9px;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .menu-heading {
+            color: #8196A8;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            padding: 26px 11px 11px;
+        }
+
+        .menu {
+            display: grid;
+            gap: 5px;
+        }
+
+        .menu a {
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 12px;
+            border-radius: 4px;
+            color: #C3D0DA;
+            font-size: 11px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            color: white;
+            background: rgba(255,255,255,.11);
+        }
+
+        .menu a.active {
+            border-left: 3px solid #3CB985;
+        }
+
+        .menu-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding-top: 22px;
+        }
+
+        .admin-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 9px;
+            border-top: 1px solid rgba(255,255,255,.12);
+        }
+
+        .admin-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--green);
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .admin-info strong {
+            display: block;
+            font-size: 11px;
+        }
+
+        .admin-info small {
+            display: block;
+            color: #9EB0BE;
+            margin-top: 4px;
+            font-size: 9px;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 70px;
+            padding: 0 32px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .topbar h1 {
+            font-size: 16px;
+            color: var(--navy);
+            font-weight: 800;
+        }
+
+        .topbar p {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--green);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--green);
+            border-radius: 50%;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: 0;
+            font-size: 22px;
+            color: var(--navy);
+        }
+
+        .content {
+            padding: 30px 32px;
+            max-width: 1500px;
+            margin: auto;
+        }
+
+        .welcome {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 26px;
+        }
+
+        .welcome h2 {
+            color: var(--navy);
+            font-size: 22px;
+            letter-spacing: -.7px;
+        }
+
+        .welcome p {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 7px;
+        }
+
+        .date-label {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 11px 14px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        /* STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .stat-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 4px;
+            background: var(--green-light);
+            display: grid;
+            place-items: center;
+            color: var(--green);
+            font-size: 15px;
+        }
+
+        .stat-card h3 {
+            color: var(--navy);
+            font-size: 25px;
+            margin-top: 16px;
+            letter-spacing: -1px;
+        }
+
+        .stat-card small {
+            color: var(--muted);
+            font-size: 9px;
+            display: block;
+            margin-top: 6px;
+        }
+
+        /* PANELS */
+        .panel-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.5fr) minmax(260px, .85fr);
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-header h3 {
+            font-size: 12px;
+            color: var(--navy);
+        }
+
+        .panel-header a {
+            color: var(--green);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .panel-body {
+            padding: 20px;
+        }
+
+        .activity-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .activity-icon {
+            width: 33px;
+            height: 33px;
+            flex-shrink: 0;
+            border-radius: 4px;
+            background: var(--green-light);
+            display: grid;
+            place-items: center;
+            color: var(--green);
+        }
+
+        .activity-item strong {
+            font-size: 10px;
+            color: var(--navy);
+        }
+
+        .activity-item p {
+            color: var(--muted);
+            font-size: 9px;
+            line-height: 1.6;
+            margin-top: 5px;
+        }
+
+        .activity-item time {
+            display: block;
+            font-size: 8px;
+            color: #9AA7B2;
+            margin-top: 5px;
+        }
+
+        /* QUICK ACTIONS */
+        .quick-actions {
+            display: grid;
+            gap: 10px;
+        }
+
+        .quick-action {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            transition: .2s;
+        }
+
+        .quick-action:hover {
+            border-color: var(--green);
+            background: #FBFDFC;
+        }
+
+        .quick-action-icon {
+            width: 34px;
+            height: 34px;
+            background: var(--green-light);
+            color: var(--green);
+            border-radius: 4px;
+            display: grid;
+            place-items: center;
+        }
+
+        .quick-action strong {
+            display: block;
+            font-size: 10px;
+            color: var(--navy);
+        }
+
+        .quick-action small {
+            display: block;
+            font-size: 9px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        /* TABLE */
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 550px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            font-size: 10px;
+        }
+
+        th {
+            background: #FAFCFB;
+            color: var(--muted);
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        td {
+            color: var(--text);
+        }
+
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-weight: 700;
+        }
+
+        .user-avatar {
+            width: 29px;
+            height: 29px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--green-light);
+            color: var(--green);
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 8px;
+            border-radius: 3px;
+            font-size: 8px;
+            font-weight: 700;
+        }
+
+        .badge-active {
+            color: var(--green);
+            background: var(--green-light);
+        }
+
+        .badge-pending {
+            color: var(--orange);
+            background: #FFF6E5;
+        }
+
+        .badge-blocked {
+            color: var(--red);
+            background: #FCEEEE;
+        }
+
+        .empty-row {
+            text-align: center;
+            color: var(--muted);
+            padding: 28px;
+        }
+
+        .footer {
+            padding: 20px 32px;
+            color: var(--muted);
+            font-size: 9px;
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width: 1100px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .panel-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 750px) {
+            :root {
+                --sidebar-width: 0px;
+            }
+
+            .sidebar {
+                width: 245px;
+                transform: translateX(-100%);
+                transition: transform .25s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .topbar {
+                padding: 0 17px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .content {
+                padding: 23px 17px;
+            }
+
+            .welcome {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .date-label {
+                display: none;
+            }
+
+            .status {
+                display: none;
+            }
+
+            .footer {
+                padding: 18px;
+            }
+        }
+
+        @media(max-width: 450px) {
+            .stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 9px;
+            }
+
+            .stat-card {
+                padding: 14px;
+            }
+
+            .stat-card h3 {
+                font-size: 21px;
+            }
+
+            .stat-label {
+                font-size: 9px;
+            }
+
+            .welcome h2 {
+                font-size: 19px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar" id="sidebar">
+
+        <a href="admin-dashboard.html" class="brand">
+            <img src="assets/images/nedike-icon.png" alt="NEDIKE">
+            <div>
+                <div class="brand-name">NEDIKE</div>
+                <small>ADMINISTRATION</small>
+            </div>
+        </a>
+
+        <div class="menu-heading">MAIN MENU</div>
+
+        <nav class="menu">
+            <a href="admin-dashboard.html" class="active">
+                <span class="menu-icon">▦</span> Overview
+            </a>
+            <a href="admin-users.html">
+                <span class="menu-icon">♙</span> Manage Users
+            </a>
+            <a href="admin-services.html">
+                <span class="menu-icon">▤</span> Manage Services
+            </a>
+            <a href="admin-tasks.html">
+                <span class="menu-icon">☷</span> Manage Tasks
+            </a>
+            <a href="admin-learning.html">
+                <span class="menu-icon">▣</span> Learning Content
+            </a>
+        </nav>
+
+        <div class="menu-heading">PLATFORM MANAGEMENT</div>
+
+        <nav class="menu">
+            <a href="admin-reports.html">
+                <span class="menu-icon">⚑</span> Reports & Complaints
+            </a>
+            <a href="admin-reviews.html">
+                <span class="menu-icon">☆</span> Reviews
+            </a>
+            <a href="admin-announcements.html">
+                <span class="menu-icon">◉</span> Announcements
+            </a>
+            <a href="admin-settings.html">
+                <span class="menu-icon">⚙</span> Admin Settings
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <nav class="menu">
+                <a href="index.html">
+                    <span class="menu-icon">↗</span> View Website
+                </a>
+                <a href="#" id="logoutButton">
+                    <span class="menu-icon">⇥</span> Sign Out
+                </a>
+            </nav>
+
+            <div class="admin-card">
+                <div class="admin-avatar" id="adminAvatar">A</div>
+                <div class="admin-info">
+                    <strong id="adminName">Administrator</strong>
+                    <small>Platform Administrator</small>
+                </div>
+            </div>
+        </div>
+
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+                <div>
+                    <h1>Admin Overview</h1>
+                    <p>Monitor and manage the NEDIKE platform.</p>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <div class="status">
+                    <span class="status-dot"></span>
+                    Admin workspace
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+
+            <section class="welcome">
+                <div>
+                    <h2>Welcome back, <span id="welcomeName">Administrator</span></h2>
+                    <p>Here is an overview of your platform's current activity.</p>
+                </div>
+
+                <div class="date-label" id="currentDate"></div>
+            </section>
+
+            <section class="stats">
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Total Users</span>
+                        <span class="stat-icon">♙</span>
+                    </div>
+                    <h3 id="totalUsers">0</h3>
+                    <small>Registered accounts in this browser</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Services Listed</span>
+                        <span class="stat-icon">▤</span>
+                    </div>
+                    <h3 id="totalServices">0</h3>
+                    <small>Services stored in this browser</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Tasks Posted</span>
+                        <span class="stat-icon">☷</span>
+                    </div>
+                    <h3 id="totalTasks">0</h3>
+                    <small>Tasks stored in this browser</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Saved Items</span>
+                        <span class="stat-icon">☆</span>
+                    </div>
+                    <h3 id="totalSaved">0</h3>
+                    <small>Saved records in this browser</small>
+                </div>
+
+            </section>
+
+            <section class="panel-grid">
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Recent Platform Activity</h3>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="activity-list" id="activityList">
+                            <div class="activity-item">
+                                <div class="activity-icon">✓</div>
+                                <div>
+                                    <strong>Admin dashboard loaded</strong>
+                                    <p>The administration overview is ready.</p>
+                                    <time>Just now</time>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Quick Management</h3>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="quick-actions">
+
+                            <a href="admin-users.html" class="quick-action">
+                                <span class="quick-action-icon">♙</span>
+                                <span>
+                                    <strong>Manage Users</strong>
+                                    <small>Review registered accounts</small>
+                                </span>
+                            </a>
+
+                            <a href="admin-services.html" class="quick-action">
+                                <span class="quick-action-icon">▤</span>
+                                <span>
+                                    <strong>Manage Services</strong>
+                                    <small>Review service listings</small>
+                                </span>
+                            </a>
+
+                            <a href="admin-tasks.html" class="quick-action">
+                                <span class="quick-action-icon">☷</span>
+                                <span>
+                                    <strong>Manage Tasks</strong>
+                                    <small>Monitor posted opportunities</small>
+                                </span>
+                            </a>
+
+                            <a href="admin-reports.html" class="quick-action">
+                                <span class="quick-action-icon">⚑</span>
+                                <span>
+                                    <strong>Review Reports</strong>
+                                    <small>Handle platform complaints</small>
+                                </span>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="panel">
+                <div class="panel-header">
+                    <h3>Recently Registered Users</h3>
+                    <a href="admin-users.html">Manage all users →</a>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>USER</th>
+                                <th>EMAIL</th>
+                                <th>INSTITUTION</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="recentUsers">
+                            <tr>
+                                <td colspan="4" class="empty-row">
+                                    No user records are available.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="footer">
+            © <span id="year"></span> NEDIKE Administration. Learn. Work. Earn. Teach.
+        </footer>
+
+    </main>
+
+</div>
+
+<script>
+    "use strict";
+
+    const STORAGE = {
+        users: "nedike_users",
+        currentUser: "nedike_current_user",
+        services: "nedike_services",
+        tasks: "nedike_tasks",
+        saved: "nedike_saved_items"
+    };
+
+    function readStorage(key) {
+        try {
+            const value = JSON.parse(localStorage.getItem(key) || "[]");
+            return Array.isArray(value) ? value : [];
+        } catch {
+            return [];
+        }
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        })[char]);
+    }
+
+    function getUserName(user) {
+        if (!user) return "Administrator";
+
+        const first = user.firstName || user.first_name || "";
+        const last = user.lastName || user.last_name || "";
+
+        return `${first} ${last}`.trim() ||
+            user.name ||
+            user.fullName ||
+            "Administrator";
+    }
+
+    function getInitials(name) {
+        return String(name)
+            .trim()
+            .split(/\s+/)
+            .slice(0, 2)
+            .map(part => part.charAt(0).toUpperCase())
+            .join("") || "A";
+    }
+
+    function getUserEmail(user) {
+        return user?.email || "No email available";
+    }
+
+    function renderRecentUsers(users) {
+        const container = document.getElementById("recentUsers");
+
+        const sorted = [...users].sort((a, b) => {
+            const dateA = new Date(a.createdAt || a.dateJoined || 0).getTime() || 0;
+            const dateB = new Date(b.createdAt || b.dateJoined || 0).getTime() || 0;
+            return dateB - dateA;
+        }).slice(0, 5);
+
+        if (!sorted.length) {
+            container.innerHTML = `
+                <tr>
+                    <td colspan="4" class="empty-row">
+                        No registered users found in the available user records.
+                    </td>
+                </tr>`;
+            return;
+        }
+
+        container.innerHTML = sorted.map(user => {
+            const name = getUserName(user);
+            const email = getUserEmail(user);
+            const school = user.school || user.institution || "Not provided";
+
+            return `
+                <tr>
+                    <td>
+                        <div class="user-cell">
+                            <span class="user-avatar">${escapeHTML(getInitials(name))}</span>
+                            ${escapeHTML(name)}
+                        </div>
+                    </td>
+                    <td>${escapeHTML(email)}</td>
+                    <td>${escapeHTML(school)}</td>
+                    <td><span class="badge badge-active">Recorded</span></td>
+                </tr>`;
+        }).join("");
+    }
+
+    function renderActivity(users, services, tasks) {
+        const container = document.getElementById("activityList");
+        const activities = [];
+
+        users.forEach(user => {
+            const date = user.createdAt || user.dateJoined || user.joinedAt;
+
+            if (date) {
+                activities.push({
+                    title: "User account recorded",
+                    description: `${getUserName(user)} appears in the user records.`,
+                    date: new Date(date),
+                    icon: "♙"
+                });
+            }
+        });
+
+        services.forEach(service => {
+            const date = service.createdAt || service.date || service.created_at;
+
+            if (date) {
+                activities.push({
+                    title: "Service listing recorded",
+                    description: service.title || "A service listing was found.",
+                    date: new Date(date),
+                    icon: "▤"
+                });
+            }
+        });
+
+        tasks.forEach(task => {
+            const date = task.createdAt || task.date || task.created_at;
+
+            if (date) {
+                activities.push({
+                    title: "Task listing recorded",
+                    description: task.title || "A task listing was found.",
+                    date: new Date(date),
+                    icon: "☷"
+                });
+            }
+        });
+
+        const valid = activities
+            .filter(item => !isNaN(item.date.getTime()))
+            .sort((a, b) => b.date - a.date)
+            .slice(0, 5);
+
+        if (!valid.length) {
+            container.innerHTML = `
+                <div class="activity-item">
+                    <div class="activity-icon">✓</div>
+                    <div>
+                        <strong>No dated activity available</strong>
+                        <p>Activity will appear here when records contain valid creation dates.</p>
+                    </div>
+                </div>`;
+            return;
+        }
+
+        container.innerHTML = valid.map(item => `
+            <div class="activity-item">
+                <div class="activity-icon">${item.icon}</div>
+                <div>
+                    <strong>${escapeHTML(item.title)}</strong>
+                    <p>${escapeHTML(item.description)}</p>
+                    <time>${escapeHTML(item.date.toLocaleString())}</time>
+                </div>
+            </div>
+        `).join("");
+    }
+
+    function initializeDashboard() {
+        const currentUser = (() => {
+            try {
+                return JSON.parse(localStorage.getItem(STORAGE.currentUser) || "null");
+            } catch {
+                return null;
+            }
+        })();
+
+        // This is a prototype-only interface check, not secure admin authorization.
+        if (!currentUser) {
+            window.location.replace("login.html");
+            return;
+        }
+
+        const name = getUserName(currentUser);
+        const users = readStorage(STORAGE.users);
+        const services = readStorage(STORAGE.services);
+        const tasks = readStorage(STORAGE.tasks);
+        const saved = readStorage(STORAGE.saved);
+
+        document.getElementById("adminName").textContent = name;
+        document.getElementById("welcomeName").textContent = name;
+        document.getElementById("adminAvatar").textContent = getInitials(name);
+
+        document.getElementById("totalUsers").textContent = users.length;
+        document.getElementById("totalServices").textContent = services.length;
+        document.getElementById("totalTasks").textContent = tasks.length;
+        document.getElementById("totalSaved").textContent = saved.length;
+
+        renderRecentUsers(users);
+        renderActivity(users, services, tasks);
+    }
+
+    document.getElementById("currentDate").textContent =
+        new Date().toLocaleDateString("en-NG", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    document.getElementById("menuToggle").addEventListener("click", () => {
+        document.getElementById("sidebar").classList.toggle("open");
+    });
+
+    document.addEventListener("click", event => {
+        const sidebar = document.getElementById("sidebar");
+        const toggle = document.getElementById("menuToggle");
+
+        if (
+            window.innerWidth <= 750 &&
+            !sidebar.contains(event.target) &&
+            !toggle.contains(event.target)
+        ) {
+            sidebar.classList.remove("open");
+        }
+    });
+
+    document.getElementById("logoutButton").addEventListener("click", event => {
+        event.preventDefault();
+
+        if (confirm("Are you sure you want to sign out?")) {
+            localStorage.removeItem(STORAGE.currentUser);
+            window.location.href = "login.html";
+        }
+    });
+
+    initializeDashboard();
+</script>
+
+</body>
+</html>

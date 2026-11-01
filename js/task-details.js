@@ -1,3 +1,4 @@
+
 (function () {
   "use strict";
 
@@ -35,14 +36,28 @@
 
     function readApplications() {
       try {
-        const stored = JSON.parse(
-          localStorage.getItem(APPLICATIONS_KEY) || "[]"
-        );
+        const stored = localStorage.getItem(APPLICATIONS_KEY);
 
-        return Array.isArray(stored) ? stored : [];
+        if (stored === null || stored.trim() === "") {
+          return { success: true, applications: [] };
+        }
+
+        const parsed = JSON.parse(stored);
+
+        if (!Array.isArray(parsed)) {
+          return { success: false, applications: [] };
+        }
+
+        return {
+          success: true,
+          applications: parsed.filter(function (item) {
+            return item && typeof item === "object";
+          })
+        };
       } catch (error) {
         console.error("Could not read task applications:", error);
-        return [];
+
+        return { success: false, applications: [] };
       }
     }
 
@@ -51,11 +66,29 @@
         return null;
       }
 
-      return auth.getCurrentUser();
+      try {
+        return auth.getCurrentUser();
+      } catch (error) {
+        console.error("Could not retrieve the current user:", error);
+        return null;
+      }
     }
 
     function getUserId(user) {
-      return user ? String(user.id || user.email || "").trim() : "";
+      return user
+        ? String(user.id || user.email || "").trim()
+        : "";
+    }
+
+    function getUserEmail(user) {
+      return user ? String(user.email || "").trim().toLowerCase() : "";
+    }
+
+    function getLoginUrl() {
+      const returnPage =
+        "task-details.html?id=" + encodeURIComponent(String(task.id));
+
+      return "login.html?next=" + encodeURIComponent(returnPage);
     }
 
     function formatPrice(amount) {
@@ -70,8 +103,10 @@
       }).format(Number(amount) || 0);
     }
 
-    function getCategoryLabel(task) {
-      if (task.categoryLabel) return task.categoryLabel;
+    function getCategoryLabel(taskData) {
+      if (taskData.categoryLabel) {
+        return taskData.categoryLabel;
+      }
 
       const labels = {
         "graphic-design": "Graphic Design",
@@ -81,15 +116,33 @@
         "digital-marketing": "Digital Marketing"
       };
 
-      return labels[task.category] || task.category || "General";
+      return (
+        labels[taskData.category] ||
+        taskData.category ||
+        "General"
+      );
     }
 
-    function getDuration(task) {
-      return task.duration || task.deadline || "Not specified";
+    function getDuration(taskData) {
+      if (taskData.durationLabel) {
+        return taskData.durationLabel;
+      }
+
+      if (taskData.duration != null && taskData.duration !== "") {
+        const value = String(taskData.duration);
+
+        if (/^\d+(\.\d+)?$/.test(value)) {
+          return value + (Number(value) === 1 ? " day" : " days");
+        }
+
+        return value;
+      }
+
+      return taskData.deadline || "Not specified";
     }
 
-    function getWorkType(task) {
-      const location = String(task.location || "").toLowerCase();
+    function getWorkType(taskData) {
+      const location = String(taskData.location || "").toLowerCase();
 
       if (location.includes("remote") || location.includes("online")) {
         return "Remote";
@@ -99,7 +152,7 @@
         return "In person";
       }
 
-      return task.location || "To be agreed";
+      return taskData.location || "To be agreed";
     }
 
     function renderList(container, items) {
@@ -120,24 +173,41 @@
       setText(el.description, message);
       setText(el.budget, "Unavailable");
 
-      if (el.apply) el.apply.disabled = true;
-      if (el.feedback) el.feedback.textContent = "";
+      if (el.apply) {
+        el.apply.disabled = true;
+      }
+
+      if (el.feedback) {
+        el.feedback.textContent = "";
+      }
 
       document.title = "Task Not Found | NEDIKE";
     }
 
     if (!taskAPI || typeof taskAPI.getById !== "function") {
       showUnavailable("The task catalogue could not be loaded.");
-      console.error("Check that js/tasks.js loads before js/task-details.js.");
+      console.error(
+        "Check that js/tasks.js loads before js/task-details.js."
+      );
       return;
     }
 
     if (!taskId) {
-      showUnavailable("Choose a task from the task directory to view its details.");
+      showUnavailable(
+        "Choose a task from the task directory to view its details."
+      );
       return;
     }
 
-    const task = taskAPI.getById(taskId);
+    let task;
+
+    try {
+      task = taskAPI.getById(taskId);
+    } catch (error) {
+      console.error("Could not load the selected task:", error);
+      showUnavailable("The selected task could not be loaded.");
+      return;
+    }
 
     if (!task) {
       showUnavailable(
@@ -146,18 +216,26 @@
       return;
     }
 
-    // Populate task information.
+    // Populate the selected task's details.
     setText(el.title, task.title || "Untitled task");
+
     setText(
       el.subtitle,
-      getCategoryLabel(task) + " · " + (task.location || "Location not specified")
+      getCategoryLabel(task) +
+        " · " +
+        (task.location || "Location not specified")
     );
+
     setText(el.category, getCategoryLabel(task));
     setText(el.location, task.location || "Location not specified");
+
     setText(
       el.description,
-      task.details || task.description || "No additional description provided."
+      task.details ||
+        task.description ||
+        "No additional description provided."
     );
+
     setText(el.budget, formatPrice(task.budget));
     setText(el.duration, getDuration(task));
     setText(el.workType, getWorkType(task));
@@ -167,44 +245,109 @@
 
     document.title = (task.title || "Task Details") + " | NEDIKE";
 
-    function hasApplied(userId) {
-      return readApplications().some(function (application) {
-        return (
-          String(application.taskId) === String(task.id) &&
-          String(application.applicantId) === userId
-        );
+    function findExistingApplication(user) {
+      const result = readApplications();
+
+      if (!result.success) {
+        return { success: false, application: null };
+      }
+
+      const userId = getUserId(user);
+      const email = getUserEmail(user);
+
+      const application = result.applications.find(function (item) {
+        const sameTask =
+          String(item.taskId || "") === String(task.id);
+
+        const sameUserId =
+          userId &&
+          String(
+            item.applicantId ||
+            item.applicantID ||
+            item.userId ||
+            ""
+          ).trim() === userId;
+
+        const sameEmail =
+          email &&
+          String(
+            item.applicantEmail ||
+            item.applicantEmailAddress ||
+            item.email ||
+            ""
+          ).trim().toLowerCase() === email;
+
+        return sameTask && (sameUserId || sameEmail);
       });
+
+      return {
+        success: true,
+        application: application || null
+      };
     }
 
     function showFeedback(message) {
       setText(el.feedback, message);
     }
 
+    function redirectToLogin() {
+      try {
+        localStorage.setItem(
+          PENDING_TASK_KEY,
+          String(task.id)
+        );
+      } catch (error) {
+        console.error("Could not remember the selected task:", error);
+      }
+
+      window.location.href = getLoginUrl();
+    }
+
     function openApplicationForm(user) {
       const userId = getUserId(user);
 
       if (!userId) {
-        showFeedback("We couldn't identify your account. Please log in again.");
+        showFeedback(
+          "We couldn't identify your account. Please log in again."
+        );
         return;
       }
 
-      if (hasApplied(userId)) {
-        showFeedback("You've already submitted an application for this task.");
-        if (el.apply) el.apply.disabled = true;
+      const existing = findExistingApplication(user);
+
+      if (!existing.success) {
+        showFeedback(
+          "Your application records could not be read. Please check your browser storage and try again."
+        );
+        return;
+      }
+
+      if (existing.application) {
+        showFeedback(
+          "You've already submitted an application for this task."
+        );
+
+        if (el.apply) {
+          el.apply.disabled = true;
+          el.apply.textContent = "Application submitted";
+        }
+
         return;
       }
 
       let form = document.getElementById("task-application-form");
 
       if (form) {
-        form.scrollIntoView({ behavior: "smooth", block: "center" });
+        form.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
         return;
       }
 
       form = document.createElement("form");
       form.id = "task-application-form";
       form.className = "task-application-form";
-      form.noValidate = false;
 
       const heading = document.createElement("h2");
       heading.textContent = "Apply for this task";
@@ -241,6 +384,7 @@
 
       const error = document.createElement("p");
       error.className = "small";
+      error.setAttribute("role", "status");
       error.setAttribute("aria-live", "polite");
 
       const actions = document.createElement("div");
@@ -258,11 +402,16 @@
 
       cancel.addEventListener("click", function () {
         form.remove();
-        if (el.apply) el.apply.disabled = false;
+
+        if (el.apply) {
+          el.apply.disabled = false;
+        }
+
         showFeedback("");
       });
 
       actions.append(submit, cancel);
+
       form.append(
         heading,
         introduction,
@@ -275,69 +424,141 @@
       );
 
       const sidebar = document.querySelector(".detail-sidebar");
+      const main = document.querySelector(".detail-main");
 
       if (sidebar) {
         sidebar.appendChild(form);
+      } else if (main) {
+        main.appendChild(form);
       } else {
-        document.querySelector(".detail-main")?.appendChild(form);
+        showFeedback(
+          "The application form could not be displayed on this page."
+        );
+        return;
       }
 
       form.addEventListener("submit", function (event) {
         event.preventDefault();
         error.textContent = "";
 
-        if (!form.reportValidity()) return;
+        if (!form.reportValidity()) {
+          return;
+        }
 
-        // Re-check login and duplicate status at submission time.
+        const messageValue = message.value.trim();
+        const durationValue = duration.value.trim();
+
+        if (messageValue.length < 20) {
+          error.textContent =
+            "Please write at least 20 characters in your application message.";
+          message.focus();
+          return;
+        }
+
+        if (!durationValue) {
+          error.textContent =
+            "Please enter your estimated completion time.";
+          duration.focus();
+          return;
+        }
+
+        // Re-check the session before saving.
         const currentUser = getCurrentUser();
         const currentUserId = getUserId(currentUser);
 
         if (!currentUserId) {
-          localStorage.setItem(PENDING_TASK_KEY, String(task.id));
-          window.location.href =
-            "login.html?next=" + encodeURIComponent("task-details.html");
+          redirectToLogin();
           return;
         }
 
-        if (hasApplied(currentUserId)) {
+        const existingApplication = findExistingApplication(currentUser);
+
+        if (!existingApplication.success) {
+          error.textContent =
+            "Your application records could not be read. Please try again.";
+          return;
+        }
+
+        if (existingApplication.application) {
           error.textContent =
             "You've already submitted an application for this task.";
           return;
         }
 
         const application = {
-          id: "application_" + Date.now() + "_" +
+          id:
+            "application_" +
+            Date.now() +
+            "_" +
             Math.random().toString(36).slice(2, 8),
+
           taskId: String(task.id),
           taskTitle: String(task.title || ""),
+          taskBudget: Number(task.budget) || 0,
           applicantId: currentUserId,
           applicantName: String(
             currentUser.fullName ||
-            currentUser.name ||
-            [currentUser.firstName, currentUser.lastName]
-              .filter(Boolean)
-              .join(" ") ||
-            "Student"
+              currentUser.name ||
+              [
+                currentUser.firstName,
+                currentUser.lastName
+              ]
+                .filter(Boolean)
+                .join(" ") ||
+              "Student"
           ),
-          applicantEmail: String(currentUser.email || ""),
-          message: message.value.trim(),
-          proposedDuration: duration.value.trim(),
+          applicantEmail: getUserEmail(currentUser),
+          message: messageValue,
+          proposedDuration: durationValue,
           status: "pending",
           submittedAt: new Date().toISOString()
         };
 
-        const applications = readApplications();
-        applications.push(application);
+        const result = readApplications();
+
+        if (!result.success) {
+          error.textContent =
+            "Your application records could not be read. Please try again.";
+          return;
+        }
+
+        // Check again against the latest stored records before saving.
+        const alreadyExists = result.applications.some(function (item) {
+          const sameTask =
+            String(item.taskId || "") === String(task.id);
+
+          const sameId =
+            String(item.applicantId || "").trim() === currentUserId;
+
+          const email = getUserEmail(currentUser);
+
+          const sameEmail =
+            email &&
+            String(item.applicantEmail || "")
+              .trim()
+              .toLowerCase() === email;
+
+          return sameTask && (sameId || sameEmail);
+        });
+
+        if (alreadyExists) {
+          error.textContent =
+            "You've already submitted an application for this task.";
+          return;
+        }
+
+        result.applications.push(application);
 
         try {
           localStorage.setItem(
             APPLICATIONS_KEY,
-            JSON.stringify(applications)
+            JSON.stringify(result.applications)
           );
         } catch (storageError) {
           console.error("Could not save application:", storageError);
+
           error.textContent =
-            "Your application could not be saved in this browser. Please try again.";
+            "Your application could not be saved in this browser. Check available storage and try again.";
           return;
         }
 
@@ -353,23 +574,25 @@
         );
       });
 
-      form.scrollIntoView({ behavior: "smooth", block: "center" });
+      form.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
       message.focus();
     }
 
     if (el.apply) {
-      el.apply.addEventListener("click", function () {
+      el.apply.addEventListener("click", function (event) {
+        // Prevent navigation if the apply control is a link.
+        if (el.apply.tagName === "A") {
+          event.preventDefault();
+        }
+
         const user = getCurrentUser();
 
-        if (!user) {
-          try {
-            localStorage.setItem(PENDING_TASK_KEY, String(task.id));
-          } catch (error) {
-            console.error("Could not remember selected task:", error);
-          }
-
-          window.location.href =
-            "login.html?next=" + encodeURIComponent("task-details.html");
+        if (!user || !getUserId(user)) {
+          redirectToLogin();
           return;
         }
 
@@ -377,7 +600,7 @@
       });
     }
 
-    // Resume the selected task after login returns to this page.
+    // Restore the selected task after login.
     try {
       const pendingTask = localStorage.getItem(PENDING_TASK_KEY);
 
@@ -386,7 +609,7 @@
 
         const user = getCurrentUser();
 
-        if (user) {
+        if (user && getUserId(user)) {
           openApplicationForm(user);
         }
       }
@@ -394,14 +617,24 @@
       console.error("Could not restore pending application:", error);
     }
 
-    // Restore the submitted state when revisiting the same task.
+    // Restore the submitted state when revisiting this task.
     const currentUser = getCurrentUser();
-    const currentUserId = getUserId(currentUser);
 
-    if (currentUserId && hasApplied(currentUserId) && el.apply) {
-      el.apply.disabled = true;
-      el.apply.textContent = "Application submitted";
-      showFeedback("You've already submitted an application for this task.");
+    if (currentUser && getUserId(currentUser) && el.apply) {
+      const existing = findExistingApplication(currentUser);
+
+      if (!existing.success) {
+        showFeedback(
+          "Your saved application records could not be read."
+        );
+      } else if (existing.application) {
+        el.apply.disabled = true;
+        el.apply.textContent = "Application submitted";
+
+        showFeedback(
+          "You've already submitted an application for this task."
+        );
+      }
     }
   }
 })();

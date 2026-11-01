@@ -1,0 +1,1383 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#102B46">
+    <meta name="description" content="Manage NEDIKE platform users.">
+    <title>Manage Users | NEDIKE Admin</title>
+
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #102B46;
+            --navy-dark: #0B2035;
+            --green: #16845B;
+            --green-dark: #106D4A;
+            --green-light: #EAF4EE;
+            --background: #F4F7F5;
+            --white: #FFFFFF;
+            --text: #263746;
+            --muted: #718096;
+            --border: #E3EAE6;
+            --red: #C74444;
+            --red-light: #FCEEEE;
+            --orange: #B7791F;
+            --orange-light: #FFF6E5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .sidebar {
+            position: fixed;
+            inset: 0 auto 0 0;
+            width: 245px;
+            background: var(--navy-dark);
+            color: white;
+            padding: 25px 17px;
+            display: flex;
+            flex-direction: column;
+            z-index: 20;
+            overflow-y: auto;
+            transition: transform .25s ease;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px 27px;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+        }
+
+        .brand img {
+            width: 37px;
+            height: 37px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .brand small {
+            display: block;
+            margin-top: 3px;
+            color: #A8BAC9;
+            font-size: 9px;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .menu-heading {
+            color: #8196A8;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            padding: 26px 11px 11px;
+        }
+
+        .menu {
+            display: grid;
+            gap: 5px;
+        }
+
+        .menu a {
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 12px;
+            border-radius: 4px;
+            color: #C3D0DA;
+            font-size: 11px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            color: white;
+            background: rgba(255,255,255,.11);
+        }
+
+        .menu a.active {
+            border-left: 3px solid #3CB985;
+        }
+
+        .menu-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding-top: 22px;
+        }
+
+        .admin-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 9px;
+            border-top: 1px solid rgba(255,255,255,.12);
+        }
+
+        .admin-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--green);
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .admin-info strong {
+            display: block;
+            font-size: 11px;
+        }
+
+        .admin-info small {
+            display: block;
+            color: #9EB0BE;
+            margin-top: 4px;
+            font-size: 9px;
+        }
+
+        .main {
+            margin-left: 245px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 70px;
+            padding: 0 32px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .topbar h1 {
+            font-size: 16px;
+            color: var(--navy);
+            font-weight: 800;
+        }
+
+        .topbar p {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .menu-toggle {
+            display: none;
+            border: 0;
+            background: transparent;
+            color: var(--navy);
+            font-size: 22px;
+        }
+
+        .content {
+            padding: 30px 32px;
+            max-width: 1500px;
+            margin: auto;
+        }
+
+        .page-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .page-heading h2 {
+            font-size: 22px;
+            letter-spacing: -.7px;
+            color: var(--navy);
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.7;
+            margin-top: 7px;
+        }
+
+        .export-btn {
+            background: white;
+            color: var(--navy);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 11px 15px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .export-btn:hover {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        /* STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 23px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 18px;
+        }
+
+        .stat-card span {
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .stat-card h3 {
+            font-size: 25px;
+            color: var(--navy);
+            margin-top: 13px;
+            letter-spacing: -1px;
+        }
+
+        /* USER PANEL */
+        .panel {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .panel-heading {
+            padding: 19px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .panel-heading h3 {
+            color: var(--navy);
+            font-size: 12px;
+        }
+
+        .panel-heading p {
+            color: var(--muted);
+            font-size: 9px;
+            margin-top: 5px;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            height: 39px;
+            padding: 0 13px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            outline: none;
+            font-size: 10px;
+            color: var(--text);
+        }
+
+        .search-box input:focus,
+        .toolbar select:focus {
+            border-color: var(--green);
+        }
+
+        .toolbar select {
+            height: 39px;
+            min-width: 135px;
+            padding: 0 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            outline: none;
+            color: var(--text);
+            background: white;
+            font-size: 10px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            background: #FAFCFB;
+            color: var(--muted);
+            font-size: 9px;
+            font-weight: 700;
+            text-align: left;
+            padding: 14px 17px;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 14px 17px;
+            border-bottom: 1px solid var(--border);
+            font-size: 10px;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background: #FBFDFC;
+        }
+
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 180px;
+        }
+
+        .user-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--green-light);
+            color: var(--green);
+            font-size: 10px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .user-cell strong {
+            display: block;
+            color: var(--navy);
+            font-size: 10px;
+        }
+
+        .user-cell small {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            margin-top: 4px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 8px;
+            border-radius: 3px;
+            font-size: 8px;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .badge-active {
+            color: var(--green);
+            background: var(--green-light);
+        }
+
+        .badge-suspended {
+            color: var(--red);
+            background: var(--red-light);
+        }
+
+        .badge-pending {
+            color: var(--orange);
+            background: var(--orange-light);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .action-btn {
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--navy);
+            padding: 7px 9px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .action-btn:hover {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .action-btn.danger {
+            color: var(--red);
+        }
+
+        .action-btn.danger:hover {
+            border-color: var(--red);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 45px 20px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .pagination {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 7px;
+        }
+
+        .pagination-controls button {
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--navy);
+            padding: 7px 10px;
+            border-radius: 3px;
+            font-size: 9px;
+        }
+
+        .pagination-controls button:disabled {
+            opacity: .4;
+            cursor: not-allowed;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(11, 32, 53, .55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            z-index: 50;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            width: min(450px, 100%);
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,.15);
+        }
+
+        .modal-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            color: var(--navy);
+            font-size: 13px;
+        }
+
+        .close-modal {
+            border: 0;
+            background: transparent;
+            font-size: 21px;
+            color: var(--muted);
+        }
+
+        .modal-body {
+            padding: 22px 20px;
+        }
+
+        .profile-detail {
+            display: grid;
+            grid-template-columns: 110px 1fr;
+            gap: 13px;
+            font-size: 10px;
+        }
+
+        .profile-detail span:nth-child(odd) {
+            color: var(--muted);
+        }
+
+        .profile-detail span:nth-child(even) {
+            color: var(--navy);
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 15px 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .modal-footer button {
+            padding: 9px 15px;
+            background: var(--navy);
+            color: white;
+            border: 0;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .footer {
+            padding: 20px 32px;
+            color: var(--muted);
+            font-size: 9px;
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+        }
+
+        @media(max-width: 1100px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width: 750px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .topbar {
+                padding: 0 17px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .content {
+                padding: 23px 17px;
+            }
+
+            .page-heading {
+                flex-direction: column;
+            }
+
+            .footer {
+                padding: 18px;
+            }
+        }
+
+        @media(max-width: 450px) {
+            .stats {
+                gap: 9px;
+            }
+
+            .stat-card {
+                padding: 13px;
+            }
+
+            .stat-card h3 {
+                font-size: 21px;
+            }
+
+            .toolbar {
+                padding: 13px;
+            }
+
+            .toolbar select {
+                flex: 1;
+            }
+
+            .panel-heading {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<aside class="sidebar" id="sidebar">
+
+    <a href="admin-dashboard.html" class="brand">
+        <img src="assets/images/nedike-icon.png" alt="NEDIKE">
+        <div>
+            <div class="brand-name">NEDIKE</div>
+            <small>ADMINISTRATION</small>
+        </div>
+    </a>
+
+    <div class="menu-heading">MAIN MENU</div>
+
+    <nav class="menu">
+        <a href="admin-dashboard.html">
+            <span class="menu-icon">▦</span> Overview
+        </a>
+        <a href="admin-users.html" class="active">
+            <span class="menu-icon">♙</span> Manage Users
+        </a>
+        <a href="admin-services.html">
+            <span class="menu-icon">▤</span> Manage Services
+        </a>
+        <a href="admin-tasks.html">
+            <span class="menu-icon">☷</span> Manage Tasks
+        </a>
+        <a href="admin-learning.html">
+            <span class="menu-icon">▣</span> Learning Content
+        </a>
+    </nav>
+
+    <div class="menu-heading">PLATFORM MANAGEMENT</div>
+
+    <nav class="menu">
+        <a href="admin-reports.html">
+            <span class="menu-icon">⚑</span> Reports & Complaints
+        </a>
+        <a href="admin-reviews.html">
+            <span class="menu-icon">☆</span> Reviews
+        </a>
+        <a href="admin-announcements.html">
+            <span class="menu-icon">◉</span> Announcements
+        </a>
+        <a href="admin-settings.html">
+            <span class="menu-icon">⚙</span> Admin Settings
+        </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <nav class="menu">
+            <a href="index.html">
+                <span class="menu-icon">↗</span> View Website
+            </a>
+            <a href="#" id="logoutButton">
+                <span class="menu-icon">⇥</span> Sign Out
+            </a>
+        </nav>
+
+        <div class="admin-card">
+            <div class="admin-avatar" id="adminAvatar">A</div>
+            <div class="admin-info">
+                <strong id="adminName">Administrator</strong>
+                <small>Platform Administrator</small>
+            </div>
+        </div>
+    </div>
+
+</aside>
+
+<main class="main">
+
+    <header class="topbar">
+        <div class="topbar-left">
+            <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+            <div>
+                <h1>User Management</h1>
+                <p>Manage registered NEDIKE accounts.</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="content">
+
+        <section class="page-heading">
+            <div>
+                <h2>Manage Users</h2>
+                <p>View, search and manage accounts registered on the platform.</p>
+            </div>
+
+            <button class="export-btn" id="exportButton">
+                ↓ Export Users
+            </button>
+        </section>
+
+        <section class="stats">
+
+            <div class="stat-card">
+                <span>Total Users</span>
+                <h3 id="totalUsers">0</h3>
+            </div>
+
+            <div class="stat-card">
+                <span>Active Accounts</span>
+                <h3 id="activeUsers">0</h3>
+            </div>
+
+            <div class="stat-card">
+                <span>Suspended Accounts</span>
+                <h3 id="suspendedUsers">0</h3>
+            </div>
+
+            <div class="stat-card">
+                <span>New Users</span>
+                <h3 id="newUsers">0</h3>
+            </div>
+
+        </section>
+
+        <section class="panel">
+
+            <div class="panel-heading">
+                <div>
+                    <h3>Registered Users</h3>
+                    <p>Account records available in this browser.</p>
+                </div>
+            </div>
+
+            <div class="toolbar">
+
+                <div class="search-box">
+                    <input
+                        type="search"
+                        id="searchInput"
+                        placeholder="Search by name, email or institution..."
+                        aria-label="Search users"
+                    >
+                </div>
+
+                <select id="statusFilter" aria-label="Filter by account status">
+                    <option value="all">All accounts</option>
+                    <option value="active">Active</option>
+                    <option value="suspended">Suspended</option>
+                    <option value="pending">Pending</option>
+                </select>
+
+                <select id="sortFilter" aria-label="Sort users">
+                    <option value="newest">Newest first</option>
+                    <option value="oldest">Oldest first</option>
+                    <option value="name">Name A–Z</option>
+                </select>
+
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>USER</th>
+                            <th>INSTITUTION</th>
+                            <th>COURSE</th>
+                            <th>DATE JOINED</th>
+                            <th>STATUS</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="usersTable"></tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <span id="paginationInfo">Showing 0 users</span>
+
+                <div class="pagination-controls">
+                    <button id="previousPage" disabled>Previous</button>
+                    <button id="nextPage" disabled>Next</button>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <footer class="footer">
+        © <span id="year"></span> NEDIKE Administration. Learn. Work. Earn. Teach.
+    </footer>
+
+</main>
+
+<!-- USER DETAILS MODAL -->
+<div class="modal-overlay" id="userModal">
+    <div class="modal">
+
+        <div class="modal-header">
+            <h3>User Information</h3>
+            <button class="close-modal" id="closeModal" aria-label="Close">×</button>
+        </div>
+
+        <div class="modal-body">
+            <div class="profile-detail" id="profileDetails"></div>
+        </div>
+
+        <div class="modal-footer">
+            <button id="modalDone">Close</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+"use strict";
+
+/*
+ * NEDIKE USER MANAGEMENT
+ *
+ * Prototype storage:
+ * - nedike_users
+ * - nedike_current_user
+ *
+ * IMPORTANT:
+ * This browser-only version is not secure administrative
+ * authorization. Do not use it to manage real user accounts.
+ */
+
+const USERS_KEY = "nedike_users";
+const CURRENT_USER_KEY = "nedike_current_user";
+const PAGE_SIZE = 10;
+
+let users = [];
+let filteredUsers = [];
+let currentPage = 1;
+
+function readJSON(key, fallback) {
+    try {
+        const value = JSON.parse(localStorage.getItem(key));
+        return value ?? fallback;
+    } catch {
+        return fallback;
+    }
+}
+
+function saveUsers() {
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+}
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+    })[char]);
+}
+
+function getName(user) {
+    const first = user.firstName || user.first_name || "";
+    const last = user.lastName || user.last_name || "";
+
+    return `${first} ${last}`.trim() ||
+        user.name ||
+        user.fullName ||
+        "Unnamed User";
+}
+
+function getEmail(user) {
+    return user.email || "No email";
+}
+
+function getSchool(user) {
+    return user.school || user.institution || user.university || "Not provided";
+}
+
+function getCourse(user) {
+    return user.course || user.department || user.courseOfStudy || "Not provided";
+}
+
+function getLevel(user) {
+    return user.level || user.currentLevel || user.academicLevel || "Not provided";
+}
+
+function getUserStatus(user) {
+    const value = String(user.status || "active").toLowerCase();
+
+    if (["suspended", "blocked", "disabled"].includes(value)) {
+        return "suspended";
+    }
+
+    if (["pending", "unverified"].includes(value)) {
+        return "pending";
+    }
+
+    return "active";
+}
+
+function getJoinedDate(user) {
+    const date = user.createdAt || user.dateJoined || user.joinedAt;
+
+    if (!date) return "Not available";
+
+    const parsed = new Date(date);
+
+    if (isNaN(parsed.getTime())) return "Not available";
+
+    return parsed.toLocaleDateString("en-NG", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    });
+}
+
+function getInitials(name) {
+    return String(name)
+        .trim()
+        .split(/\s+/)
+        .slice(0, 2)
+        .map(part => part.charAt(0).toUpperCase())
+        .join("") || "U";
+}
+
+function getIdentity(user) {
+    return String(
+        user.id ??
+        user.userId ??
+        user.email ??
+        ""
+    );
+}
+
+function isCurrentAdminAccount(user) {
+    const current = readJSON(CURRENT_USER_KEY, null);
+    if (!current) return false;
+
+    const currentIdentity = getIdentity(current);
+    return currentIdentity !== "" &&
+        currentIdentity === getIdentity(user);
+}
+
+function initialize() {
+    const currentUser = readJSON(CURRENT_USER_KEY, null);
+
+    if (!currentUser) {
+        window.location.replace("login.html");
+        return false;
+    }
+
+    const adminName = getName(currentUser);
+
+    document.getElementById("adminName").textContent = adminName;
+    document.getElementById("adminAvatar").textContent = getInitials(adminName);
+
+    users = readJSON(USERS_KEY, []);
+
+    if (!Array.isArray(users)) {
+        users = [];
+    }
+
+    updateStats();
+    applyFilters();
+
+    return true;
+}
+
+function updateStats() {
+    const active = users.filter(user => getUserStatus(user) === "active").length;
+    const suspended = users.filter(user => getUserStatus(user) === "suspended").length;
+
+    const now = new Date();
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    const newUsers = users.filter(user => {
+        const date = new Date(user.createdAt || user.dateJoined || user.joinedAt);
+        return !isNaN(date.getTime()) && date >= monthStart;
+    }).length;
+
+    document.getElementById("totalUsers").textContent = users.length;
+    document.getElementById("activeUsers").textContent = active;
+    document.getElementById("suspendedUsers").textContent = suspended;
+    document.getElementById("newUsers").textContent = newUsers;
+}
+
+function applyFilters() {
+    const search = document.getElementById("searchInput").value
+        .trim()
+        .toLowerCase();
+
+    const status = document.getElementById("statusFilter").value;
+    const sort = document.getElementById("sortFilter").value;
+
+    filteredUsers = users.filter(user => {
+        const searchable = [
+            getName(user),
+            getEmail(user),
+            getSchool(user),
+            getCourse(user)
+        ].join(" ").toLowerCase();
+
+        const matchesSearch = searchable.includes(search);
+        const matchesStatus = status === "all" ||
+            getUserStatus(user) === status;
+
+        return matchesSearch && matchesStatus;
+    });
+
+    filteredUsers.sort((a, b) => {
+        if (sort === "name") {
+            return getName(a).localeCompare(getName(b));
+        }
+
+        const dateA = new Date(
+            a.createdAt || a.dateJoined || a.joinedAt || 0
+        ).getTime() || 0;
+
+        const dateB = new Date(
+            b.createdAt || b.dateJoined || b.joinedAt || 0
+        ).getTime() || 0;
+
+        return sort === "oldest" ? dateA - dateB : dateB - dateA;
+    });
+
+    currentPage = 1;
+    renderUsers();
+}
+
+function renderUsers() {
+    const table = document.getElementById("usersTable");
+
+    const totalPages = Math.max(
+        1,
+        Math.ceil(filteredUsers.length / PAGE_SIZE)
+    );
+
+    currentPage = Math.min(currentPage, totalPages);
+
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const pageUsers = filteredUsers.slice(start, start + PAGE_SIZE);
+
+    if (!pageUsers.length) {
+        table.innerHTML = `
+            <tr>
+                <td colspan="6">
+                    <div class="empty-state">
+                        No users match your search or filter.
+                    </div>
+                </td>
+            </tr>`;
+    } else {
+        table.innerHTML = pageUsers.map(user => {
+            const name = getName(user);
+            const status = getUserStatus(user);
+            const identity = getIdentity(user);
+
+            const userIndex = users.indexOf(user);
+
+            const statusClass = status === "active"
+                ? "badge-active"
+                : status === "suspended"
+                    ? "badge-suspended"
+                    : "badge-pending";
+
+            const isAdminAccount = isCurrentAdminAccount(user);
+
+            return `
+                <tr>
+                    <td>
+                        <div class="user-cell">
+                            <span class="user-avatar">${escapeHTML(getInitials(name))}</span>
+                            <div>
+                                <strong>${escapeHTML(name)}</strong>
+                                <small>${escapeHTML(getEmail(user))}</small>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>${escapeHTML(getSchool(user))}</td>
+                    <td>${escapeHTML(getCourse(user))}</td>
+                    <td>${escapeHTML(getJoinedDate(user))}</td>
+
+                    <td>
+                        <span class="badge ${statusClass}">
+                            ${escapeHTML(status)}
+                        </span>
+                    </td>
+
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn"
+                                data-action="view"
+                                data-index="${userIndex}">
+                                View
+                            </button>
+
+                            ${isAdminAccount ? `
+                                <span class="badge badge-active">Current account</span>
+                            ` : `
+                                <button class="action-btn"
+                                    data-action="toggle"
+                                    data-index="${userIndex}">
+                                    ${status === "suspended" ? "Activate" : "Suspend"}
+                                </button>
+                            `}
+                        </div>
+                    </td>
+                </tr>`;
+        }).join("");
+    }
+
+    const showingFrom = filteredUsers.length ? start + 1 : 0;
+    const showingTo = Math.min(start + PAGE_SIZE, filteredUsers.length);
+
+    document.getElementById("paginationInfo").textContent =
+        `Showing ${showingFrom}–${showingTo} of ${filteredUsers.length} users`;
+
+    document.getElementById("previousPage").disabled = currentPage <= 1;
+    document.getElementById("nextPage").disabled = currentPage >= totalPages;
+}
+
+function viewUser(index) {
+    const user = users[index];
+    if (!user) return;
+
+    const details = [
+        ["Full name", getName(user)],
+        ["Email", getEmail(user)],
+        ["Institution", getSchool(user)],
+        ["Course", getCourse(user)],
+        ["Academic level", getLevel(user)],
+        ["Location", user.location || "Not provided"],
+        ["Skills", Array.isArray(user.skills) ? user.skills.join(", ") : user.skills || "Not provided"],
+        ["Joined", getJoinedDate(user)],
+        ["Account status", getUserStatus(user)]
+    ];
+
+    document.getElementById("profileDetails").innerHTML =
+        details.map(([label, value]) => `
+            <span>${escapeHTML(label)}</span>
+            <span>${escapeHTML(value)}</span>
+        `).join("");
+
+    document.getElementById("userModal").classList.add("show");
+}
+
+function toggleUserStatus(index) {
+    const user = users[index];
+
+    if (!user || isCurrentAdminAccount(user)) return;
+
+    const currentStatus = getUserStatus(user);
+    const newStatus = currentStatus === "suspended"
+        ? "active"
+        : "suspended";
+
+    const action = newStatus === "suspended"
+        ? "suspend"
+        : "activate";
+
+    if (!confirm(`Are you sure you want to ${action} ${getName(user)}?`)) {
+        return;
+    }
+
+    user.status = newStatus;
+
+    saveUsers();
+    updateStats();
+    applyFilters();
+}
+
+function exportUsers() {
+    if (!users.length) {
+        alert("There are no user records to export.");
+        return;
+    }
+
+    const headers = [
+        "Name",
+        "Email",
+        "Institution",
+        "Course",
+        "Level",
+        "Location",
+        "Status",
+        "Date Joined"
+    ];
+
+    const rows = users.map(user => [
+        getName(user),
+        getEmail(user),
+        getSchool(user),
+        getCourse(user),
+        getLevel(user),
+        user.location || "",
+        getUserStatus(user),
+        getJoinedDate(user)
+    ]);
+
+    const csv = [headers, ...rows]
+        .map(row => row.map(value =>
+            `"${String(value).replace(/"/g, '""')}"`
+        ).join(","))
+        .join("\r\n");
+
+    const blob = new Blob(["\uFEFF" + csv], {
+        type: "text/csv;charset=utf-8;"
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "nedike-users.csv";
+    link.click();
+
+    URL.revokeObjectURL(url);
+}
+
+document.getElementById("searchInput")
+    .addEventListener("input", applyFilters);
+
+document.getElementById("statusFilter")
+    .addEventListener("change", applyFilters);
+
+document.getElementById("sortFilter")
+    .addEventListener("change", applyFilters);
+
+document.getElementById("usersTable")
+    .addEventListener("click", event => {
+        const button = event.target.closest("button[data-action]");
+        if (!button) return;
+
+        const index = Number(button.dataset.index);
+
+        if (button.dataset.action === "view") {
+            viewUser(index);
+        }
+
+        if (button.dataset.action === "toggle") {
+            toggleUserStatus(index);
+        }
+    });
+
+document.getElementById("previousPage")
+    .addEventListener("click", () => {
+        if (currentPage > 1) {
+            currentPage--;
+            renderUsers();
+        }
+    });
+
+document.getElementById("nextPage")
+    .addEventListener("click", () => {
+        const totalPages = Math.ceil(filteredUsers.length / PAGE_SIZE);
+
+        if (currentPage < totalPages) {
+            currentPage++;
+            renderUsers();
+        }
+    });
+
+document.getElementById("exportButton")
+    .addEventListener("click", exportUsers);
+
+function closeModal() {
+    document.getElementById("userModal").classList.remove("show");
+}
+
+document.getElementById("closeModal").addEventListener("click", closeModal);
+document.getElementById("modalDone").addEventListener("click", closeModal);
+
+document.getElementById("userModal").addEventListener("click", event => {
+    if (event.target.id === "userModal") closeModal();
+});
+
+document.getElementById("menuToggle").addEventListener("click", () => {
+    document.getElementById("sidebar").classList.toggle("open");
+});
+
+document.addEventListener("click", event => {
+    const sidebar = document.getElementById("sidebar");
+    const toggle = document.getElementById("menuToggle");
+
+    if (
+        window.innerWidth <= 750 &&
+        !sidebar.contains(event.target) &&
+        !toggle.contains(event.target)
+    ) {
+        sidebar.classList.remove("open");
+    }
+});
+
+document.getElementById("logoutButton").addEventListener("click", event => {
+    event.preventDefault();
+
+    if (confirm("Are you sure you want to sign out?")) {
+        localStorage.removeItem(CURRENT_USER_KEY);
+        window.location.href = "login.html";
+    }
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+initialize();
+</script>
+
+</body>
+</html>

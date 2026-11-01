@@ -1,0 +1,1310 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102B46">
+  <title>Edit Course | NEDIKE</title>
+  <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy: #102B46;
+      --navy-dark: #0B2035;
+      --green: #16845B;
+      --green-dark: #106D4A;
+      --green-light: #EAF4EE;
+      --bg: #F4F7F5;
+      --white: #FFFFFF;
+      --text: #263746;
+      --muted: #718096;
+      --border: #E3EAE6;
+      --danger: #C53D3D;
+      --shadow: 0 8px 30px rgba(16,43,70,.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    button, input, select, textarea { font: inherit; }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: auto;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--navy);
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: -.8px;
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: #526272;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--green); }
+
+    .profile-link {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-weight: 800;
+    }
+
+    .menu-toggle {
+      display: none;
+      border: 0;
+      background: transparent;
+      color: var(--navy);
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    .page-heading {
+      padding: 40px 0 27px;
+    }
+
+    .breadcrumb {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .breadcrumb a {
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .page-heading h1 {
+      color: var(--navy);
+      font-size: clamp(27px, 4vw, 35px);
+      letter-spacing: -1.1px;
+      margin-bottom: 7px;
+    }
+
+    .page-heading p {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 24px;
+      align-items: start;
+      padding-bottom: 65px;
+    }
+
+    .form-card,
+    .side-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .form-card { padding: 29px; }
+
+    .form-section + .form-section {
+      border-top: 1px solid var(--border);
+      margin-top: 30px;
+      padding-top: 27px;
+    }
+
+    .section-heading { margin-bottom: 21px; }
+
+    .section-heading h2 {
+      color: var(--navy);
+      font-size: 17px;
+      margin-bottom: 4px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .field { margin-bottom: 18px; }
+    .field:last-child { margin-bottom: 0; }
+
+    .field label {
+      display: block;
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .required { color: var(--danger); }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid #DCE5E0;
+      border-radius: 7px;
+      padding: 12px 13px;
+      background: white;
+      color: var(--text);
+      font-size: 13px;
+      outline: none;
+      transition: .2s;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(22,132,91,.09);
+    }
+
+    .field textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .field small {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 6px;
+    }
+
+    .two-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .input-prefix {
+      display: flex;
+      border: 1px solid #DCE5E0;
+      border-radius: 7px;
+      overflow: hidden;
+    }
+
+    .input-prefix span {
+      padding: 11px 13px;
+      background: #F4F7F5;
+      border-right: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .input-prefix input {
+      border: 0;
+      border-radius: 0;
+      box-shadow: none !important;
+    }
+
+    .image-preview {
+      width: 100%;
+      max-width: 300px;
+      height: 165px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #F4F7F5;
+      overflow: hidden;
+      margin-bottom: 12px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .image-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .curriculum-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .curriculum-item {
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 17px;
+      background: #FCFDFC;
+    }
+
+    .curriculum-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .curriculum-top strong {
+      color: var(--navy);
+      font-size: 13px;
+    }
+
+    .lesson-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin: 13px 0;
+    }
+
+    .lesson-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 125px 36px;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .lesson-item input,
+    .lesson-item select {
+      min-width: 0;
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 11px;
+      outline: none;
+      background: white;
+    }
+
+    .lesson-item input:focus,
+    .lesson-item select:focus {
+      border-color: var(--green);
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 7px;
+      padding: 11px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: .2s;
+    }
+
+    .btn-primary { background: var(--green); color: white; }
+    .btn-primary:hover { background: var(--green-dark); }
+
+    .btn-outline {
+      background: white;
+      border: 1px solid var(--border);
+      color: var(--navy);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .btn-danger {
+      background: #FDECEC;
+      color: var(--danger);
+      padding: 8px 11px;
+    }
+
+    .btn-small {
+      padding: 8px 11px;
+      font-size: 11px;
+    }
+
+    .add-button {
+      margin-top: 12px;
+      color: var(--green-dark);
+      background: var(--green-light);
+      border: 1px solid #D6E9DC;
+    }
+
+    .radio-options {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 11px 13px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .radio-option input { accent-color: var(--green); }
+
+    .notice {
+      display: none;
+      padding: 13px 15px;
+      border-radius: 7px;
+      margin-bottom: 20px;
+      font-size: 12px;
+    }
+
+    .notice.error {
+      display: block;
+      background: #FDECEC;
+      color: #A52F2F;
+    }
+
+    .notice.success {
+      display: block;
+      background: var(--green-light);
+      color: var(--green-dark);
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      margin-top: 28px;
+      padding-top: 22px;
+    }
+
+    .side-card {
+      padding: 22px;
+      margin-bottom: 16px;
+    }
+
+    .side-card h3 {
+      color: var(--navy);
+      font-size: 14px;
+      margin-bottom: 13px;
+    }
+
+    .tip {
+      display: flex;
+      gap: 9px;
+      margin-bottom: 14px;
+      color: #647484;
+      font-size: 12px;
+    }
+
+    .tip:last-child { margin-bottom: 0; }
+
+    .tip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
+    .side-link {
+      display: block;
+      padding: 11px 0;
+      border-top: 1px solid var(--border);
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    footer {
+      background: var(--navy-dark);
+      color: rgba(255,255,255,.7);
+      padding: 24px 0;
+      font-size: 11px;
+    }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .footer-content strong { color: white; }
+
+    @media(max-width: 900px) {
+      .nav-links { gap: 12px; font-size: 11px; }
+      .layout { grid-template-columns: minmax(0, 1fr) 240px; }
+    }
+
+    @media(max-width: 720px) {
+      .menu-toggle { display: block; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        padding: 18px 22px;
+        background: white;
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .nav-links.open { display: flex; }
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .side-card { margin-bottom: 0; }
+    }
+
+    @media(max-width: 520px) {
+      .container { width: calc(100% - 28px); }
+      .form-card { padding: 20px 15px; }
+      .two-columns { grid-template-columns: 1fr; gap: 0; }
+      .sidebar { grid-template-columns: 1fr; }
+      .lesson-item { grid-template-columns: minmax(0, 1fr) 95px 32px; gap: 5px; }
+      .lesson-item input, .lesson-item select { padding: 9px 6px; font-size: 10px; }
+      .form-actions { flex-direction: column-reverse; align-items: stretch; }
+      .form-actions .btn { width: 100%; }
+      .footer-content { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container navbar">
+    <a href="index.html" class="brand">
+      <img src="assets/images/nedike-icon.png" alt="NEDIKE logo">
+      NEDIKE
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="tasks.html">Tasks</a>
+      <a href="learning.html" class="active">Learn</a>
+      <a href="my-learning.html">My Learning</a>
+      <a href="about.html">About</a>
+      <a href="help.html">Help</a>
+    </nav>
+
+    <div style="display:flex;align-items:center;gap:12px">
+      <a href="profile.html" class="profile-link" id="profileInitial">U</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="page-heading">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> /
+      <a href="learning.html">Learning</a> /
+      Edit Course
+    </div>
+
+    <h1>Edit Course</h1>
+    <p>Update your course content, curriculum and learning information.</p>
+  </section>
+
+  <div class="layout">
+
+    <section class="form-card">
+      <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+      <form id="courseForm">
+
+        <div class="form-section">
+          <div class="section-heading">
+            <h2>Course Information</h2>
+            <p>Keep your course title and description clear and informative.</p>
+          </div>
+
+          <div class="field">
+            <label for="title">Course Title <span class="required">*</span></label>
+            <input type="text" id="title" maxlength="120" required placeholder="e.g. Complete Graphic Design Masterclass">
+          </div>
+
+          <div class="two-columns">
+            <div class="field">
+              <label for="category">Category <span class="required">*</span></label>
+              <select id="category" required>
+                <option value="">Select category</option>
+                <option>Graphic Design</option>
+                <option>Web Development</option>
+                <option>Mobile App Development</option>
+                <option>Photography/Videography</option>
+                <option>Writing/Content</option>
+                <option>Digital Marketing</option>
+                <option>Business/Professional Services</option>
+                <option>Academic Skills</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="level">Course Level</label>
+              <select id="level">
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+                <option value="All Levels">All Levels</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="two-columns">
+            <div class="field">
+              <label for="duration">Course Duration</label>
+              <input type="text" id="duration" maxlength="60" placeholder="e.g. 6 weeks">
+            </div>
+
+            <div class="field">
+              <label for="pricingType">Pricing Type</label>
+              <select id="pricingType">
+                <option value="Free">Free</option>
+                <option value="Paid">Paid</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field" id="priceField">
+            <label for="price">Course Price (₦)</label>
+            <div class="input-prefix">
+              <span>₦</span>
+              <input type="number" id="price" min="0" step="1" placeholder="5000">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="description">Short Description <span class="required">*</span></label>
+            <textarea id="description" minlength="20" maxlength="500" required placeholder="Write a short introduction to your course..."></textarea>
+            <small>This description can be displayed on course cards.</small>
+          </div>
+
+          <div class="field">
+            <label for="about">Full Course Description</label>
+            <textarea id="about" maxlength="3000" placeholder="Explain what students will learn and what makes this course useful..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <h2>Instructor Information</h2>
+            <p>Review the information students will see about the instructor.</p>
+          </div>
+
+          <div class="field">
+            <label for="instructorName">Instructor Name</label>
+            <input type="text" id="instructorName" maxlength="100" placeholder="Your name">
+          </div>
+
+          <div class="field">
+            <label for="instructorTitle">Professional Title</label>
+            <input type="text" id="instructorTitle" maxlength="100" placeholder="e.g. Graphic Designer and Instructor">
+          </div>
+
+          <div class="field">
+            <label for="instructorBio">Instructor Biography</label>
+            <textarea id="instructorBio" maxlength="1000" placeholder="Tell students briefly about your experience and expertise..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <h2>Course Thumbnail</h2>
+            <p>Update the image used to represent your course.</p>
+          </div>
+
+          <div class="image-preview" id="imagePreview">
+            No course image available
+          </div>
+
+          <div class="field">
+            <label for="image">Upload New Thumbnail</label>
+            <input type="file" id="image" accept="image/png,image/jpeg,image/webp">
+            <small>JPG, PNG or WebP. Maximum file size: 2MB. Leave empty to keep the current image.</small>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <h2>Learning Objectives</h2>
+            <p>List the important skills and knowledge students should gain.</p>
+          </div>
+
+          <div class="field">
+            <label for="objectives">Learning Objectives</label>
+            <textarea id="objectives" maxlength="2000" placeholder="Enter each objective on a separate line..."></textarea>
+            <small>Each new line will be saved as a separate learning objective.</small>
+          </div>
+
+          <div class="field">
+            <label for="requirements">Course Requirements</label>
+            <textarea id="requirements" maxlength="1500" placeholder="List any tools, materials or prior knowledge students need..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <h2>Course Curriculum</h2>
+            <p>Organise your course into sections and lessons.</p>
+          </div>
+
+          <div class="curriculum-list" id="curriculumList"></div>
+
+          <button type="button" class="btn add-button" id="addSection">
+            + Add Course Section
+          </button>
+        </div>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <h2>Publishing Settings</h2>
+            <p>Choose the current status of your course.</p>
+          </div>
+
+          <div class="field">
+            <label>Course Status</label>
+            <div class="radio-options">
+              <label class="radio-option">
+                <input type="radio" name="status" value="published">
+                Published
+              </label>
+
+              <label class="radio-option">
+                <input type="radio" name="status" value="draft">
+                Draft
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <a href="learning.html" class="btn btn-outline" id="cancelButton">Cancel</a>
+          <button type="submit" class="btn btn-primary" id="saveButton">Save Course Changes</button>
+        </div>
+
+      </form>
+    </section>
+
+    <aside class="sidebar">
+
+      <div class="side-card">
+        <h3>Course Editing Tips</h3>
+
+        <div class="tip">
+          <span class="tip-dot"></span>
+          <span>Use a clear title that communicates the value of your course.</span>
+        </div>
+
+        <div class="tip">
+          <span class="tip-dot"></span>
+          <span>Keep descriptions accurate and easy to understand.</span>
+        </div>
+
+        <div class="tip">
+          <span class="tip-dot"></span>
+          <span>Organise lessons in a logical learning sequence.</span>
+        </div>
+
+        <div class="tip">
+          <span class="tip-dot"></span>
+          <span>Review your pricing and learning objectives before saving.</span>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <h3>Course Management</h3>
+        <a href="learning.html" class="side-link">Explore Courses →</a>
+        <a href="my-learning.html" class="side-link">My Learning →</a>
+        <a href="course-details.html" class="side-link">Course Details →</a>
+        <a href="help.html" class="side-link">Help Centre →</a>
+      </div>
+
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-content">
+    <strong>NEDIKE</strong>
+    <span>Learn. Work. Earn. Teach.</span>
+    <span>© <span id="year"></span> NEDIKE. All rights reserved.</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  "use strict";
+
+  const COURSES_KEY = "nedike_courses";
+  const USER_KEY = "nedike_current_user";
+
+  const params = new URLSearchParams(window.location.search);
+  const courseId = params.get("id") || params.get("edit");
+
+  const form = document.getElementById("courseForm");
+  const notice = document.getElementById("notice");
+  const curriculumList = document.getElementById("curriculumList");
+  const imageInput = document.getElementById("image");
+  const imagePreview = document.getElementById("imagePreview");
+  const saveButton = document.getElementById("saveButton");
+
+  let currentUser = null;
+  let currentCourse = null;
+  let currentImage = "";
+  let newImage = "";
+  let isAuthorized = false;
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  function readJSON(key, fallback) {
+    try {
+      const value = localStorage.getItem(key);
+      return value ? JSON.parse(value) : fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function writeJSON(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  function getUserId(user) {
+    return String(
+      user?.id ||
+      user?.userId ||
+      user?.email ||
+      user?.username ||
+      ""
+    ).trim().toLowerCase();
+  }
+
+  function getCourseOwner(course) {
+    return String(
+      course.userId ||
+      course.ownerId ||
+      course.instructorId ||
+      course.creatorId ||
+      course.email ||
+      ""
+    ).trim().toLowerCase();
+  }
+
+  function showNotice(message, type) {
+    notice.textContent = message;
+    notice.className = "notice " + type;
+    notice.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function setValue(id, value) {
+    const element = document.getElementById(id);
+    if (element && value !== undefined && value !== null) {
+      element.value = value;
+    }
+  }
+
+  function renderImage(src) {
+    imagePreview.innerHTML = "";
+
+    if (!src) {
+      imagePreview.textContent = "No course image available";
+      return;
+    }
+
+    const img = document.createElement("img");
+    img.alt = "Course thumbnail preview";
+    img.src = src;
+    img.onerror = () => {
+      imagePreview.textContent = "Image could not be displayed";
+    };
+
+    imagePreview.appendChild(img);
+  }
+
+  function addLesson(lesson = {}) {
+    const row = document.createElement("div");
+    row.className = "lesson-item";
+
+    const title = document.createElement("input");
+    title.type = "text";
+    title.className = "lesson-title";
+    title.placeholder = "Lesson title";
+    title.maxLength = 150;
+    title.value = lesson.title || "";
+
+    const type = document.createElement("select");
+    type.className = "lesson-type";
+
+    ["Text", "Video", "Resource"].forEach(optionValue => {
+      const option = document.createElement("option");
+      option.value = optionValue;
+      option.textContent = optionValue;
+      type.appendChild(option);
+    });
+
+    const savedType = String(lesson.type || "Text");
+    type.value = ["Text", "Video", "Resource"].includes(savedType)
+      ? savedType
+      : "Text";
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "btn btn-danger";
+    remove.textContent = "×";
+    remove.title = "Remove lesson";
+    remove.setAttribute("aria-label", "Remove lesson");
+    remove.addEventListener("click", () => row.remove());
+
+    row.append(title, type, remove);
+    return row;
+  }
+
+  function addSection(section = {}) {
+    const sectionBox = document.createElement("div");
+    sectionBox.className = "curriculum-item";
+
+    const top = document.createElement("div");
+    top.className = "curriculum-top";
+
+    const heading = document.createElement("strong");
+    heading.textContent = "Course Section";
+
+    const removeSection = document.createElement("button");
+    removeSection.type = "button";
+    removeSection.className = "btn btn-danger btn-small";
+    removeSection.textContent = "Remove Section";
+    removeSection.addEventListener("click", () => sectionBox.remove());
+
+    top.append(heading, removeSection);
+
+    const titleField = document.createElement("div");
+    titleField.className = "field";
+
+    const titleLabel = document.createElement("label");
+    titleLabel.textContent = "Section Title";
+
+    const titleInput = document.createElement("input");
+    titleInput.type = "text";
+    titleInput.className = "section-title";
+    titleInput.maxLength = 150;
+    titleInput.placeholder = "e.g. Introduction to Graphic Design";
+    titleInput.value = section.title || "";
+
+    titleField.append(titleLabel, titleInput);
+
+    const descriptionField = document.createElement("div");
+    descriptionField.className = "field";
+
+    const descriptionLabel = document.createElement("label");
+    descriptionLabel.textContent = "Section Description";
+
+    const descriptionInput = document.createElement("textarea");
+    descriptionInput.className = "section-description";
+    descriptionInput.maxLength = 500;
+    descriptionInput.placeholder = "What will students learn in this section?";
+    descriptionInput.style.minHeight = "75px";
+    descriptionInput.value = section.description || "";
+
+    descriptionField.append(descriptionLabel, descriptionInput);
+
+    const lessonsHeading = document.createElement("label");
+    lessonsHeading.textContent = "Lessons";
+    lessonsHeading.style.cssText =
+      "display:block;font-size:12px;font-weight:700;color:#102B46;margin:10px 0 8px";
+
+    const lessons = document.createElement("div");
+    lessons.className = "lesson-list";
+
+    (Array.isArray(section.lessons) ? section.lessons : []).forEach(lesson => {
+      lessons.appendChild(addLesson(lesson));
+    });
+
+    const addLessonButton = document.createElement("button");
+    addLessonButton.type = "button";
+    addLessonButton.className = "btn btn-outline btn-small";
+    addLessonButton.textContent = "+ Add Lesson";
+    addLessonButton.addEventListener("click", () => {
+      lessons.appendChild(addLesson());
+    });
+
+    sectionBox.append(
+      top,
+      titleField,
+      descriptionField,
+      lessonsHeading,
+      lessons,
+      addLessonButton
+    );
+
+    curriculumList.appendChild(sectionBox);
+  }
+
+  function collectCurriculum() {
+    const sections = [];
+
+    curriculumList.querySelectorAll(".curriculum-item").forEach(sectionBox => {
+      const title = sectionBox.querySelector(".section-title").value.trim();
+      const description = sectionBox.querySelector(".section-description").value.trim();
+
+      const lessons = [];
+
+      sectionBox.querySelectorAll(".lesson-item").forEach(row => {
+        const lessonTitle = row.querySelector(".lesson-title").value.trim();
+        const lessonType = row.querySelector(".lesson-type").value;
+
+        if (lessonTitle) {
+          lessons.push({
+            title: lessonTitle,
+            type: lessonType
+          });
+        }
+      });
+
+      if (title || lessons.length) {
+        sections.push({
+          title,
+          description,
+          lessons
+        });
+      }
+    });
+
+    return sections;
+  }
+
+  function loadCourse(course) {
+    setValue("title", course.title || "");
+    setValue("category", course.category || "");
+    setValue("level", course.level || "Beginner");
+    setValue("duration", course.duration || "");
+    setValue("pricingType", course.pricingType || "Free");
+    setValue("price", course.price ?? "");
+    setValue("description", course.description || "");
+    setValue("about", course.about || "");
+    setValue("instructorName", course.instructorName || "");
+    setValue("instructorTitle", course.instructorTitle || "");
+    setValue("instructorBio", course.instructorBio || "");
+    setValue(
+      "objectives",
+      Array.isArray(course.learningObjectives)
+        ? course.learningObjectives.join("\n")
+        : course.learningObjectives || ""
+    );
+    setValue("requirements", course.requirements || "");
+
+    currentImage = course.image || "";
+    renderImage(currentImage);
+
+    curriculumList.innerHTML = "";
+
+    if (Array.isArray(course.curriculum) && course.curriculum.length) {
+      course.curriculum.forEach(section => addSection(section));
+    } else {
+      addSection();
+    }
+
+    const status = String(course.status || "draft").toLowerCase();
+    const selectedStatus = status === "published" ? "published" : "draft";
+    const radio = document.querySelector(
+      `input[name="status"][value="${selectedStatus}"]`
+    );
+
+    if (radio) radio.checked = true;
+
+    updatePricingVisibility();
+  }
+
+  function updatePricingVisibility() {
+    const pricingType = document.getElementById("pricingType").value;
+    const priceField = document.getElementById("priceField");
+    const priceInput = document.getElementById("price");
+
+    priceField.style.display = pricingType === "Paid" ? "block" : "none";
+    priceInput.required = pricingType === "Paid";
+
+    if (pricingType === "Free") {
+      priceInput.value = "0";
+    }
+  }
+
+  function initialize() {
+    currentUser = readJSON(USER_KEY, null);
+
+    if (!currentUser || !getUserId(currentUser)) {
+      window.location.href =
+        "login.html?redirect=" +
+        encodeURIComponent("edit-course.html?id=" + encodeURIComponent(courseId || ""));
+      return;
+    }
+
+    const firstName =
+      currentUser.firstName ||
+      currentUser.first_name ||
+      currentUser.name ||
+      "User";
+
+    document.getElementById("profileInitial").textContent =
+      String(firstName).charAt(0).toUpperCase();
+
+    const courses = readJSON(COURSES_KEY, []);
+
+    if (!Array.isArray(courses)) {
+      showNotice("Your saved course data could not be read.", "error");
+      disableForm();
+      return;
+    }
+
+    if (!courseId) {
+      showNotice("No course ID was provided. Open this page from your course management page.", "error");
+      disableForm();
+      return;
+    }
+
+    currentCourse = courses.find(course =>
+      String(course.id) === String(courseId)
+    );
+
+    if (!currentCourse) {
+      showNotice("The course could not be found in your saved courses.", "error");
+      disableForm();
+      return;
+    }
+
+    const userId = getUserId(currentUser);
+    const ownerId = getCourseOwner(currentCourse);
+
+    if (!ownerId || ownerId !== userId) {
+      showNotice("You do not have permission to edit this course.", "error");
+      disableForm();
+      return;
+    }
+
+    isAuthorized = true;
+    loadCourse(currentCourse);
+  }
+
+  function disableForm() {
+    form.querySelectorAll("input, select, textarea, button").forEach(element => {
+      element.disabled = true;
+    });
+  }
+
+  document.getElementById("addSection").addEventListener("click", () => {
+    addSection();
+  });
+
+  document.getElementById("pricingType").addEventListener("change", updatePricingVisibility);
+
+  imageInput.addEventListener("change", () => {
+    const file = imageInput.files[0];
+
+    if (!file) {
+      newImage = "";
+      renderImage(currentImage);
+      return;
+    }
+
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
+    if (!allowedTypes.includes(file.type)) {
+      imageInput.value = "";
+      showNotice("Please upload a JPG, PNG or WebP image.", "error");
+      return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      imageInput.value = "";
+      showNotice("Your image must not exceed 2MB.", "error");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      newImage = reader.result;
+      renderImage(newImage);
+    };
+
+    reader.onerror = () => {
+      showNotice("The selected image could not be read.", "error");
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+
+    if (!isAuthorized || !currentCourse || !currentUser) {
+      showNotice("You cannot edit this course.", "error");
+      return;
+    }
+
+    const title = document.getElementById("title").value.trim();
+    const category = document.getElementById("category").value;
+    const description = document.getElementById("description").value.trim();
+    const pricingType = document.getElementById("pricingType").value;
+    const price = pricingType === "Free"
+      ? 0
+      : Number(document.getElementById("price").value);
+
+    if (title.length < 5) {
+      showNotice("Course title must contain at least 5 characters.", "error");
+      return;
+    }
+
+    if (!category) {
+      showNotice("Please select a course category.", "error");
+      return;
+    }
+
+    if (description.length < 20) {
+      showNotice("Please provide a description of at least 20 characters.", "error");
+      return;
+    }
+
+    if (pricingType === "Paid" && (!Number.isFinite(price) || price <= 0)) {
+      showNotice("Enter a valid course price greater than zero.", "error");
+      return;
+    }
+
+    const curriculum = collectCurriculum();
+
+    const invalidSection = curriculum.find(section =>
+      !section.title || section.lessons.length === 0
+    );
+
+    if (invalidSection) {
+      showNotice("Each curriculum section must have a title and at least one lesson.", "error");
+      return;
+    }
+
+    const courses = readJSON(COURSES_KEY, []);
+
+    if (!Array.isArray(courses)) {
+      showNotice("Unable to read your saved courses.", "error");
+      return;
+    }
+
+    const index = courses.findIndex(course =>
+      String(course.id) === String(currentCourse.id)
+    );
+
+    if (index === -1) {
+      showNotice("This course no longer exists in your saved courses.", "error");
+      return;
+    }
+
+    // Recheck ownership immediately before saving.
+    if (getCourseOwner(courses[index]) !== getUserId(currentUser)) {
+      showNotice("You are no longer authorised to edit this course.", "error");
+      return;
+    }
+
+    const now = new Date().toISOString();
+
+    const updatedCourse = {
+      ...courses[index],
+      title,
+      category,
+      description,
+      about: document.getElementById("about").value.trim(),
+      level: document.getElementById("level").value,
+      duration: document.getElementById("duration").value.trim(),
+      instructorName: document.getElementById("instructorName").value.trim(),
+      instructorTitle: document.getElementById("instructorTitle").value.trim(),
+      instructorBio: document.getElementById("instructorBio").value.trim(),
+      pricingType,
+      price,
+      learningObjectives: document.getElementById("objectives").value
+        .split("\n")
+        .map(item => item.trim())
+        .filter(Boolean),
+      requirements: document.getElementById("requirements").value.trim(),
+      curriculum,
+      image: newImage || currentImage,
+      status: document.querySelector('input[name="status"]:checked')?.value || "draft",
+      updatedAt: now
+    };
+
+    try {
+      courses[index] = updatedCourse;
+      writeJSON(COURSES_KEY, courses);
+
+      showNotice("Your course has been updated successfully.", "success");
+      saveButton.disabled = true;
+      saveButton.textContent = "Changes Saved";
+
+      setTimeout(() => {
+        window.location.href =
+          "course-details.html?id=" + encodeURIComponent(updatedCourse.id);
+      }, 1000);
+
+    } catch (error) {
+      showNotice(
+        "Unable to save your changes. Your browser storage may be full. Try using a smaller course image.",
+        "error"
+      );
+    }
+  });
+
+  document.getElementById("menuToggle").addEventListener("click", () => {
+    document.getElementById("navLinks").classList.toggle("open");
+  });
+
+  initialize();
+
+})();
+</script>
+
+</body>
+</html>

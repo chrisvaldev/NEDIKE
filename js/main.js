@@ -7,11 +7,11 @@
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
-  initializeMobileNavigation();
-  initializeSearchTabs();
-  initializeSearchForms();
-  initializeCurrentYear();
-  initializeAuthNavigation();
+    initializeMobileNavigation();
+    initializeSearchTabs();
+    initializeSearchForms();
+    initializeCurrentYear();
+    initializeAuthNavigation();
 });
 
 /* =========================================================
@@ -19,116 +19,126 @@ document.addEventListener("DOMContentLoaded", () => {
    ========================================================= */
 
 function initializeMobileNavigation() {
-  const toggle = document.querySelector("[data-menu-toggle]");
-  const menu = document.querySelector("[data-mobile-menu]");
-  const closeButton = document.querySelector("[data-menu-close]");
+    const toggle = document.querySelector("[data-menu-toggle]");
+    const menu = document.querySelector("[data-mobile-menu]");
+    const closeButton = document.querySelector("[data-menu-close]");
 
-  if (!toggle || !menu) return;
+    if (!toggle || !menu) return;
 
-  const toggleIcon = toggle.querySelector(".menu-toggle-icon");
-  const originalToggleText = toggleIcon ? toggleIcon.textContent : toggle.textContent;
+    const toggleIcon = toggle.querySelector(".menu-toggle-icon");
+    const originalToggleText = toggleIcon
+        ? toggleIcon.textContent
+        : toggle.textContent;
 
-  let previouslyFocusedElement = null;
+    let previouslyFocusedElement = null;
 
-  function openMenu() {
-    previouslyFocusedElement = document.activeElement;
+    function openMenu() {
+        previouslyFocusedElement = document.activeElement;
 
-    menu.inert = false;
-    menu.setAttribute("aria-hidden", "false");
-    menu.classList.add("is-open");
+        menu.inert = false;
+        menu.setAttribute("aria-hidden", "false");
+        menu.classList.add("is-open");
 
-    document.body.classList.add("mobile-nav-open");
+        document.body.classList.add("mobile-nav-open");
 
-    toggle.setAttribute("aria-expanded", "true");
-    toggle.setAttribute("aria-label", "Close navigation menu");
+        toggle.setAttribute("aria-expanded", "true");
+        toggle.setAttribute("aria-label", "Close navigation menu");
 
-    if (toggleIcon) {
-      toggleIcon.textContent = "×";
-    } else {
-      toggle.textContent = "×";
+        if (toggleIcon) {
+            toggleIcon.textContent = "×";
+        } else {
+            toggle.textContent = "×";
+        }
+
+        if (closeButton) {
+            closeButton.focus();
+        }
     }
+
+    function closeMenu(restoreFocus = false) {
+        menu.classList.remove("is-open");
+        menu.setAttribute("aria-hidden", "true");
+        menu.inert = true;
+
+        document.body.classList.remove("mobile-nav-open");
+
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.setAttribute("aria-label", "Open navigation menu");
+
+        const originalText = originalToggleText.trim() || "☰";
+
+        if (toggleIcon) {
+            toggleIcon.textContent = originalText;
+        } else {
+            toggle.textContent = originalText;
+        }
+
+        if (
+            restoreFocus &&
+            previouslyFocusedElement &&
+            typeof previouslyFocusedElement.focus === "function"
+        ) {
+            previouslyFocusedElement.focus();
+        }
+    }
+
+    // Establish the correct initial state.
+    closeMenu();
+
+    toggle.addEventListener("click", () => {
+        const isOpen =
+            toggle.getAttribute("aria-expanded") === "true";
+
+        if (isOpen) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    });
 
     if (closeButton) {
-      closeButton.focus();
-    }
-  }
-
-  function closeMenu(restoreFocus = false) {
-    menu.classList.remove("is-open");
-    menu.setAttribute("aria-hidden", "true");
-    menu.inert = true;
-
-    document.body.classList.remove("mobile-nav-open");
-
-    toggle.setAttribute("aria-expanded", "false");
-    toggle.setAttribute("aria-label", "Open navigation menu");
-
-    if (toggleIcon) {
-      toggleIcon.textContent = originalToggleText.trim() || "☰";
-    } else {
-      toggle.textContent = originalToggleText.trim() || "☰";
+        closeButton.addEventListener("click", () => {
+            closeMenu(true);
+        });
     }
 
-    if (
-      restoreFocus &&
-      previouslyFocusedElement &&
-      typeof previouslyFocusedElement.focus === "function"
-    ) {
-      previouslyFocusedElement.focus();
-    }
-  }
-
-  toggle.addEventListener("click", () => {
-    const isOpen = toggle.getAttribute("aria-expanded") === "true";
-
-    if (isOpen) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
-  });
-
-  if (closeButton) {
-    closeButton.addEventListener("click", () => {
-      closeMenu(true);
+    menu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+            closeMenu();
+        });
     });
-  }
 
-  menu.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      closeMenu();
+    menu.querySelectorAll("[data-logout-link]").forEach((element) => {
+        element.addEventListener("click", () => {
+            closeMenu();
+        });
     });
-  });
 
-  menu.querySelectorAll("[data-logout-link]").forEach((element) => {
-    element.addEventListener("click", () => {
-      closeMenu();
+    document.addEventListener("keydown", (event) => {
+        if (
+            event.key === "Escape" &&
+            toggle.getAttribute("aria-expanded") === "true"
+        ) {
+            closeMenu(true);
+        }
     });
-  });
 
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" &&
-        toggle.getAttribute("aria-expanded") === "true") {
-      closeMenu(true);
-    }
-  });
+    document.addEventListener("click", (event) => {
+        if (toggle.getAttribute("aria-expanded") !== "true") return;
 
-  document.addEventListener("click", (event) => {
-    if (toggle.getAttribute("aria-expanded") !== "true") return;
+        const clickedInsideMenu = menu.contains(event.target);
+        const clickedToggle = toggle.contains(event.target);
 
-    const clickedInsideMenu = menu.contains(event.target);
-    const clickedToggle = toggle.contains(event.target);
+        if (!clickedInsideMenu && !clickedToggle) {
+            closeMenu();
+        }
+    });
 
-    if (!clickedInsideMenu && !clickedToggle) {
-      closeMenu();
-    }
-  });
-
-  window.addEventListener("resize", () => {
-    if (window.innerWidth > 760) {
-      closeMenu();
-    }
-  });
+    window.addEventListener("resize", () => {
+        if (window.innerWidth > 760) {
+            closeMenu();
+        }
+    });
 }
 
 /* =========================================================
@@ -136,19 +146,24 @@ function initializeMobileNavigation() {
    ========================================================= */
 
 function initializeSearchTabs() {
-  const tabs = document.querySelectorAll("[data-search-type]");
+    const tabs = document.querySelectorAll("[data-search-type]");
 
-  if (!tabs.length) return;
+    if (!tabs.length) return;
 
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      tabs.forEach((item) => {
-        item.setAttribute("aria-pressed", "false");
-      });
+    tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+            const group = tab.closest("[data-search-tabs]");
+            const relatedTabs = group
+                ? group.querySelectorAll("[data-search-type]")
+                : tabs;
 
-      tab.setAttribute("aria-pressed", "true");
+            relatedTabs.forEach((item) => {
+                item.setAttribute("aria-pressed", "false");
+            });
+
+            tab.setAttribute("aria-pressed", "true");
+        });
     });
-  });
 }
 
 /* =========================================================
@@ -156,39 +171,46 @@ function initializeSearchTabs() {
    ========================================================= */
 
 function initializeSearchForms() {
-  const forms = document.querySelectorAll("[data-search-form]");
+    const forms = document.querySelectorAll("[data-search-form]");
 
-  const routes = {
-    services: "services.html",
-    tasks: "tasks.html",
-    courses: "learning.html"
-  };
+    const routes = {
+        services: "services.html",
+        tasks: "tasks.html",
+        courses: "learning.html"
+    };
 
-  forms.forEach((form) => {
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
+    forms.forEach((form) => {
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
 
-      const input = form.querySelector("[name='q']");
-      const query = input ? input.value.trim() : "";
+            const input = form.querySelector("[name='q']");
+            const query = input ? input.value.trim() : "";
 
-      const activeTab = document.querySelector(
-        "[data-search-type][aria-pressed='true']"
-      );
+            // Prefer tabs associated with this search form.
+            const tabGroup = form.closest("[data-search-tabs]");
 
-      const selectedType = activeTab
-        ? activeTab.dataset.searchType
-        : "services";
+            const activeTab = tabGroup
+                ? tabGroup.querySelector(
+                    "[data-search-type][aria-pressed='true']"
+                )
+                : document.querySelector(
+                    "[data-search-type][aria-pressed='true']"
+                );
 
-      const destination = routes[selectedType] || routes.services;
-      const url = new URL(destination, window.location.href);
+            const selectedType = activeTab
+                ? activeTab.dataset.searchType
+                : "services";
 
-      if (query) {
-        url.searchParams.set("q", query);
-      }
+            const destination = routes[selectedType] || routes.services;
+            const url = new URL(destination, window.location.href);
 
-      window.location.href = url.href;
+            if (query) {
+                url.searchParams.set("q", query);
+            }
+
+            window.location.href = url.href;
+        });
     });
-  });
 }
 
 /* =========================================================
@@ -196,9 +218,11 @@ function initializeSearchForms() {
    ========================================================= */
 
 function initializeCurrentYear() {
-  document.querySelectorAll("[data-current-year]").forEach((element) => {
-    element.textContent = String(new Date().getFullYear());
-  });
+    const year = String(new Date().getFullYear());
+
+    document.querySelectorAll("[data-current-year]").forEach((element) => {
+        element.textContent = year;
+    });
 }
 
 /* =========================================================
@@ -206,17 +230,17 @@ function initializeCurrentYear() {
    ========================================================= */
 
 function initializeAuthNavigation() {
-  const auth = window.NEDIKEAuth;
+    const auth = window.NEDIKEAuth;
 
-  const loggedIn = Boolean(
-    auth &&
-    typeof auth.isLoggedIn === "function" &&
-    auth.isLoggedIn()
-  );
+    const loggedIn = Boolean(
+        auth &&
+        typeof auth.isLoggedIn === "function" &&
+        auth.isLoggedIn()
+    );
 
-  updateGuestAndMemberLinks(loggedIn);
-  updateDesktopAuthNavigation(loggedIn);
-  initializeLogoutButtons();
+    updateGuestAndMemberLinks(loggedIn);
+    updateDesktopAuthNavigation(loggedIn);
+    initializeLogoutButtons();
 }
 
 /* =========================================================
@@ -224,17 +248,17 @@ function initializeAuthNavigation() {
    ========================================================= */
 
 function updateGuestAndMemberLinks(loggedIn) {
-  document.querySelectorAll("[data-guest-link]").forEach((link) => {
-    link.hidden = loggedIn;
-  });
+    document.querySelectorAll("[data-guest-link]").forEach((link) => {
+        link.hidden = loggedIn;
+    });
 
-  document.querySelectorAll("[data-member-link]").forEach((link) => {
-    link.hidden = !loggedIn;
-  });
+    document.querySelectorAll("[data-member-link]").forEach((link) => {
+        link.hidden = !loggedIn;
+    });
 
-  document.querySelectorAll("[data-logout-link]").forEach((link) => {
-    link.hidden = !loggedIn;
-  });
+    document.querySelectorAll("[data-logout-link]").forEach((link) => {
+        link.hidden = !loggedIn;
+    });
 }
 
 /* =========================================================
@@ -242,30 +266,29 @@ function updateGuestAndMemberLinks(loggedIn) {
    ========================================================= */
 
 function updateDesktopAuthNavigation(loggedIn) {
-  const navigation = document.getElementById("auth-navigation");
+    const navigation = document.getElementById("auth-navigation");
 
-  if (!navigation || !loggedIn) return;
+    if (!navigation || !loggedIn) return;
 
-  navigation.replaceChildren();
+    navigation.replaceChildren();
 
-  const profileLink = document.createElement("a");
-  profileLink.className = "btn btn-outline btn-sm";
-  profileLink.href = "profile.html";
-  profileLink.textContent = "My profile";
+    const profileLink = document.createElement("a");
+    profileLink.className = "btn btn-outline btn-sm";
+    profileLink.href = "profile.html";
+    profileLink.textContent = "My profile";
 
-  const dashboardLink = document.createElement("a");
-  dashboardLink.className = "btn btn-primary btn-sm";
-  dashboardLink.href = "dashboard.html";
-  dashboardLink.textContent = "Dashboard";
+    const dashboardLink = document.createElement("a");
+    dashboardLink.className = "btn btn-primary btn-sm";
+    dashboardLink.href = "dashboard.html";
+    dashboardLink.textContent = "Dashboard";
 
-  const logoutButton = document.createElement("button");
-  logoutButton.type = "button";
-  logoutButton.className = "btn btn-outline btn-sm";
-  logoutButton.textContent = "Log out";
+    const logoutButton = document.createElement("button");
+    logoutButton.type = "button";
+    logoutButton.className = "btn btn-outline btn-sm";
+    logoutButton.textContent = "Log out";
+    logoutButton.addEventListener("click", handleLogout);
 
-  logoutButton.addEventListener("click", handleLogout);
-
-  navigation.append(profileLink, dashboardLink, logoutButton);
+    navigation.append(profileLink, dashboardLink, logoutButton);
 }
 
 /* =========================================================
@@ -273,15 +296,20 @@ function updateDesktopAuthNavigation(loggedIn) {
    ========================================================= */
 
 function initializeLogoutButtons() {
-  document.querySelectorAll("[data-logout-link]").forEach((element) => {
-    element.addEventListener("click", (event) => {
-      if (element.tagName === "A") {
-        event.preventDefault();
-      }
+    document.querySelectorAll("[data-logout-link]").forEach((element) => {
+        // Prevent duplicate handlers if initialisation runs again.
+        if (element.dataset.logoutInitialised === "true") return;
 
-      handleLogout();
+        element.dataset.logoutInitialised = "true";
+
+        element.addEventListener("click", (event) => {
+            if (element.tagName === "A") {
+                event.preventDefault();
+            }
+
+            handleLogout();
+        });
     });
-  });
 }
 
 /* =========================================================
@@ -289,14 +317,14 @@ function initializeLogoutButtons() {
    ========================================================= */
 
 function handleLogout() {
-  const auth = window.NEDIKEAuth;
+    const auth = window.NEDIKEAuth;
 
-  if (!auth || typeof auth.logout !== "function") {
-    console.error(
-      "NEDIKE authentication is not available. Check js/auth.js."
-    );
-    return;
-  }
+    if (!auth || typeof auth.logout !== "function") {
+        console.error(
+            "NEDIKE authentication is not available. Check js/auth.js."
+        );
+        return;
+    }
 
-  auth.logout();
+    auth.logout();
 }

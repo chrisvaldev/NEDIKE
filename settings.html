@@ -1,0 +1,1186 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#102B46">
+    <meta name="description" content="Manage your NEDIKE account and preferences.">
+    <title>Settings | NEDIKE</title>
+
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #102B46;
+            --navy-dark: #0B2035;
+            --green: #16845B;
+            --green-dark: #106D4A;
+            --green-light: #EAF4EE;
+            --background: #F4F7F5;
+            --white: #FFFFFF;
+            --text: #263746;
+            --muted: #718096;
+            --border: #E3EAE6;
+            --red: #C74444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .container {
+            width: min(1100px, 91%);
+            margin: auto;
+        }
+
+        /* HEADER */
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--navy);
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .brand img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 19px;
+        }
+
+        .nav-links a {
+            color: #607080;
+            font-size: 12px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--green);
+        }
+
+        .profile-link {
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green-dark);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 25px;
+            color: var(--navy);
+        }
+
+        /* PAGE */
+        .page {
+            padding: 42px 0 75px;
+            min-height: 75vh;
+        }
+
+        .breadcrumb {
+            color: var(--muted);
+            font-size: 11px;
+            margin-bottom: 22px;
+        }
+
+        .breadcrumb a {
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .page-heading {
+            margin-bottom: 27px;
+        }
+
+        .page-heading h1 {
+            color: var(--navy);
+            font-size: clamp(28px, 4vw, 36px);
+            letter-spacing: -1.3px;
+            margin-bottom: 7px;
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .settings-layout {
+            display: grid;
+            grid-template-columns: 245px minmax(0, 1fr);
+            align-items: start;
+            gap: 23px;
+        }
+
+        /* SIDEBAR */
+        .settings-sidebar {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            padding: 18px 13px;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar-label {
+            padding: 0 10px;
+            color: var(--muted);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin: 9px 0 10px;
+        }
+
+        .settings-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .settings-nav a {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 11px 10px;
+            border-radius: 4px;
+            color: #657585;
+            font-size: 11px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .settings-nav a:hover,
+        .settings-nav a.active {
+            background: var(--green-light);
+            color: var(--green-dark);
+        }
+
+        .settings-nav .nav-symbol {
+            width: 19px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        /* MAIN PANEL */
+        .settings-main {
+            display: flex;
+            flex-direction: column;
+            gap: 17px;
+            min-width: 0;
+        }
+
+        .settings-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            overflow: hidden;
+            scroll-margin-top: 100px;
+        }
+
+        .card-heading {
+            padding: 20px 23px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-heading h2 {
+            color: var(--navy);
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .card-heading p {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .card-body {
+            padding: 21px 23px;
+        }
+
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 16px 0;
+            border-bottom: 1px solid #EDF1EE;
+        }
+
+        .setting-row:first-child {
+            padding-top: 0;
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .setting-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .setting-info h3 {
+            color: var(--text);
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .setting-info p {
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        .setting-control {
+            flex-shrink: 0;
+        }
+
+        /* SWITCH */
+        .switch {
+            position: relative;
+            width: 42px;
+            height: 23px;
+            display: inline-block;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch-slider {
+            position: absolute;
+            inset: 0;
+            background: #D7DFDA;
+            border-radius: 30px;
+            transition: .2s;
+        }
+
+        .switch-slider::before {
+            content: "";
+            position: absolute;
+            width: 17px;
+            height: 17px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: .2s;
+        }
+
+        .switch input:checked + .switch-slider {
+            background: var(--green);
+        }
+
+        .switch input:checked + .switch-slider::before {
+            transform: translateX(19px);
+        }
+
+        .switch input:focus-visible + .switch-slider {
+            outline: 2px solid var(--navy);
+            outline-offset: 3px;
+        }
+
+        /* BUTTONS AND SELECTS */
+        .small-btn {
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--navy);
+            padding: 9px 13px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .small-btn:hover {
+            border-color: var(--green);
+            color: var(--green-dark);
+        }
+
+        .small-btn.primary {
+            background: var(--green);
+            border-color: var(--green);
+            color: white;
+        }
+
+        .small-btn.primary:hover {
+            background: var(--green-dark);
+        }
+
+        .small-btn.danger {
+            color: var(--red);
+            border-color: #EBCACA;
+        }
+
+        .small-btn.danger:hover {
+            background: #FFF4F4;
+        }
+
+        .select-control {
+            min-width: 145px;
+            padding: 9px 11px;
+            background: white;
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            outline: none;
+            font-size: 10px;
+        }
+
+        .select-control:focus {
+            border-color: var(--green);
+        }
+
+        .account-summary {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 20px;
+        }
+
+        .account-avatar {
+            width: 49px;
+            height: 49px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--green-light);
+            color: var(--green-dark);
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .account-summary h3 {
+            color: var(--navy);
+            font-size: 12px;
+        }
+
+        .account-summary p {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .info-note {
+            background: #F5F8F6;
+            border-left: 3px solid var(--green);
+            padding: 12px 14px;
+            color: #637487;
+            font-size: 10px;
+            line-height: 1.8;
+            margin-top: 17px;
+        }
+
+        .danger-card {
+            border-color: #EBCACA;
+        }
+
+        .danger-card .card-heading h2 {
+            color: var(--red);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--navy-dark);
+            padding: 27px 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-content p,
+        .footer-links a {
+            color: #B7C5D1;
+            font-size: 10px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        @media (max-width: 850px) {
+            .settings-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-sidebar {
+                position: static;
+            }
+
+            .settings-nav {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav {
+                min-height: 68px;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 68px;
+                left: 0;
+                width: 100%;
+                padding: 18px 5%;
+                flex-direction: column;
+                align-items: flex-start;
+                background: white;
+                border-bottom: 1px solid var(--border);
+                gap: 17px;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .page {
+                padding-top: 28px;
+            }
+
+            .settings-nav {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .card-heading,
+            .card-body {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            .setting-row {
+                gap: 12px;
+            }
+
+            .setting-info p {
+                max-width: 260px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .settings-nav {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .setting-row {
+                align-items: flex-start;
+            }
+
+            .select-control {
+                min-width: 115px;
+                max-width: 130px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="container nav">
+        <a href="index.html" class="brand">
+            <img src="assets/images/nedike-icon.png" alt="NEDIKE logo">
+            NEDIKE
+        </a>
+
+        <nav class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="tasks.html">Tasks</a>
+            <a href="learning.html">Learn</a>
+            <a href="messages.html">Messages</a>
+            <a href="about.html">About</a>
+            <a href="help.html">Help</a>
+        </nav>
+
+        <div style="display:flex;align-items:center;gap:13px">
+            <a href="profile.html" class="profile-link" id="profileInitials">U</a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+        </div>
+    </div>
+</header>
+
+<main class="page">
+    <div class="container">
+
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> / Settings
+        </div>
+
+        <div class="page-heading">
+            <h1>Settings</h1>
+            <p>Manage your account, privacy and NEDIKE experience.</p>
+        </div>
+
+        <div class="settings-layout">
+
+            <aside class="settings-sidebar">
+                <div class="sidebar-label">Preferences</div>
+
+                <nav class="settings-nav">
+                    <a href="#account" class="active"><span class="nav-symbol">◉</span> Account</a>
+                    <a href="#privacy"><span class="nav-symbol">◇</span> Privacy</a>
+                    <a href="#notifications"><span class="nav-symbol">♧</span> Notifications</a>
+                    <a href="#appearance"><span class="nav-symbol">◐</span> Appearance</a>
+                    <a href="#language"><span class="nav-symbol">文</span> Language</a>
+                    <a href="#security"><span class="nav-symbol">▣</span> Security</a>
+                </nav>
+
+                <div class="sidebar-label" style="margin-top:25px">Account actions</div>
+
+                <nav class="settings-nav">
+                    <a href="profile.html"><span class="nav-symbol">◎</span> Edit profile</a>
+                    <a href="saved-items.html"><span class="nav-symbol">◇</span> Saved items</a>
+                    <a href="privacy.html"><span class="nav-symbol">▤</span> Privacy policy</a>
+                    <a href="terms.html"><span class="nav-symbol">▧</span> Terms of service</a>
+                </nav>
+            </aside>
+
+            <div class="settings-main">
+
+                <!-- ACCOUNT -->
+                <section class="settings-card" id="account">
+                    <div class="card-heading">
+                        <h2>Account Information</h2>
+                        <p>Review your NEDIKE account details.</p>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="account-summary">
+                            <div class="account-avatar" id="accountAvatar">U</div>
+
+                            <div>
+                                <h3 id="accountName">NEDIKE User</h3>
+                                <p id="accountEmail">Your account email</p>
+                            </div>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h3>Personal information</h3>
+                                <p>Update your name, school, course and profile details.</p>
+                            </div>
+                            <a href="profile.html" class="small-btn">Edit profile</a>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h3>Account status</h3>
+                                <p>Your current account on this browser.</p>
+                            </div>
+                            <span id="accountStatus" style="font-size:10px;font-weight:700;color:var(--green-dark)">Signed in</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PRIVACY -->
+                <section class="settings-card" id="privacy">
+                    <div class="card-heading">
+                        <h2>Privacy Preferences</h2>
+                        <p>Control some of the information displayed on your profile.</p>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h3>Public profile</h3>
+                                <p>Allow other users to discover your profile, subject to the platform's implemented visibility rules.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="publicProfile" checked>
+                                <span class="switch-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h3>Show my skills</h3>
+                                <p>Allow your listed skills to appear on your profile.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="showSkills" checked>
+                                <span class="switch-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h3>Show my location</h3>
+                                <p>Allow your profile location to be displayed to other users.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="showLocation">
+                                <span class="switch-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="info-note">
+                            These preferences are saved locally in this prototype.
+                            They will only affect what other users can see after
+                            the relevant visibility controls are connected to your
+                            profile and listing pages.
+                        </div>
+                    </div>
+                </section>
+
+                <!-- NOTIFICATIONS -->
+                <section class="settings-card" id="notifications">
+                    <div class="card-heading">
+                        <h2>Notification Preferences</h2>
+                        <p>Choose the types of updates you want to receive.</p>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h3>Task updates</h3>
+                                <p>Updates about task applications and opportunities.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="taskNotifications" checked>
+                                <span class="switch-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h3>Service updates</h3>
+                                <p>Updates related to your services and enquiries.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="serviceNotifications" checked>
+                                <span class="switch-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h3>Messages</h3>
+                                <p>Updates when you receive a new message.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="messageNotifications" checked>
+                                <span class="switch-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h3>Learning updates</h3>
+                                <p>Updates about learning activities and courses.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="learningNotifications" checked>
+                                <span class="switch-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h3>Platform announcements</h3>
+                                <p>Important NEDIKE news and platform updates.</p>
+                            </div>
+
+                            <label class="switch">
+                                <input type="checkbox" id="announcementNotifications" checked>
+                                <span class="switch-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="info-note">
+                            These are notification preferences only. They do
+                            not create push notifications, emails or messages
+                            unless those delivery systems are implemented.
+                        </div>
+                    </div>
+                </section>
+
+                <!-- APPEARANCE -->
+                <section class="settings-card" id="appearance">
+                    <div class="card-heading">
+                        <h2>Appearance</h2>
+                        <p>Choose how you prefer NEDIKE to look.</p>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h3>Display theme</h3>
+                                <p>Choose your preferred display appearance.</p>
+                            </div>
+
+                            <select class="select-control" id="themeSelect">
+                                <option value="light">Light mode</option>
+                                <option value="dark">Dark mode</option>
+                                <option value="system">System default</option>
+                            </select>
+                        </div>
+
+                        <div class="info-note">
+                            Theme selection is saved locally. A complete
+                            dark theme requires matching styles on the
+                            other NEDIKE pages.
+                        </div>
+                    </div>
+                </section>
+
+                <!-- LANGUAGE -->
+                <section class="settings-card" id="language">
+                    <div class="card-heading">
+                        <h2>Language</h2>
+                        <p>Choose your preferred platform language.</p>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h3>Interface language</h3>
+                                <p>Select the language used across the platform.</p>
+                            </div>
+
+                            <select class="select-control" id="languageSelect">
+                                <option value="en">English</option>
+                            </select>
+                        </div>
+
+                        <div class="info-note">
+                            English is currently the available interface language.
+                            Additional languages can be introduced in future versions.
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECURITY -->
+                <section class="settings-card" id="security">
+                    <div class="card-heading">
+                        <h2>Security</h2>
+                        <p>Manage account access and security-related actions.</p>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h3>Password management</h3>
+                                <p>Manage your account password through the available authentication system.</p>
+                            </div>
+
+                            <button class="small-btn" id="passwordBtn" type="button">Password options</button>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h3>Sign out</h3>
+                                <p>End your current session on this browser.</p>
+                            </div>
+
+                            <button class="small-btn" id="logoutBtn" type="button">Sign out</button>
+                        </div>
+
+                        <div class="info-note">
+                            The current browser-only prototype does not provide
+                            production-grade password management or server-side
+                            session security. Do not treat this page as a
+                            replacement for a secure authentication system.
+                        </div>
+                    </div>
+                </section>
+
+                <!-- DANGER ZONE -->
+                <section class="settings-card danger-card" id="account-actions">
+                    <div class="card-heading">
+                        <h2>Account Actions</h2>
+                        <p>Actions that may affect your locally stored account data.</p>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h3>Delete local account data</h3>
+                                <p>Remove your current account information stored by this prototype in this browser. This does not delete data stored elsewhere.</p>
+                            </div>
+
+                            <button class="small-btn danger" id="deleteAccountBtn" type="button">
+                                Delete local data
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container footer-content">
+        <p>© <span id="year"></span> NEDIKE. Learn. Work. Earn. Teach.</p>
+
+        <div class="footer-links">
+            <a href="about.html">About</a>
+            <a href="help.html">Help Centre</a>
+            <a href="terms.html">Terms</a>
+            <a href="privacy.html">Privacy</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const SETTINGS_KEY = "nedike_user_settings";
+
+    function getCurrentUser() {
+        try {
+            return JSON.parse(
+                localStorage.getItem("nedike_current_user") || "null"
+            );
+        } catch (error) {
+            return null;
+        }
+    }
+
+    function getSettings() {
+        try {
+            return JSON.parse(
+                localStorage.getItem(SETTINGS_KEY) || "{}"
+            );
+        } catch (error) {
+            return {};
+        }
+    }
+
+    function saveSettings(settings) {
+        localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    }
+
+    const user = getCurrentUser();
+    let settings = getSettings();
+
+    function getUserName(user) {
+        if (!user) return "NEDIKE User";
+
+        const first = user.firstName || user.first_name || user.name || "";
+        const last = user.lastName || user.last_name || "";
+
+        return `${first} ${last}`.trim() || "NEDIKE User";
+    }
+
+    function getUserEmail(user) {
+        return user?.email || "Email not available";
+    }
+
+    function getUserInitials(user) {
+        const name = getUserName(user);
+        const parts = name.split(/\s+/).filter(Boolean);
+
+        return parts.length > 1
+            ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+            : (parts[0]?.slice(0, 2) || "U").toUpperCase();
+    }
+
+    function setControl(id, value) {
+        const element = document.getElementById(id);
+        if (!element) return;
+
+        if (element.type === "checkbox") {
+            element.checked = Boolean(value);
+        } else {
+            element.value = value;
+        }
+    }
+
+    function loadSettings() {
+        const controls = [
+            "publicProfile",
+            "showSkills",
+            "showLocation",
+            "taskNotifications",
+            "serviceNotifications",
+            "messageNotifications",
+            "learningNotifications",
+            "announcementNotifications"
+        ];
+
+        const defaults = {
+            publicProfile: true,
+            showSkills: true,
+            showLocation: false,
+            taskNotifications: true,
+            serviceNotifications: true,
+            messageNotifications: true,
+            learningNotifications: true,
+            announcementNotifications: true,
+            theme: "light",
+            language: "en"
+        };
+
+        settings = {
+            ...defaults,
+            ...settings
+        };
+
+        controls.forEach(id => setControl(id, settings[id]));
+
+        setControl("themeSelect", settings.theme);
+        setControl("languageSelect", settings.language);
+    }
+
+    function saveControl(id, value) {
+        settings[id] = value;
+        saveSettings(settings);
+    }
+
+    function connectSwitches() {
+        const ids = [
+            "publicProfile",
+            "showSkills",
+            "showLocation",
+            "taskNotifications",
+            "serviceNotifications",
+            "messageNotifications",
+            "learningNotifications",
+            "announcementNotifications"
+        ];
+
+        ids.forEach(id => {
+            document.getElementById(id).addEventListener("change", event => {
+                saveControl(id, event.target.checked);
+            });
+        });
+    }
+
+    function connectSelects() {
+        document.getElementById("themeSelect").addEventListener("change", event => {
+            saveControl("theme", event.target.value);
+            applyTheme(event.target.value);
+
+            if (event.target.value === "dark") {
+                alert("Dark mode is saved as your preference. Full dark styling must also be implemented on the other NEDIKE pages.");
+            }
+        });
+
+        document.getElementById("languageSelect").addEventListener("change", event => {
+            saveControl("language", event.target.value);
+        });
+    }
+
+    function applyTheme(theme) {
+        // The current settings page uses a light layout.
+        // Full site-wide dark theme support requires shared theme styles.
+        document.documentElement.dataset.theme = theme;
+    }
+
+    function showAccountDetails() {
+        if (!user) {
+            document.getElementById("accountName").textContent = "Not signed in";
+            document.getElementById("accountEmail").textContent = "Sign in to manage your account.";
+            document.getElementById("accountStatus").textContent = "Signed out";
+            document.getElementById("accountAvatar").textContent = "U";
+            return;
+        }
+
+        const name = getUserName(user);
+        const initials = getUserInitials(user);
+
+        document.getElementById("accountName").textContent = name;
+        document.getElementById("accountEmail").textContent = getUserEmail(user);
+        document.getElementById("accountAvatar").textContent = initials;
+        document.getElementById("profileInitials").textContent = initials;
+    }
+
+    document.getElementById("passwordBtn").addEventListener("click", () => {
+        alert(
+            "Password management is not connected in the current browser-only prototype. A secure authentication system is required before password changes can be supported."
+        );
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+        if (!user) {
+            window.location.href = "login.html";
+            return;
+        }
+
+        if (!confirm("Are you sure you want to sign out of NEDIKE?")) {
+            return;
+        }
+
+        // Remove only the current-session key.
+        // Do not erase the user's profile or saved listings.
+        localStorage.removeItem("nedike_current_user");
+
+        window.location.href = "login.html";
+    });
+
+    document.getElementById("deleteAccountBtn").addEventListener("click", () => {
+        if (!user) {
+            alert("No signed-in account was found.");
+            return;
+        }
+
+        const confirmed = confirm(
+            "This will remove the current account data stored by this prototype in this browser. It cannot remove information stored on other devices or external services. Continue?"
+        );
+
+        if (!confirmed) return;
+
+        const email = String(user.email || "").toLowerCase();
+
+        // Remove only records clearly associated with this user.
+        // Ownerless legacy records are left untouched.
+        const ownedKeys = [
+            "nedike_services",
+            "nedike_tasks",
+            "nedike_saved_items"
+        ];
+
+        ownedKeys.forEach(key => {
+            try {
+                const records = JSON.parse(localStorage.getItem(key) || "[]");
+
+                if (!Array.isArray(records)) return;
+
+                const filtered = records.filter(item => {
+                    const owner = String(
+                        item.userId ||
+                        item.ownerId ||
+                        item.posterId ||
+                        item.email ||
+                        item.providerEmail ||
+                        item.posterEmail ||
+                        ""
+                    ).toLowerCase();
+
+                    return !owner || owner !== email;
+                });
+
+                localStorage.setItem(key, JSON.stringify(filtered));
+            } catch (error) {
+                console.warn("Could not process local data:", key, error);
+            }
+        });
+
+        localStorage.removeItem("nedike_current_user");
+        localStorage.removeItem(SETTINGS_KEY);
+        localStorage.removeItem("nedike_edit_service_id");
+        localStorage.removeItem("nedike_edit_task_id");
+
+        alert("The current account session and available locally associated data have been cleared.");
+
+        window.location.href = "register.html";
+    });
+
+    document.getElementById("menuToggle").addEventListener("click", () => {
+        document.getElementById("navLinks").classList.toggle("show");
+    });
+
+    document.querySelectorAll(".settings-nav a[href^='#']").forEach(link => {
+        link.addEventListener("click", () => {
+            document.querySelectorAll(".settings-nav a").forEach(item => {
+                item.classList.remove("active");
+            });
+
+            link.classList.add("active");
+        });
+    });
+
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
+
+    loadSettings();
+    connectSwitches();
+    connectSelects();
+    showAccountDetails();
+    applyTheme(settings.theme || "light");
+</script>
+
+</body>
+</html>

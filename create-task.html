@@ -1,0 +1,936 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102B46">
+  <title>Create a Task | NEDIKE</title>
+  <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy: #102B46;
+      --navy-dark: #0B2035;
+      --green: #16845B;
+      --green-dark: #106D4A;
+      --green-light: #EAF4EE;
+      --bg: #F4F7F5;
+      --white: #FFFFFF;
+      --text: #263746;
+      --muted: #718096;
+      --border: #E3EAE6;
+      --danger: #C53D3D;
+      --shadow: 0 8px 30px rgba(16,43,70,.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: auto;
+    }
+
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--navy);
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: -.8px;
+      flex-shrink: 0;
+    }
+
+    .brand img { width: 38px; height: 38px; object-fit: contain; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 23px;
+      color: #526272;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--green); }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .profile-link {
+      width: 39px;
+      height: 39px;
+      border-radius: 50%;
+      background: var(--green-light);
+      color: var(--green-dark);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .menu-toggle {
+      display: none;
+      border: 0;
+      background: transparent;
+      color: var(--navy);
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    .page-heading {
+      padding: 43px 0 30px;
+    }
+
+    .breadcrumb {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 13px;
+    }
+
+    .breadcrumb a { color: var(--green); font-weight: 600; }
+
+    .page-heading h1 {
+      color: var(--navy);
+      font-size: clamp(27px, 4vw, 35px);
+      letter-spacing: -1.2px;
+      margin-bottom: 7px;
+    }
+
+    .page-heading p {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 650px;
+    }
+
+    .main-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 290px;
+      gap: 25px;
+      align-items: start;
+      padding-bottom: 65px;
+    }
+
+    .form-card, .side-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .form-card { padding: 30px; }
+
+    .form-section + .form-section {
+      border-top: 1px solid var(--border);
+      margin-top: 30px;
+      padding-top: 27px;
+    }
+
+    .section-heading {
+      margin-bottom: 22px;
+    }
+
+    .section-heading h2 {
+      font-size: 17px;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .section-heading p {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .field { margin-bottom: 19px; }
+
+    .field:last-child { margin-bottom: 0; }
+
+    .field label {
+      display: block;
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .required { color: var(--danger); }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid #DCE5E0;
+      border-radius: 7px;
+      padding: 12px 13px;
+      color: var(--text);
+      background: #fff;
+      font-size: 13px;
+      outline: none;
+      transition: border .2s, box-shadow .2s;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(22,132,91,.09);
+    }
+
+    .field textarea {
+      min-height: 125px;
+      resize: vertical;
+    }
+
+    .field small {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 6px;
+    }
+
+    .two-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .input-prefix {
+      display: flex;
+      border: 1px solid #DCE5E0;
+      border-radius: 7px;
+      overflow: hidden;
+    }
+
+    .input-prefix span {
+      background: #F4F7F5;
+      border-right: 1px solid var(--border);
+      padding: 11px 13px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .input-prefix input {
+      border: 0;
+      border-radius: 0;
+      box-shadow: none !important;
+    }
+
+    .radio-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--border);
+      padding: 11px 13px;
+      border-radius: 7px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .radio-option input { accent-color: var(--green); }
+
+    .form-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 30px;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 7px;
+      padding: 12px 19px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      transition: .2s;
+    }
+
+    .btn-primary { background: var(--green); color: white; }
+    .btn-primary:hover { background: var(--green-dark); }
+    .btn-outline { background: white; border: 1px solid var(--border); color: var(--navy); }
+    .btn-outline:hover { border-color: var(--green); color: var(--green); }
+
+    .side-card {
+      padding: 23px;
+      margin-bottom: 17px;
+    }
+
+    .side-card h3 {
+      color: var(--navy);
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .tip {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      font-size: 12px;
+      color: #647484;
+    }
+
+    .tip:last-child { margin-bottom: 0; }
+
+    .tip-mark {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    .side-link {
+      display: block;
+      padding: 11px 0;
+      border-top: 1px solid var(--border);
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .side-link:first-of-type { border-top: 0; }
+
+    .notice {
+      display: none;
+      padding: 13px 15px;
+      border-radius: 7px;
+      margin-bottom: 20px;
+      font-size: 12px;
+    }
+
+    .notice.success {
+      display: block;
+      background: #EAF4EE;
+      color: #106D4A;
+    }
+
+    .notice.error {
+      display: block;
+      background: #FDECEC;
+      color: #A52F2F;
+    }
+
+    footer {
+      background: var(--navy-dark);
+      color: rgba(255,255,255,.7);
+      padding: 25px 0;
+      font-size: 11px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .footer-content strong { color: white; }
+
+    @media (max-width: 900px) {
+      .nav-links { gap: 13px; font-size: 11px; }
+      .main-layout { grid-template-columns: minmax(0, 1fr) 250px; }
+    }
+
+    @media (max-width: 720px) {
+      .navbar { min-height: 66px; }
+      .menu-toggle { display: block; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 66px;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 18px 22px;
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 17px;
+      }
+      .nav-links.open { display: flex; }
+      .main-layout { grid-template-columns: 1fr; }
+      .sidebar { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .side-card { margin-bottom: 0; }
+      .page-heading { padding-top: 30px; }
+    }
+
+    @media (max-width: 520px) {
+      .container { width: min(100% - 28px, 1120px); }
+      .form-card { padding: 20px 16px; }
+      .two-columns { grid-template-columns: 1fr; gap: 0; }
+      .sidebar { grid-template-columns: 1fr; }
+      .form-actions { flex-direction: column-reverse; align-items: stretch; }
+      .form-actions .btn { width: 100%; }
+      .footer-content { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container navbar">
+    <a href="index.html" class="brand">
+      <img src="assets/images/nedike-icon.png" alt="NEDIKE logo">
+      NEDIKE
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="tasks.html" class="active">Tasks</a>
+      <a href="learning.html">Learn</a>
+      <a href="messages.html">Messages</a>
+      <a href="about.html">About</a>
+      <a href="help.html">Help</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="profile.html" class="profile-link" id="profileInitial">U</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="page-heading">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> / <a href="my-task.html">My Tasks</a> / Create Task
+    </div>
+    <h1 id="pageTitle">Post a New Task</h1>
+    <p>Describe what you need, set your budget and connect with skilled students who can get the work done.</p>
+  </section>
+
+  <div class="main-layout">
+
+    <section class="form-card">
+      <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+      <form id="taskForm">
+
+        <div class="form-section">
+          <div class="section-heading">
+            <h2>Task Information</h2>
+            <p>Give your task a clear title and explain what needs to be done.</p>
+          </div>
+
+          <div class="field">
+            <label for="taskTitle">Task Title <span class="required">*</span></label>
+            <input type="text" id="taskTitle" maxlength="100" placeholder="e.g. Design a professional business flyer" required>
+            <small>Use a clear title that tells students exactly what you need.</small>
+          </div>
+
+          <div class="two-columns">
+            <div class="field">
+              <label for="category">Task Category <span class="required">*</span></label>
+              <select id="category" required>
+                <option value="">Select category</option>
+                <option>Graphic Design</option>
+                <option>Web Development</option>
+                <option>Mobile App Development</option>
+                <option>Photography/Videography</option>
+                <option>Writing/Content</option>
+                <option>Digital Marketing</option>
+                <option>Business/Professional Services</option>
+                <option>Home/Personal Services</option>
+                <option>Academic Assistance</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="taskType">Task Type</label>
+              <select id="taskType">
+                <option value="One-time">One-time task</option>
+                <option value="Ongoing">Ongoing task</option>
+                <option value="Part-time">Part-time opportunity</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="description">Task Description <span class="required">*</span></label>
+            <textarea id="description" minlength="30" maxlength="3000" placeholder="Explain the work, expected outcome, requirements and any important details..." required></textarea>
+            <small>Minimum 30 characters. Be specific so applicants understand what is expected.</small>
+          </div>
+
+          <div class="field">
+            <label for="skills">Required Skills</label>
+            <input type="text" id="skills" maxlength="250" placeholder="e.g. Photoshop, Figma, HTML, CSS">
+            <small>Separate skills with commas.</small>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <h2>Budget and Deadline</h2>
+            <p>Set a reasonable budget and give applicants a clear timeline.</p>
+          </div>
+
+          <div class="two-columns">
+            <div class="field">
+              <label for="budget">Budget (₦) <span class="required">*</span></label>
+              <div class="input-prefix">
+                <span>₦</span>
+                <input type="number" id="budget" min="1" step="1" placeholder="5000" required>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="budgetType">Budget Type</label>
+              <select id="budgetType">
+                <option value="Fixed">Fixed budget</option>
+                <option value="Negotiable">Negotiable</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="two-columns">
+            <div class="field">
+              <label for="deadline">Application Deadline</label>
+              <input type="date" id="deadline">
+            </div>
+
+            <div class="field">
+              <label for="duration">Expected Duration</label>
+              <select id="duration">
+                <option value="">Select duration</option>
+                <option>Less than 24 hours</option>
+                <option>1–3 days</option>
+                <option>4–7 days</option>
+                <option>1–2 weeks</option>
+                <option>2–4 weeks</option>
+                <option>More than one month</option>
+                <option>To be agreed</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <h2>Location and Requirements</h2>
+            <p>Tell applicants where the task will take place and what they need.</p>
+          </div>
+
+          <div class="field">
+            <label for="location">Location</label>
+            <input type="text" id="location" maxlength="100" placeholder="e.g. Onitsha, Anambra State">
+            <small>Enter a location or indicate if the task can be completed remotely.</small>
+          </div>
+
+          <div class="field">
+            <label for="workMode">Work Arrangement</label>
+            <select id="workMode">
+              <option value="Remote">Remote</option>
+              <option value="On-site">On-site</option>
+              <option value="Hybrid">Hybrid</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="requirements">Additional Requirements</label>
+            <textarea id="requirements" maxlength="1500" placeholder="Mention any materials, experience, equipment or other requirements applicants should have..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <h2>Publishing</h2>
+            <p>Choose whether to publish your task or save it as a draft.</p>
+          </div>
+
+          <div class="field">
+            <label>Task Status</label>
+            <div class="radio-options">
+              <label class="radio-option">
+                <input type="radio" name="status" value="open" checked>
+                Publish task
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="status" value="draft">
+                Save as draft
+              </label>
+            </div>
+            <small>Published tasks will have an open status. Drafts will not appear as open opportunities.</small>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <a href="my-task.html" class="btn btn-outline">Cancel</a>
+          <button type="submit" class="btn btn-primary" id="submitButton">Publish Task</button>
+        </div>
+
+      </form>
+    </section>
+
+    <aside class="sidebar">
+      <div class="side-card">
+        <h3>Tips for a Better Task Post</h3>
+
+        <div class="tip">
+          <span class="tip-mark"></span>
+          <span>Use a specific title that clearly describes the work.</span>
+        </div>
+
+        <div class="tip">
+          <span class="tip-mark"></span>
+          <span>Explain the expected result and important requirements.</span>
+        </div>
+
+        <div class="tip">
+          <span class="tip-mark"></span>
+          <span>Set a realistic budget that reflects the work involved.</span>
+        </div>
+
+        <div class="tip">
+          <span class="tip-mark"></span>
+          <span>Choose a reasonable deadline to give applicants enough time.</span>
+        </div>
+
+        <div class="tip">
+          <span class="tip-mark"></span>
+          <span>Review your information before publishing.</span>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <h3>Manage Your Tasks</h3>
+        <a href="my-task.html" class="side-link">View My Tasks →</a>
+        <a href="applications.html" class="side-link">View Applications →</a>
+        <a href="help.html" class="side-link">Visit Help Centre →</a>
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-content">
+    <strong>NEDIKE</strong>
+    <span>Learn. Work. Earn. Teach.</span>
+    <span>© <span id="year"></span> NEDIKE. All rights reserved.</span>
+  </div>
+</footer>
+
+<script>
+  (() => {
+    "use strict";
+
+    const TASKS_KEY = "nedike_tasks";
+    const USER_KEY = "nedike_current_user";
+
+    const form = document.getElementById("taskForm");
+    const notice = document.getElementById("notice");
+    const submitButton = document.getElementById("submitButton");
+    const pageTitle = document.getElementById("pageTitle");
+
+    const params = new URLSearchParams(window.location.search);
+    const queryEditId = params.get("edit");
+    const storedEditId = sessionStorage.getItem("nedike_edit_task_id");
+    const editId = queryEditId || storedEditId || null;
+
+    let currentUser = null;
+    let editingTask = null;
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    function readJSON(key, fallback) {
+      try {
+        const value = localStorage.getItem(key);
+        return value ? JSON.parse(value) : fallback;
+      } catch (error) {
+        return fallback;
+      }
+    }
+
+    function writeJSON(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function getUserId(user) {
+      return String(
+        user?.id ||
+        user?.userId ||
+        user?.email ||
+        user?.username ||
+        ""
+      ).trim().toLowerCase();
+    }
+
+    function getTaskOwner(task) {
+      return String(
+        task.userId ||
+        task.ownerId ||
+        task.posterId ||
+        task.createdBy ||
+        task.user_id ||
+        task.owner_id ||
+        task.email ||
+        task.posterEmail ||
+        ""
+      ).trim().toLowerCase();
+    }
+
+    function showNotice(message, type) {
+      notice.textContent = message;
+      notice.className = "notice " + type;
+      notice.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    function setValue(id, value) {
+      const element = document.getElementById(id);
+      if (element && value !== undefined && value !== null) {
+        element.value = value;
+      }
+    }
+
+    function loadTask(task) {
+      setValue("taskTitle", task.title || task.taskTitle || "");
+      setValue("category", task.category || task.taskCategory || "");
+      setValue("taskType", task.taskType || "One-time");
+      setValue("description", task.description || task.details || "");
+      setValue("skills", Array.isArray(task.skills)
+        ? task.skills.join(", ")
+        : (task.skills || ""));
+      setValue("budget", task.budget ?? task.amount ?? "");
+      setValue("budgetType", task.budgetType || "Fixed");
+      setValue("deadline", task.deadline || "");
+      setValue("duration", task.duration || "");
+      setValue("location", task.location || "");
+      setValue("workMode", task.workMode || "Remote");
+      setValue("requirements", task.requirements || "");
+
+      const status = String(task.status || "open").toLowerCase();
+      const statusInput = document.querySelector(
+        `input[name="status"][value="${status === "draft" ? "draft" : "open"}"]`
+      );
+
+      if (statusInput) statusInput.checked = true;
+    }
+
+    function initialize() {
+      currentUser = readJSON(USER_KEY, null);
+
+      if (!currentUser || !getUserId(currentUser)) {
+        window.location.href =
+          "login.html?redirect=" + encodeURIComponent(
+            "create-task.html" + (editId ? "?edit=" + encodeURIComponent(editId) : "")
+          );
+        return false;
+      }
+
+      const firstName = currentUser.firstName || currentUser.first_name || currentUser.name || "User";
+      document.getElementById("profileInitial").textContent =
+        String(firstName).charAt(0).toUpperCase();
+
+      if (editId) {
+        const tasks = readJSON(TASKS_KEY, []);
+        editingTask = tasks.find(task => String(task.id) === String(editId));
+
+        if (!editingTask) {
+          showNotice("The task you want to edit could not be found.", "error");
+          return false;
+        }
+
+        const currentId = getUserId(currentUser);
+        const ownerId = getTaskOwner(editingTask);
+
+        if (!ownerId || ownerId !== currentId) {
+          showNotice("You do not have permission to edit this task.", "error");
+          form.querySelectorAll("input, select, textarea, button").forEach(el => {
+            el.disabled = true;
+          });
+          return false;
+        }
+
+        loadTask(editingTask);
+        pageTitle.textContent = "Edit Your Task";
+        submitButton.textContent = "Save Changes";
+      }
+
+      return true;
+    }
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      if (!currentUser) {
+        showNotice("Please sign in before posting a task.", "error");
+        return;
+      }
+
+      const title = document.getElementById("taskTitle").value.trim();
+      const category = document.getElementById("category").value;
+      const description = document.getElementById("description").value.trim();
+      const budget = Number(document.getElementById("budget").value);
+      const deadline = document.getElementById("deadline").value;
+
+      if (title.length < 5) {
+        showNotice("Task title must contain at least 5 characters.", "error");
+        return;
+      }
+
+      if (description.length < 30) {
+        showNotice("Please provide a task description of at least 30 characters.", "error");
+        return;
+      }
+
+      if (!Number.isFinite(budget) || budget <= 0) {
+        showNotice("Please enter a valid budget greater than zero.", "error");
+        return;
+      }
+
+      if (deadline) {
+        const selectedDate = new Date(deadline + "T23:59:59");
+        if (Number.isNaN(selectedDate.getTime()) || selectedDate < new Date()) {
+          showNotice("Please choose a deadline that is today or a future date.", "error");
+          return;
+        }
+      }
+
+      const tasks = readJSON(TASKS_KEY, []);
+      if (!Array.isArray(tasks)) {
+        showNotice("Your saved task data could not be read. Please check your browser storage.", "error");
+        return;
+      }
+
+      const now = new Date().toISOString();
+      const userId = getUserId(currentUser);
+      const fullName = [
+        currentUser.firstName || currentUser.first_name || "",
+        currentUser.lastName || currentUser.last_name || ""
+      ].filter(Boolean).join(" ") || currentUser.name || "NEDIKE User";
+
+      const taskData = {
+        ...(editingTask || {}),
+        id: editingTask?.id || "TASK-" + Date.now() + "-" + Math.random().toString(36).slice(2, 7),
+        userId: editingTask?.userId || userId,
+        ownerId: editingTask?.ownerId || userId,
+        posterId: editingTask?.posterId || userId,
+        email: currentUser.email || editingTask?.email || "",
+        posterEmail: currentUser.email || editingTask?.posterEmail || "",
+        posterName: fullName,
+        title,
+        taskTitle: title,
+        category,
+        taskType: document.getElementById("taskType").value,
+        description,
+        skills: document.getElementById("skills").value
+          .split(",")
+          .map(skill => skill.trim())
+          .filter(Boolean),
+        budget,
+        budgetType: document.getElementById("budgetType").value,
+        deadline,
+        duration: document.getElementById("duration").value,
+        location: document.getElementById("location").value.trim(),
+        workMode: document.getElementById("workMode").value,
+        requirements: document.getElementById("requirements").value.trim(),
+        status: document.querySelector('input[name="status"]:checked')?.value || "open",
+        createdAt: editingTask?.createdAt || now,
+        updatedAt: now
+      };
+
+      try {
+        if (editingTask) {
+          const index = tasks.findIndex(task =>
+            String(task.id) === String(editingTask.id)
+          );
+
+          if (index === -1) {
+            showNotice("This task is no longer available to edit. Please refresh and try again.", "error");
+            return;
+          }
+
+          tasks[index] = taskData;
+        } else {
+          tasks.unshift(taskData);
+        }
+
+        writeJSON(TASKS_KEY, tasks);
+        sessionStorage.removeItem("nedike_edit_task_id");
+
+        showNotice(
+          editingTask
+            ? "Your task has been updated successfully."
+            : taskData.status === "draft"
+              ? "Your task has been saved as a draft."
+              : "Your task has been published successfully.",
+          "success"
+        );
+
+        submitButton.disabled = true;
+        submitButton.textContent = "Saved";
+
+        setTimeout(() => {
+          window.location.href = "my-task.html";
+        }, 900);
+
+      } catch (error) {
+        showNotice(
+          "Unable to save your task. Your browser storage may be full. Try reducing the information and try again.",
+          "error"
+        );
+      }
+    });
+
+    document.getElementById("menuToggle").addEventListener("click", () => {
+      document.getElementById("navLinks").classList.toggle("open");
+    });
+
+    initialize();
+  })();
+</script>
+
+</body>
+</html>

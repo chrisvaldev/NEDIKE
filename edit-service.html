@@ -1,0 +1,1137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102B46">
+  <title>Edit Service | NEDIKE</title>
+  <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy: #102B46;
+      --navy-dark: #0B2035;
+      --green: #16845B;
+      --green-dark: #106D4A;
+      --green-light: #EAF4EE;
+      --bg: #F4F7F5;
+      --white: #FFFFFF;
+      --text: #263746;
+      --muted: #718096;
+      --border: #E3EAE6;
+      --danger: #C53D3D;
+      --shadow: 0 8px 30px rgba(16,43,70,.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: auto;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--navy);
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: -.8px;
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 21px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #526272;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--green); }
+
+    .profile-link {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-weight: 800;
+    }
+
+    .menu-toggle {
+      display: none;
+      border: 0;
+      background: transparent;
+      color: var(--navy);
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    .page-heading { padding: 40px 0 27px; }
+
+    .breadcrumb {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .breadcrumb a {
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .page-heading h1 {
+      color: var(--navy);
+      font-size: clamp(27px, 4vw, 35px);
+      letter-spacing: -1.1px;
+      margin-bottom: 7px;
+    }
+
+    .page-heading p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 24px;
+      align-items: start;
+      padding-bottom: 65px;
+    }
+
+    .form-card,
+    .side-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .form-card { padding: 29px; }
+
+    .form-section + .form-section {
+      border-top: 1px solid var(--border);
+      margin-top: 30px;
+      padding-top: 27px;
+    }
+
+    .section-heading { margin-bottom: 21px; }
+
+    .section-heading h2 {
+      color: var(--navy);
+      font-size: 17px;
+      margin-bottom: 4px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .field { margin-bottom: 18px; }
+    .field:last-child { margin-bottom: 0; }
+
+    .field label {
+      display: block;
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .required { color: var(--danger); }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid #DCE5E0;
+      border-radius: 7px;
+      background: white;
+      color: var(--text);
+      font-size: 13px;
+      outline: none;
+      transition: .2s;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(22,132,91,.09);
+    }
+
+    .field textarea {
+      min-height: 125px;
+      resize: vertical;
+    }
+
+    .field small {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 6px;
+    }
+
+    .two-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .input-prefix {
+      display: flex;
+      border: 1px solid #DCE5E0;
+      border-radius: 7px;
+      overflow: hidden;
+    }
+
+    .input-prefix span {
+      padding: 11px 13px;
+      background: #F4F7F5;
+      border-right: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .input-prefix input {
+      border: 0;
+      border-radius: 0;
+      box-shadow: none !important;
+    }
+
+    .image-preview {
+      width: 100%;
+      max-width: 340px;
+      height: 185px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #F4F7F5;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 13px;
+    }
+
+    .image-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .specialty-entry {
+      display: flex;
+      gap: 9px;
+    }
+
+    .specialty-entry input {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .specialty-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .specialty-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 5px;
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .specialty-tag button {
+      background: transparent;
+      border: 0;
+      color: var(--green-dark);
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .radio-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 11px 13px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .radio-option input { accent-color: var(--green); }
+
+    .btn {
+      border: 0;
+      border-radius: 7px;
+      padding: 11px 17px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: .2s;
+    }
+
+    .btn-primary { background: var(--green); color: white; }
+    .btn-primary:hover { background: var(--green-dark); }
+
+    .btn-outline {
+      background: white;
+      color: var(--navy);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .notice {
+      display: none;
+      padding: 13px 15px;
+      border-radius: 7px;
+      margin-bottom: 20px;
+      font-size: 12px;
+    }
+
+    .notice.success {
+      display: block;
+      background: var(--green-light);
+      color: var(--green-dark);
+    }
+
+    .notice.error {
+      display: block;
+      background: #FDECEC;
+      color: #A52F2F;
+    }
+
+    .form-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-top: 1px solid var(--border);
+      margin-top: 29px;
+      padding-top: 22px;
+    }
+
+    .side-card {
+      padding: 22px;
+      margin-bottom: 16px;
+    }
+
+    .side-card h3 {
+      color: var(--navy);
+      font-size: 14px;
+      margin-bottom: 13px;
+    }
+
+    .tip {
+      display: flex;
+      gap: 9px;
+      margin-bottom: 14px;
+      color: #647484;
+      font-size: 12px;
+    }
+
+    .tip:last-child { margin-bottom: 0; }
+
+    .tip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
+    .side-link {
+      display: block;
+      padding: 11px 0;
+      border-top: 1px solid var(--border);
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    footer {
+      background: var(--navy-dark);
+      color: rgba(255,255,255,.7);
+      padding: 24px 0;
+      font-size: 11px;
+    }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .footer-content strong { color: white; }
+
+    @media(max-width: 900px) {
+      .nav-links { gap: 12px; font-size: 11px; }
+      .layout { grid-template-columns: minmax(0, 1fr) 240px; }
+    }
+
+    @media(max-width: 720px) {
+      .menu-toggle { display: block; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 18px 22px;
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .nav-links.open { display: flex; }
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .side-card { margin-bottom: 0; }
+    }
+
+    @media(max-width: 520px) {
+      .container { width: calc(100% - 28px); }
+      .form-card { padding: 20px 15px; }
+      .two-columns { grid-template-columns: 1fr; gap: 0; }
+      .sidebar { grid-template-columns: 1fr; }
+      .specialty-entry { flex-direction: column; }
+      .specialty-entry .btn { width: 100%; }
+      .form-actions { flex-direction: column-reverse; align-items: stretch; }
+      .form-actions .btn { width: 100%; }
+      .footer-content { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container navbar">
+    <a href="index.html" class="brand">
+      <img src="assets/images/nedike-icon.png" alt="NEDIKE logo">
+      NEDIKE
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="services.html" class="active">Services</a>
+      <a href="tasks.html">Tasks</a>
+      <a href="learning.html">Learn</a>
+      <a href="messages.html">Messages</a>
+      <a href="about.html">About</a>
+      <a href="help.html">Help</a>
+    </nav>
+
+    <div style="display:flex;align-items:center;gap:12px">
+      <a href="profile.html" class="profile-link" id="profileInitial">U</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="page-heading">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> /
+      <a href="my-service.html">My Services</a> /
+      Edit Service
+    </div>
+
+    <h1>Edit Your Service</h1>
+    <p>Update your service listing so potential clients can understand exactly what you offer.</p>
+  </section>
+
+  <div class="layout">
+
+    <section class="form-card">
+      <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+      <form id="serviceForm">
+
+        <div class="form-section">
+          <div class="section-heading">
+            <h2>Service Information</h2>
+            <p>Update the basic details of your service.</p>
+          </div>
+
+          <div class="field">
+            <label for="title">Service Title <span class="required">*</span></label>
+            <input type="text" id="title" maxlength="100" required placeholder="e.g. Professional Business Flyer Design">
+          </div>
+
+          <div class="two-columns">
+            <div class="field">
+              <label for="category">Service Category <span class="required">*</span></label>
+              <select id="category" required>
+                <option value="">Select category</option>
+                <option>Graphic Design</option>
+                <option>Web Development</option>
+                <option>Mobile App Development</option>
+                <option>Photography/Videography</option>
+                <option>Writing/Content</option>
+                <option>Digital Marketing</option>
+                <option>Business/Professional Services</option>
+                <option>Home/Personal Services</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="deliveryTime">Delivery Time <span class="required">*</span></label>
+              <select id="deliveryTime" required>
+                <option value="">Select delivery time</option>
+                <option>Within 24 hours</option>
+                <option>1–2 days</option>
+                <option>3–5 days</option>
+                <option>1 week</option>
+                <option>2 weeks</option>
+                <option>3–4 weeks</option>
+                <option>To be agreed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="description">Service Description <span class="required">*</span></label>
+            <textarea id="description" minlength="30" maxlength="2500" required placeholder="Describe your service, what you will deliver and why clients should choose you..."></textarea>
+            <small>Minimum 30 characters. Be clear about what is included in your service.</small>
+          </div>
+
+          <div class="field">
+            <label for="specialtyInput">Specialties</label>
+            <div class="specialty-entry">
+              <input type="text" id="specialtyInput" maxlength="60" placeholder="e.g. Logo Design">
+              <button type="button" class="btn btn-outline" id="addSpecialty">Add Specialty</button>
+            </div>
+            <div class="specialty-list" id="specialtyList"></div>
+            <small>Add specific skills or areas covered by this service.</small>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <h2>Pricing and Delivery</h2>
+            <p>Keep your price and delivery expectations accurate.</p>
+          </div>
+
+          <div class="two-columns">
+            <div class="field">
+              <label for="price">Service Price (₦) <span class="required">*</span></label>
+              <div class="input-prefix">
+                <span>₦</span>
+                <input type="number" id="price" min="1" step="1" required placeholder="5000">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="revisions">Revisions Included</label>
+              <select id="revisions">
+                <option value="0">No revisions</option>
+                <option value="1">1 revision</option>
+                <option value="2">2 revisions</option>
+                <option value="3">3 revisions</option>
+                <option value="Unlimited">Unlimited</option>
+                <option value="To be agreed">To be agreed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="location">Service Location</label>
+            <input type="text" id="location" maxlength="100" placeholder="e.g. Onitsha, Anambra State">
+            <small>Enter your service location or indicate if you work remotely.</small>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <h2>Service Cover Image</h2>
+            <p>Update the image that represents your service.</p>
+          </div>
+
+          <div class="image-preview" id="imagePreview">
+            No service image available
+          </div>
+
+          <div class="field">
+            <label for="image">Upload New Cover Image</label>
+            <input type="file" id="image" accept="image/jpeg,image/png,image/webp">
+            <small>JPG, PNG or WebP. Maximum file size: 2MB. Leave empty to keep your existing image.</small>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <h2>Additional Information</h2>
+            <p>Tell clients what they need to provide before you begin.</p>
+          </div>
+
+          <div class="field">
+            <label for="requirements">Client Requirements</label>
+            <textarea id="requirements" maxlength="1500" placeholder="What information, files or materials should clients provide?"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="additionalInfo">Additional Notes</label>
+            <textarea id="additionalInfo" maxlength="1500" placeholder="Add any other important information about your service..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <h2>Publishing Settings</h2>
+            <p>Choose whether your service should be available to clients.</p>
+          </div>
+
+          <div class="field">
+            <label>Service Status</label>
+            <div class="radio-options">
+              <label class="radio-option">
+                <input type="radio" name="status" value="active">
+                Active
+              </label>
+
+              <label class="radio-option">
+                <input type="radio" name="status" value="draft">
+                Draft
+              </label>
+
+              <label class="radio-option">
+                <input type="radio" name="status" value="inactive">
+                Inactive
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <a href="my-service.html" class="btn btn-outline">Cancel</a>
+          <button type="submit" class="btn btn-primary" id="saveButton">Save Changes</button>
+        </div>
+
+      </form>
+    </section>
+
+    <aside class="sidebar">
+
+      <div class="side-card">
+        <h3>Improve Your Service Listing</h3>
+
+        <div class="tip">
+          <span class="tip-dot"></span>
+          <span>Use a title that clearly explains what you offer.</span>
+        </div>
+
+        <div class="tip">
+          <span class="tip-dot"></span>
+          <span>Describe exactly what clients will receive.</span>
+        </div>
+
+        <div class="tip">
+          <span class="tip-dot"></span>
+          <span>Set a fair price that reflects your work.</span>
+        </div>
+
+        <div class="tip">
+          <span class="tip-dot"></span>
+          <span>Use a relevant image that represents your service.</span>
+        </div>
+
+        <div class="tip">
+          <span class="tip-dot"></span>
+          <span>Keep your delivery time realistic.</span>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <h3>Manage Your Services</h3>
+        <a href="my-service.html" class="side-link">View My Services →</a>
+        <a href="services.html" class="side-link">Explore Services →</a>
+        <a href="help.html" class="side-link">Visit Help Centre →</a>
+      </div>
+
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-content">
+    <strong>NEDIKE</strong>
+    <span>Learn. Work. Earn. Teach.</span>
+    <span>© <span id="year"></span> NEDIKE. All rights reserved.</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  "use strict";
+
+  const SERVICES_KEY = "nedike_services";
+  const USER_KEY = "nedike_current_user";
+
+  const params = new URLSearchParams(window.location.search);
+  const serviceId =
+    params.get("id") ||
+    params.get("edit") ||
+    sessionStorage.getItem("nedike_edit_service_id");
+
+  const form = document.getElementById("serviceForm");
+  const notice = document.getElementById("notice");
+  const saveButton = document.getElementById("saveButton");
+  const imageInput = document.getElementById("image");
+  const imagePreview = document.getElementById("imagePreview");
+  const specialtyInput = document.getElementById("specialtyInput");
+  const specialtyList = document.getElementById("specialtyList");
+
+  let currentUser = null;
+  let currentService = null;
+  let currentImage = "";
+  let newImage = "";
+  let specialties = [];
+  let isAuthorized = false;
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  function readJSON(key, fallback) {
+    try {
+      const value = localStorage.getItem(key);
+      return value ? JSON.parse(value) : fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function writeJSON(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  function getUserId(user) {
+    return String(
+      user?.id ||
+      user?.userId ||
+      user?.email ||
+      user?.username ||
+      ""
+    ).trim().toLowerCase();
+  }
+
+  function getServiceOwner(service) {
+    return String(
+      service.userId ||
+      service.ownerId ||
+      service.providerId ||
+      service.email ||
+      service.providerEmail ||
+      ""
+    ).trim().toLowerCase();
+  }
+
+  function showNotice(message, type) {
+    notice.textContent = message;
+    notice.className = "notice " + type;
+    notice.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function setValue(id, value) {
+    const element = document.getElementById(id);
+    if (element && value !== undefined && value !== null) {
+      element.value = value;
+    }
+  }
+
+  function renderImage(src) {
+    imagePreview.innerHTML = "";
+
+    if (!src) {
+      imagePreview.textContent = "No service image available";
+      return;
+    }
+
+    const image = document.createElement("img");
+    image.src = src;
+    image.alt = "Service cover preview";
+    image.onerror = () => {
+      imagePreview.textContent = "Image could not be displayed";
+    };
+
+    imagePreview.appendChild(image);
+  }
+
+  function renderSpecialties() {
+    specialtyList.innerHTML = "";
+
+    specialties.forEach((specialty, index) => {
+      const tag = document.createElement("span");
+      tag.className = "specialty-tag";
+
+      const label = document.createElement("span");
+      label.textContent = specialty;
+
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.textContent = "×";
+      remove.setAttribute("aria-label", "Remove " + specialty);
+      remove.addEventListener("click", () => {
+        specialties.splice(index, 1);
+        renderSpecialties();
+      });
+
+      tag.append(label, remove);
+      specialtyList.appendChild(tag);
+    });
+  }
+
+  function addSpecialty() {
+    const value = specialtyInput.value.trim();
+
+    if (!value) {
+      showNotice("Enter a specialty before adding it.", "error");
+      specialtyInput.focus();
+      return;
+    }
+
+    if (specialties.some(item =>
+      item.toLowerCase() === value.toLowerCase()
+    )) {
+      showNotice("This specialty has already been added.", "error");
+      return;
+    }
+
+    specialties.push(value);
+    specialtyInput.value = "";
+    renderSpecialties();
+    notice.className = "notice";
+  }
+
+  function loadService(service) {
+    setValue("title", service.title || service.serviceTitle || "");
+    setValue("category", service.category || service.serviceCategory || "");
+    setValue("description", service.description || service.details || "");
+    setValue("price", service.price ?? service.amount ?? "");
+    setValue("deliveryTime", service.deliveryTime || "");
+    setValue("revisions", service.revisions ?? "0");
+    setValue("location", service.location || "");
+    setValue("requirements", service.requirements || "");
+    setValue("additionalInfo", service.additionalInfo || "");
+
+    specialties = Array.isArray(service.specialties)
+      ? [...service.specialties]
+      : String(service.specialties || "")
+          .split(/[,;\n]/)
+          .map(item => item.trim())
+          .filter(Boolean);
+
+    currentImage =
+      service.image ||
+      service.imageUrl ||
+      service.thumbnail ||
+      service.coverImage ||
+      "";
+
+    renderSpecialties();
+    renderImage(currentImage);
+
+    const status = String(service.status || "active").toLowerCase();
+    const supportedStatus = ["active", "draft", "inactive"].includes(status)
+      ? status
+      : "active";
+
+    const radio = document.querySelector(
+      `input[name="status"][value="${supportedStatus}"]`
+    );
+
+    if (radio) radio.checked = true;
+  }
+
+  function disableForm() {
+    form.querySelectorAll("input, select, textarea, button").forEach(element => {
+      element.disabled = true;
+    });
+  }
+
+  function initialize() {
+    currentUser = readJSON(USER_KEY, null);
+
+    if (!currentUser || !getUserId(currentUser)) {
+      window.location.href =
+        "login.html?redirect=" +
+        encodeURIComponent("edit-service.html?id=" + encodeURIComponent(serviceId || ""));
+      return;
+    }
+
+    const firstName =
+      currentUser.firstName ||
+      currentUser.first_name ||
+      currentUser.name ||
+      "User";
+
+    document.getElementById("profileInitial").textContent =
+      String(firstName).charAt(0).toUpperCase();
+
+    const services = readJSON(SERVICES_KEY, []);
+
+    if (!Array.isArray(services)) {
+      showNotice("Your saved service data could not be read.", "error");
+      disableForm();
+      return;
+    }
+
+    if (!serviceId) {
+      showNotice("No service ID was provided. Open this page from My Services to edit a listing.", "error");
+      disableForm();
+      return;
+    }
+
+    currentService = services.find(service =>
+      String(service.id) === String(serviceId)
+    );
+
+    if (!currentService) {
+      showNotice("The service you want to edit could not be found.", "error");
+      disableForm();
+      return;
+    }
+
+    const ownerId = getServiceOwner(currentService);
+
+    if (!ownerId || ownerId !== getUserId(currentUser)) {
+      showNotice("You do not have permission to edit this service.", "error");
+      disableForm();
+      return;
+    }
+
+    isAuthorized = true;
+    loadService(currentService);
+  }
+
+  document.getElementById("addSpecialty").addEventListener("click", addSpecialty);
+
+  specialtyInput.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      addSpecialty();
+    }
+  });
+
+  imageInput.addEventListener("change", () => {
+    const file = imageInput.files[0];
+
+    if (!file) return;
+
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
+    if (!allowedTypes.includes(file.type)) {
+      imageInput.value = "";
+      showNotice("Please upload a JPG, PNG or WebP image.", "error");
+      return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      imageInput.value = "";
+      showNotice("Your image must not exceed 2MB.", "error");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      newImage = reader.result;
+      renderImage(newImage);
+      notice.className = "notice";
+    };
+
+    reader.onerror = () => {
+      showNotice("The selected image could not be read.", "error");
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+
+    if (!isAuthorized || !currentService || !currentUser) {
+      showNotice("You are not authorised to edit this service.", "error");
+      return;
+    }
+
+    const title = document.getElementById("title").value.trim();
+    const category = document.getElementById("category").value;
+    const description = document.getElementById("description").value.trim();
+    const price = Number(document.getElementById("price").value);
+    const deliveryTime = document.getElementById("deliveryTime").value;
+
+    if (title.length < 5) {
+      showNotice("Service title must contain at least 5 characters.", "error");
+      return;
+    }
+
+    if (!category) {
+      showNotice("Please select a service category.", "error");
+      return;
+    }
+
+    if (description.length < 30) {
+      showNotice("Please provide a description of at least 30 characters.", "error");
+      return;
+    }
+
+    if (!Number.isFinite(price) || price <= 0) {
+      showNotice("Enter a valid service price greater than zero.", "error");
+      return;
+    }
+
+    if (!deliveryTime) {
+      showNotice("Please select a delivery time.", "error");
+      return;
+    }
+
+    const services = readJSON(SERVICES_KEY, []);
+
+    if (!Array.isArray(services)) {
+      showNotice("Unable to read your saved services.", "error");
+      return;
+    }
+
+    const index = services.findIndex(service =>
+      String(service.id) === String(currentService.id)
+    );
+
+    if (index === -1) {
+      showNotice("This service no longer exists in your saved listings.", "error");
+      return;
+    }
+
+    // Recheck ownership before saving.
+    if (getServiceOwner(services[index]) !== getUserId(currentUser)) {
+      showNotice("You are no longer authorised to edit this service.", "error");
+      return;
+    }
+
+    const now = new Date().toISOString();
+
+    const updatedService = {
+      ...services[index],
+      title,
+      serviceTitle: title,
+      category,
+      serviceCategory: category,
+      description,
+      price,
+      deliveryTime,
+      revisions: document.getElementById("revisions").value,
+      location: document.getElementById("location").value.trim(),
+      specialties: [...specialties],
+      requirements: document.getElementById("requirements").value.trim(),
+      additionalInfo: document.getElementById("additionalInfo").value.trim(),
+      image: newImage || currentImage,
+      status: document.querySelector('input[name="status"]:checked')?.value || "active",
+      updatedAt: now
+    };
+
+    try {
+      services[index] = updatedService;
+      writeJSON(SERVICES_KEY, services);
+
+      sessionStorage.removeItem("nedike_edit_service_id");
+
+      showNotice("Your service has been updated successfully.", "success");
+
+      saveButton.disabled = true;
+      saveButton.textContent = "Changes Saved";
+
+      setTimeout(() => {
+        window.location.href = "my-service.html";
+      }, 900);
+
+    } catch (error) {
+      showNotice(
+        "Unable to save your changes. Your browser storage may be full. Try using a smaller image.",
+        "error"
+      );
+    }
+  });
+
+  document.getElementById("menuToggle").addEventListener("click", () => {
+    document.getElementById("navLinks").classList.toggle("open");
+  });
+
+  initialize();
+
+})();
+</script>
+
+</body>
+</html>

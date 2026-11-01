@@ -1,0 +1,1737 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Help Centre | NEDIKE</title>
+    <meta name="description" content="Find answers to common questions and learn how to use NEDIKE.">
+
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #102B46;
+            --navy-dark: #0B2035;
+            --green: #16845B;
+            --green-dark: #106D4A;
+            --green-light: #EAF4EE;
+            --background: #F4F7F5;
+            --white: #FFFFFF;
+            --text: #263746;
+            --muted: #718096;
+            --border: #E3EAE6;
+            --container: 1160px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background: var(--white);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            width: min(var(--container), 92%);
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-inner {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--navy);
+            font-size: 23px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            flex-shrink: 0;
+        }
+
+        .brand img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 29px;
+        }
+
+        .main-nav a {
+            color: #657386;
+            font-size: 13px;
+            font-weight: 600;
+            transition: color .2s ease;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: var(--green);
+        }
+
+        .header-cta {
+            padding: 12px 19px;
+            background: var(--green);
+            color: var(--white);
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: background .2s ease;
+        }
+
+        .header-cta:hover {
+            background: var(--green-dark);
+        }
+
+        .menu-toggle {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            background: var(--white);
+            color: var(--navy);
+            font-size: 21px;
+            cursor: pointer;
+        }
+
+        /* HERO */
+
+        .help-hero {
+            background: var(--navy);
+            color: var(--white);
+            padding: 72px 0 78px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: #8BD3AE;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.7px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 20px;
+            height: 2px;
+            background: #8BD3AE;
+        }
+
+        .help-hero h1 {
+            font-size: clamp(35px, 5vw, 49px);
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1.2;
+            margin-bottom: 15px;
+        }
+
+        .help-hero h1 span {
+            color: #8BD3AE;
+        }
+
+        .hero-description {
+            max-width: 590px;
+            margin: 0 auto;
+            color: #CFD9E2;
+            font-size: 13px;
+            line-height: 1.9;
+        }
+
+        /* SEARCH */
+
+        .help-search-section {
+            margin-top: -27px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .help-search {
+            width: min(700px, 100%);
+            min-height: 60px;
+            margin: auto;
+            padding: 0 19px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-shadow: 0 8px 25px rgba(16, 43, 70, .07);
+        }
+
+        .help-search svg {
+            width: 19px;
+            height: 19px;
+            color: var(--muted);
+            flex-shrink: 0;
+        }
+
+        .help-search input {
+            width: 100%;
+            min-width: 0;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        .help-search input::placeholder {
+            color: #9AA6B2;
+        }
+
+        /* SECTION INTRO */
+
+        .section-intro {
+            padding: 75px 0 30px;
+        }
+
+        .section-heading {
+            margin-bottom: 25px;
+        }
+
+        .section-label {
+            display: block;
+            color: var(--green);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 9px;
+        }
+
+        .section-heading h2 {
+            color: var(--navy);
+            font-size: 27px;
+            letter-spacing: -.9px;
+            line-height: 1.3;
+            margin-bottom: 9px;
+        }
+
+        .section-heading p {
+            max-width: 650px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.9;
+        }
+
+        /* HELP CATEGORIES */
+
+        .categories-section {
+            padding: 10px 0 65px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .category-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 21px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            transition: border-color .2s ease,
+                        transform .2s ease,
+                        box-shadow .2s ease;
+        }
+
+        .category-card:hover {
+            border-color: #B9D5C5;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(16,43,70,.045);
+        }
+
+        .category-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 41px;
+            height: 41px;
+            flex-shrink: 0;
+            border-radius: 5px;
+            background: var(--green-light);
+            color: var(--green);
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .category-content h3 {
+            color: var(--navy);
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .category-content p {
+            color: var(--muted);
+            font-size: 10.5px;
+            line-height: 1.7;
+        }
+
+        /* FAQ */
+
+        .faq-section {
+            padding: 68px 0 75px;
+            background: var(--background);
+        }
+
+        .faq-layout {
+            display: grid;
+            grid-template-columns: 260px minmax(0, 1fr);
+            gap: 45px;
+            align-items: start;
+        }
+
+        .faq-sidebar {
+            position: sticky;
+            top: 105px;
+        }
+
+        .faq-sidebar h3 {
+            color: var(--navy);
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        .faq-filter {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .faq-filter button {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 11px 13px;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #68798A;
+            font-size: 11px;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .faq-filter button:hover {
+            color: var(--green);
+            background: #EDF4EF;
+        }
+
+        .faq-filter button.active {
+            background: var(--white);
+            border-color: var(--border);
+            color: var(--green);
+        }
+
+        .faq-content {
+            min-width: 0;
+        }
+
+        .faq-heading {
+            margin-bottom: 22px;
+        }
+
+        .faq-heading h2 {
+            color: var(--navy);
+            font-size: 25px;
+            letter-spacing: -.7px;
+            margin-bottom: 7px;
+        }
+
+        .faq-heading p {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+        }
+
+        .faq-item {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            min-height: 61px;
+            padding: 15px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            border: none;
+            background: var(--white);
+            color: var(--navy);
+            font-size: 12px;
+            font-weight: 700;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .faq-question:hover {
+            color: var(--green);
+        }
+
+        .faq-plus {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 25px;
+            height: 25px;
+            flex-shrink: 0;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            color: var(--green);
+            font-size: 16px;
+            font-weight: 400;
+            transition: transform .2s ease;
+        }
+
+        .faq-item.open .faq-plus {
+            transform: rotate(45deg);
+            background: var(--green-light);
+            border-color: var(--green-light);
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 0 18px 19px;
+            color: var(--muted);
+            font-size: 11.5px;
+            line-height: 1.9;
+        }
+
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+
+        .faq-answer a {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .faq-empty {
+            display: none;
+            padding: 35px 20px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            background: var(--white);
+            color: var(--muted);
+            text-align: center;
+            font-size: 12px;
+        }
+
+        /* CONTACT SUPPORT */
+
+        .contact-section {
+            padding: 75px 0;
+            background: var(--white);
+        }
+
+        .contact-panel {
+            padding: 39px;
+            background: var(--navy);
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .contact-content {
+            max-width: 650px;
+        }
+
+        .contact-content .section-label {
+            color: #8BD3AE;
+        }
+
+        .contact-content h2 {
+            color: var(--white);
+            font-size: 25px;
+            letter-spacing: -.8px;
+            margin-bottom: 10px;
+        }
+
+        .contact-content p {
+            color: #CFD9E2;
+            font-size: 11.5px;
+            line-height: 1.9;
+        }
+
+        .contact-action {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 43px;
+            padding: 0 18px;
+            border-radius: 4px;
+            background: var(--green);
+            color: var(--white);
+            font-size: 11px;
+            font-weight: 700;
+            transition: background .2s ease;
+        }
+
+        .contact-action:hover {
+            background: #20A36F;
+        }
+
+        /* FOOTER */
+
+        .site-footer {
+            padding: 25px 0;
+            background: var(--navy-dark);
+            color: #C0CCD6;
+        }
+
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-inner p {
+            font-size: 10px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 19px;
+        }
+
+        .footer-links a {
+            color: #C0CCD6;
+            font-size: 10px;
+            transition: color .2s ease;
+        }
+
+        .footer-links a:hover {
+            color: #8BD3AE;
+        }
+
+        /* TABLET */
+
+        @media (max-width: 900px) {
+            .main-nav {
+                gap: 17px;
+            }
+
+            .header-cta {
+                display: none;
+            }
+
+            .faq-layout {
+                grid-template-columns: 215px minmax(0, 1fr);
+                gap: 28px;
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 650px) {
+            html {
+                scroll-padding-top: 75px;
+            }
+
+            .header-inner {
+                min-height: 67px;
+                flex-wrap: wrap;
+                gap: 0;
+                position: relative;
+            }
+
+            .brand {
+                font-size: 21px;
+            }
+
+            .brand img {
+                width: 34px;
+                height: 34px;
+            }
+
+            .menu-toggle {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .main-nav {
+                display: none;
+                position: absolute;
+                top: 67px;
+                left: -4.35%;
+                right: -4.35%;
+                padding: 15px 4.35% 20px;
+                background: var(--white);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+            }
+
+            .main-nav.open {
+                display: flex;
+            }
+
+            .main-nav a {
+                width: 100%;
+                padding: 12px 0;
+                font-size: 12px;
+                border-bottom: 1px solid #F0F3F1;
+            }
+
+            .help-hero {
+                padding: 60px 0 65px;
+            }
+
+            .help-hero h1 {
+                font-size: 36px;
+                letter-spacing: -1.5px;
+            }
+
+            .hero-description {
+                font-size: 11.5px;
+            }
+
+            .help-search {
+                min-height: 55px;
+            }
+
+            .section-intro {
+                padding-top: 58px;
+            }
+
+            .section-heading h2 {
+                font-size: 23px;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+                gap: 11px;
+            }
+
+            .category-card {
+                padding: 17px;
+            }
+
+            .faq-section {
+                padding: 53px 0 60px;
+            }
+
+            .faq-layout {
+                grid-template-columns: 1fr;
+                gap: 27px;
+            }
+
+            .faq-sidebar {
+                position: static;
+            }
+
+            .faq-filter {
+                flex-direction: row;
+                overflow-x: auto;
+                padding-bottom: 7px;
+                scrollbar-width: thin;
+            }
+
+            .faq-filter button {
+                width: auto;
+                min-width: max-content;
+                padding: 10px 12px;
+                border: 1px solid var(--border);
+                background: var(--white);
+            }
+
+            .faq-filter button.active {
+                background: var(--green);
+                border-color: var(--green);
+                color: var(--white);
+            }
+
+            .faq-heading h2 {
+                font-size: 22px;
+            }
+
+            .faq-question {
+                font-size: 11px;
+                padding: 14px;
+            }
+
+            .faq-answer {
+                padding: 0 14px 16px;
+                font-size: 11px;
+            }
+
+            .contact-section {
+                padding: 55px 0;
+            }
+
+            .contact-panel {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 26px;
+            }
+
+            .contact-content h2 {
+                font-size: 22px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *, *::before, *::after {
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="container header-inner">
+
+            <a href="index.html" class="brand">
+                <img src="assets/images/nedike-icon.png" alt="NEDIKE logo">
+                <span>NEDIKE</span>
+            </a>
+
+            <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="tasks.html">Tasks</a>
+                <a href="learning.html">Learn</a>
+                <a href="about.html">About</a>
+                <a href="help.html" class="active">Help</a>
+            </nav>
+
+            <a href="register.html" class="header-cta">Join NEDIKE</a>
+
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                type="button"
+                aria-label="Toggle navigation"
+                aria-expanded="false"
+                aria-controls="mainNav"
+            >
+                &#9776;
+            </button>
+
+        </div>
+    </header>
+
+
+    <!-- HERO -->
+    <section class="help-hero">
+        <div class="container">
+            <div class="hero-content">
+
+                <span class="eyebrow">NEDIKE HELP CENTRE</span>
+
+                <h1>
+                    How can we <span>help you?</span>
+                </h1>
+
+                <p class="hero-description">
+                    Find answers, understand how NEDIKE works and get
+                    guidance on using the platform. We're here to make
+                    your experience easier.
+                </p>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- SEARCH -->
+    <section class="help-search-section">
+        <div class="container">
+
+            <label class="help-search">
+
+                <svg viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor"
+                    stroke-width="1.8" stroke-linecap="round">
+                    <circle cx="10.8" cy="10.8" r="7"></circle>
+                    <path d="m16 16 4.5 4.5"></path>
+                </svg>
+
+                <input
+                    type="search"
+                    id="faqSearch"
+                    placeholder="Search for answers..."
+                    aria-label="Search frequently asked questions"
+                >
+
+            </label>
+
+        </div>
+    </section>
+
+
+    <!-- INTRODUCTION -->
+    <section class="section-intro">
+        <div class="container">
+
+            <div class="section-heading">
+                <span class="section-label">Find your way around</span>
+
+                <h2>What do you need help with?</h2>
+
+                <p>
+                    Explore the topics below to understand the different
+                    features and services available on NEDIKE.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- HELP CATEGORIES -->
+    <section class="categories-section">
+        <div class="container">
+
+            <div class="category-grid">
+
+                <a href="#faq-section" class="category-card"
+                    data-target="getting-started">
+
+                    <div class="category-icon">01</div>
+
+                    <div class="category-content">
+                        <h3>Getting Started</h3>
+                        <p>Learn what NEDIKE is and how to get started.</p>
+                    </div>
+
+                </a>
+
+
+                <a href="#faq-section" class="category-card"
+                    data-target="account">
+
+                    <div class="category-icon">02</div>
+
+                    <div class="category-content">
+                        <h3>Accounts & Profiles</h3>
+                        <p>Understand registration, login and profile settings.</p>
+                    </div>
+
+                </a>
+
+
+                <a href="#faq-section" class="category-card"
+                    data-target="services">
+
+                    <div class="category-icon">03</div>
+
+                    <div class="category-content">
+                        <h3>Services</h3>
+                        <p>Find out how service listings and providers work.</p>
+                    </div>
+
+                </a>
+
+
+                <a href="#faq-section" class="category-card"
+                    data-target="tasks">
+
+                    <div class="category-icon">04</div>
+
+                    <div class="category-content">
+                        <h3>Tasks & Opportunities</h3>
+                        <p>Understand tasks, applications and opportunities.</p>
+                    </div>
+
+                </a>
+
+
+                <a href="#faq-section" class="category-card"
+                    data-target="learning">
+
+                    <div class="category-icon">05</div>
+
+                    <div class="category-content">
+                        <h3>Learning</h3>
+                        <p>Explore skill development and learning paths.</p>
+                    </div>
+
+                </a>
+
+
+                <a href="#faq-section" class="category-card"
+                    data-target="safety">
+
+                    <div class="category-icon">06</div>
+
+                    <div class="category-content">
+                        <h3>Safety & Trust</h3>
+                        <p>Learn how to interact responsibly on NEDIKE.</p>
+                    </div>
+
+                </a>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- FAQ SECTION -->
+    <section class="faq-section" id="faq-section">
+        <div class="container">
+
+            <div class="faq-layout">
+
+                <!-- FAQ FILTER -->
+                <aside class="faq-sidebar">
+
+                    <h3>Browse topics</h3>
+
+                    <div class="faq-filter" id="faqFilters">
+
+                        <button class="active" data-category="all">
+                            All questions
+                        </button>
+
+                        <button data-category="getting-started">
+                            Getting Started
+                        </button>
+
+                        <button data-category="account">
+                            Accounts & Profiles
+                        </button>
+
+                        <button data-category="services">
+                            Services
+                        </button>
+
+                        <button data-category="tasks">
+                            Tasks & Opportunities
+                        </button>
+
+                        <button data-category="learning">
+                            Learning
+                        </button>
+
+                        <button data-category="safety">
+                            Safety & Trust
+                        </button>
+
+                    </div>
+
+                </aside>
+
+
+                <!-- FAQ CONTENT -->
+                <div class="faq-content">
+
+                    <div class="faq-heading">
+                        <span class="section-label">Frequently asked questions</span>
+                        <h2>Find your answers</h2>
+                        <p>Browse common questions about using NEDIKE.</p>
+                    </div>
+
+
+                    <div class="faq-list" id="faqList">
+
+
+                        <!-- GETTING STARTED -->
+
+                        <article class="faq-item"
+                            data-category="getting-started">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                What is NEDIKE?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                NEDIKE is a student-focused skills and
+                                services platform designed to help students
+                                showcase their abilities, discover services,
+                                explore tasks and develop useful skills.
+                            </div>
+
+                        </article>
+
+
+                        <article class="faq-item"
+                            data-category="getting-started">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                Who can use NEDIKE?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                NEDIKE is designed primarily for students
+                                who want to develop their skills, offer
+                                services, discover opportunities and connect
+                                with other members of the student community.
+                            </div>
+
+                        </article>
+
+
+                        <article class="faq-item"
+                            data-category="getting-started">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                How do I get started?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                Visit the registration page, complete the
+                                required information and create your account.
+                                You can then explore the available sections
+                                of the platform.
+                                <a href="register.html">Create an account</a>.
+                            </div>
+
+                        </article>
+
+
+                        <!-- ACCOUNT -->
+
+                        <article class="faq-item"
+                            data-category="account">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                How do I create a NEDIKE account?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                Select the registration option and provide
+                                the information requested on the sign-up page.
+                                Follow the instructions displayed to complete
+                                the process.
+                            </div>
+
+                        </article>
+
+
+                        <article class="faq-item"
+                            data-category="account">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                What information should I add to my profile?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                Provide accurate details such as your name,
+                                school, course of study, academic level,
+                                location, skills and a short biography.
+                                A complete profile helps other users
+                                understand your abilities.
+                            </div>
+
+                        </article>
+
+
+                        <article class="faq-item"
+                            data-category="account">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                Can I update my profile information?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                Profile editing is intended to allow users
+                                to update their personal and professional
+                                information. The available editing options
+                                depend on the features implemented in the
+                                current version of NEDIKE.
+                            </div>
+
+                        </article>
+
+
+                        <article class="faq-item"
+                            data-category="account">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                What should I do if I cannot log in?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                Check that you entered the correct login
+                                information and that you are using the
+                                appropriate account. If the problem
+                                continues, use the available support
+                                channel when it becomes available.
+                            </div>
+
+                        </article>
+
+
+                        <!-- SERVICES -->
+
+                        <article class="faq-item"
+                            data-category="services">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                What are services on NEDIKE?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                Services are skills or professional tasks
+                                that users can showcase to other members.
+                                Examples include graphic design, web
+                                development, photography, writing and
+                                other professional services.
+                            </div>
+
+                        </article>
+
+
+                        <article class="faq-item"
+                            data-category="services">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                How can I offer my services?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                Visit the Services section and use the
+                                available service creation option to provide
+                                details about your offering, including its
+                                title, description, category and price.
+                                The actual publishing options depend on
+                                the current platform implementation.
+                            </div>
+
+                        </article>
+
+
+                        <article class="faq-item"
+                            data-category="services">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                How do I find a service I need?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                Visit the Services page to browse available
+                                listings. Use the search and category
+                                options where available to narrow down
+                                your choices.
+                                <a href="services.html">Explore services</a>.
+                            </div>
+
+                        </article>
+
+
+                        <article class="faq-item"
+                            data-category="services">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                Can I change the price of my service?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                Service pricing should be reviewed carefully
+                                before publishing. Editing an existing
+                                listing depends on the service-management
+                                features available in the current version.
+                            </div>
+
+                        </article>
+
+
+                        <!-- TASKS -->
+
+                        <article class="faq-item"
+                            data-category="tasks">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                What are tasks on NEDIKE?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                Tasks are opportunities where users can
+                                request or offer help with specific work.
+                                They are intended to encourage collaboration
+                                and give students opportunities to apply
+                                their skills.
+                            </div>
+
+                        </article>
+
+
+                        <article class="faq-item"
+                            data-category="tasks">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                How do I find available tasks?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                Visit the Tasks section to explore the
+                                available opportunities. Use the search
+                                and filtering options if they are available.
+                                <a href="tasks.html">Explore tasks</a>.
+                            </div>
+
+                        </article>
+
+
+                        <article class="faq-item"
+                            data-category="tasks">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                Can I create a task for other students?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                The Tasks section is designed to support
+                                task creation and discovery. Follow the
+                                available instructions on the page to
+                                create a task where that functionality
+                                is enabled.
+                            </div>
+
+                        </article>
+
+
+                        <!-- LEARNING -->
+
+                        <article class="faq-item"
+                            data-category="learning">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                What is the NEDIKE Learning Hub?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                The Learning Hub is a section dedicated
+                                to skill development. It introduces learning
+                                paths across areas such as web development,
+                                graphic design, UI/UX, photography,
+                                marketing and business.
+                                <a href="learning.html">Visit the Learning Hub</a>.
+                            </div>
+
+                        </article>
+
+
+                        <article class="faq-item"
+                            data-category="learning">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                Do I need experience before starting a learning path?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                No. The learning paths are organised around
+                                beginner-friendly topics. You can explore
+                                an area that interests you and gradually
+                                develop your knowledge.
+                            </div>
+
+                        </article>
+
+
+                        <article class="faq-item"
+                            data-category="learning">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                Does NEDIKE currently provide video courses
+                                and certificates?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                The current learning page presents learning
+                                paths and topic outlines. Integrated video
+                                lessons, certificates and advanced course
+                                tracking are not currently represented as
+                                available features.
+                            </div>
+
+                        </article>
+
+
+                        <!-- SAFETY -->
+
+                        <article class="faq-item"
+                            data-category="safety">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                How can I stay safe when interacting with users?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                Use accurate information, communicate
+                                clearly, agree on the scope of work before
+                                starting a task and avoid sharing passwords,
+                                verification codes or other sensitive
+                                account information.
+                            </div>
+
+                        </article>
+
+
+                        <article class="faq-item"
+                            data-category="safety">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                Should I share my password with anyone?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                No. Never share your password or account
+                                credentials with another person. Keep your
+                                account information private.
+                            </div>
+
+                        </article>
+
+
+                        <article class="faq-item"
+                            data-category="safety">
+
+                            <button class="faq-question" type="button"
+                                aria-expanded="false">
+                                What should I do if I notice suspicious activity?
+
+                                <span class="faq-plus">+</span>
+                            </button>
+
+                            <div class="faq-answer">
+                                Avoid sharing sensitive information or
+                                proceeding with suspicious requests.
+                                Keep relevant details and contact the
+                                official NEDIKE support channel when
+                                one is available.
+                            </div>
+
+                        </article>
+
+                    </div>
+
+
+                    <div class="faq-empty" id="faqEmpty">
+                        No matching questions found. Try another search
+                        term or choose a different topic.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- CONTACT SUPPORT -->
+    <section class="contact-section">
+        <div class="container">
+
+            <div class="contact-panel">
+
+                <div class="contact-content">
+
+                    <span class="section-label">Need further assistance?</span>
+
+                    <h2>Still looking for an answer?</h2>
+
+                    <p>
+                        We want your experience with NEDIKE to be clear
+                        and straightforward. If you cannot find the
+                        information you need, look out for our official
+                        support contact options as they become available.
+                    </p>
+
+                </div>
+
+                <a href="index.html" class="contact-action">
+                    Back to NEDIKE
+                </a>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <p>
+                &copy; <span id="currentYear"></span> NEDIKE.
+                Learn. Work. Earn. Teach.
+            </p>
+
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="tasks.html">Tasks</a>
+                <a href="learning.html">Learn</a>
+                <a href="about.html">About</a>
+            </div>
+
+        </div>
+    </footer>
+
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const searchInput = document.getElementById("faqSearch");
+
+        const faqItems = Array.from(
+            document.querySelectorAll(".faq-item")
+        );
+
+        const filterButtons = document.querySelectorAll(
+            ".faq-filter button"
+        );
+
+        const emptyState = document.getElementById("faqEmpty");
+
+        const faqFilters = document.getElementById("faqFilters");
+
+        let activeCategory = "all";
+
+
+        // MOBILE NAVIGATION
+
+        const menuToggle = document.getElementById("menuToggle");
+
+        const mainNav = document.getElementById("mainNav");
+
+        menuToggle.addEventListener("click", function () {
+
+            const isOpen = mainNav.classList.toggle("open");
+
+            menuToggle.setAttribute("aria-expanded", isOpen);
+
+            menuToggle.innerHTML = isOpen ? "&times;" : "&#9776;";
+
+        });
+
+        mainNav.querySelectorAll("a").forEach(link => {
+
+            link.addEventListener("click", function () {
+
+                mainNav.classList.remove("open");
+
+                menuToggle.setAttribute("aria-expanded", "false");
+
+                menuToggle.innerHTML = "&#9776;";
+
+            });
+
+        });
+
+
+        // FAQ ACCORDION
+
+        faqItems.forEach(item => {
+
+            const question = item.querySelector(".faq-question");
+
+            question.addEventListener("click", function () {
+
+                const isOpen = item.classList.toggle("open");
+
+                question.setAttribute("aria-expanded", isOpen);
+
+            });
+
+        });
+
+
+        // FILTER QUESTIONS
+
+        function filterQuestions() {
+
+            const searchTerm = searchInput.value
+                .toLowerCase()
+                .trim();
+
+            let visibleCount = 0;
+
+            faqItems.forEach(item => {
+
+                const category = item.dataset.category;
+
+                const question = item.querySelector(
+                    ".faq-question"
+                ).textContent.toLowerCase();
+
+                const answer = item.querySelector(
+                    ".faq-answer"
+                ).textContent.toLowerCase();
+
+                const matchesCategory =
+                    activeCategory === "all" ||
+                    category === activeCategory;
+
+                const matchesSearch =
+                    question.includes(searchTerm) ||
+                    answer.includes(searchTerm);
+
+                const visible = matchesCategory && matchesSearch;
+
+                item.style.display = visible ? "block" : "none";
+
+                if (!visible) {
+                    item.classList.remove("open");
+
+                    item.querySelector(".faq-question")
+                        .setAttribute("aria-expanded", "false");
+                }
+
+                if (visible) {
+                    visibleCount++;
+                }
+
+            });
+
+            emptyState.style.display =
+                visibleCount === 0 ? "block" : "none";
+
+        }
+
+
+        // CATEGORY FILTER BUTTONS
+
+        filterButtons.forEach(button => {
+
+            button.addEventListener("click", function () {
+
+                filterButtons.forEach(item =>
+                    item.classList.remove("active")
+                );
+
+                this.classList.add("active");
+
+                activeCategory = this.dataset.category;
+
+                filterQuestions();
+
+            });
+
+        });
+
+
+        // SEARCH INPUT
+
+        searchInput.addEventListener("input", function () {
+
+            // A search should work across all FAQ categories.
+            if (this.value.trim()) {
+
+                activeCategory = "all";
+
+                filterButtons.forEach(button => {
+
+                    button.classList.toggle(
+                        "active",
+                        button.dataset.category === "all"
+                    );
+
+                });
+
+            }
+
+            filterQuestions();
+
+        });
+
+
+        // HELP CATEGORY CARDS
+
+        document.querySelectorAll(".category-card").forEach(card => {
+
+            card.addEventListener("click", function () {
+
+                const targetCategory = this.dataset.target;
+
+                activeCategory = targetCategory;
+
+                searchInput.value = "";
+
+                filterButtons.forEach(button => {
+
+                    button.classList.toggle(
+                        "active",
+                        button.dataset.category === targetCategory
+                    );
+
+                });
+
+                filterQuestions();
+
+            });
+
+        });
+
+
+        // FOOTER YEAR
+
+        document.getElementById("currentYear").textContent =
+            new Date().getFullYear();
+
+
+        // INITIALISE
+
+        filterQuestions();
+
+    });
+    </script>
+
+</body>
+</html>

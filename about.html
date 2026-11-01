@@ -1,0 +1,1054 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>About NEDIKE | Skills. Work. Opportunity.</title>
+
+    <meta name="description" content="Discover NEDIKE, a student-focused platform connecting skills, services, learning and opportunities within the university community.">
+
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* =================================
+           NEDIKE ABOUT PAGE
+        ================================= */
+
+        .about-page {
+            --about-navy: #102b46;
+            --about-green: #178653;
+            --about-light: #f5f8f6;
+            --about-text: #526174;
+            color: var(--about-navy);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+
+        .about-page * {
+            box-sizing: border-box;
+        }
+
+        .about-container {
+            width: min(1160px, 90%);
+            margin: 0 auto;
+        }
+
+        /* HERO */
+
+        .about-hero {
+            background: #f5f8f6;
+            padding: 105px 0 100px;
+            position: relative;
+        }
+
+        .about-hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            align-items: center;
+            gap: 75px;
+        }
+
+        .about-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--about-green);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .about-eyebrow::before {
+            content: "";
+            width: 25px;
+            height: 2px;
+            background: var(--about-green);
+        }
+
+        .about-hero h1 {
+            font-size: clamp(42px, 5.5vw, 67px);
+            line-height: 1.1;
+            letter-spacing: -3px;
+            font-weight: 800;
+            margin: 0 0 25px;
+            color: var(--about-navy);
+        }
+
+        .about-hero h1 span {
+            color: var(--about-green);
+        }
+
+        .about-hero-description {
+            color: var(--about-text);
+            font-size: 16px;
+            line-height: 1.9;
+            max-width: 520px;
+            margin-bottom: 32px;
+        }
+
+        .about-hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .about-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 23px;
+            border-radius: 5px;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: .25s ease;
+        }
+
+        .about-btn-primary {
+            background: var(--about-green);
+            color: white;
+        }
+
+        .about-btn-primary:hover {
+            background: #116b41;
+            transform: translateY(-2px);
+        }
+
+        .about-btn-secondary {
+            border: 1px solid #d8e1dc;
+            color: var(--about-navy);
+            background: white;
+        }
+
+        .about-btn-secondary:hover {
+            border-color: var(--about-green);
+            color: var(--about-green);
+        }
+
+        /* HERO VISUAL */
+
+        .about-visual {
+            position: relative;
+            min-height: 390px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-visual-main {
+            width: 100%;
+            min-height: 350px;
+            background: var(--about-navy);
+            border-radius: 8px;
+            padding: 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-visual-main::after {
+            content: "";
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border: 1px solid rgba(255,255,255,.13);
+            border-radius: 50%;
+            right: -90px;
+            top: -90px;
+        }
+
+        .about-visual-logo {
+            width: 65px;
+            height: 65px;
+            background: white;
+            border-radius: 12px;
+            padding: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-visual-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .about-visual-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-visual-content small {
+            color: #a9d7bf;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .about-visual-content h2 {
+            color: white;
+            font-size: clamp(27px, 3vw, 39px);
+            line-height: 1.2;
+            letter-spacing: -1.5px;
+            margin: 15px 0;
+        }
+
+        .about-visual-content p {
+            color: #d2dce5;
+            font-size: 13px;
+            line-height: 1.8;
+            max-width: 300px;
+        }
+
+        .about-visual-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,.15);
+            padding-top: 20px;
+            margin-top: 25px;
+            color: #d2dce5;
+            font-size: 11px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-visual-bottom strong {
+            color: #7bd2a4;
+            letter-spacing: 1px;
+        }
+
+        /* INTRODUCTION */
+
+        .about-intro {
+            padding: 110px 0;
+        }
+
+        .about-intro-grid {
+            display: grid;
+            grid-template-columns: .8fr 1.2fr;
+            gap: 100px;
+            align-items: start;
+        }
+
+        .about-section-label {
+            color: var(--about-green);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .about-intro h2,
+        .about-section-heading {
+            color: var(--about-navy);
+            font-size: clamp(30px, 4vw, 43px);
+            line-height: 1.2;
+            letter-spacing: -1.7px;
+            margin: 0;
+        }
+
+        .about-intro-content p {
+            color: var(--about-text);
+            font-size: 15px;
+            line-height: 2;
+            margin: 0 0 18px;
+        }
+
+        .about-intro-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* MISSION & VISION */
+
+        .about-purpose {
+            background: var(--about-light);
+            padding: 100px 0;
+        }
+
+        .about-purpose-heading {
+            max-width: 650px;
+            margin-bottom: 55px;
+        }
+
+        .about-purpose-heading p {
+            color: var(--about-text);
+            line-height: 1.8;
+            font-size: 14px;
+            margin-top: 18px;
+        }
+
+        .about-purpose-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .about-purpose-card {
+            background: white;
+            padding: 42px;
+            border: 1px solid #e8eee9;
+            border-radius: 7px;
+            transition: .3s ease;
+        }
+
+        .about-purpose-card:hover {
+            border-color: #b6d9c4;
+            transform: translateY(-4px);
+        }
+
+        .about-purpose-number {
+            color: var(--about-green);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 35px;
+            display: block;
+        }
+
+        .about-purpose-card h3 {
+            font-size: 25px;
+            margin: 0 0 15px;
+            letter-spacing: -.7px;
+            color: var(--about-navy);
+        }
+
+        .about-purpose-card p {
+            font-size: 14px;
+            line-height: 1.9;
+            color: var(--about-text);
+            margin: 0;
+        }
+
+        /* HOW IT WORKS */
+
+        .about-process {
+            padding: 110px 0;
+        }
+
+        .about-process-heading {
+            max-width: 650px;
+            margin-bottom: 55px;
+        }
+
+        .about-process-heading p {
+            color: var(--about-text);
+            line-height: 1.8;
+            font-size: 14px;
+            margin-top: 18px;
+        }
+
+        .about-process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            border-top: 1px solid #e5ebe7;
+            border-bottom: 1px solid #e5ebe7;
+        }
+
+        .about-process-item {
+            padding: 35px 25px 35px 0;
+            border-right: 1px solid #e5ebe7;
+        }
+
+        .about-process-item:not(:first-child) {
+            padding-left: 25px;
+        }
+
+        .about-process-item:last-child {
+            border-right: none;
+        }
+
+        .about-process-item span {
+            color: var(--about-green);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .about-process-item h3 {
+            font-size: 19px;
+            margin: 24px 0 12px;
+            color: var(--about-navy);
+        }
+
+        .about-process-item p {
+            font-size: 13px;
+            line-height: 1.8;
+            color: var(--about-text);
+            margin: 0;
+        }
+
+        /* VALUES */
+
+        .about-values {
+            background: var(--about-navy);
+            padding: 95px 0;
+        }
+
+        .about-values .about-section-label {
+            color: #8ed6ae;
+        }
+
+        .about-values .about-section-heading {
+            color: white;
+            max-width: 570px;
+        }
+
+        .about-values-description {
+            color: #c5d1dc;
+            font-size: 14px;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 20px 0 45px;
+        }
+
+        .about-values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 35px;
+        }
+
+        .about-value-item {
+            padding-top: 25px;
+            border-top: 1px solid rgba(255,255,255,.22);
+        }
+
+        .about-value-item h3 {
+            color: white;
+            font-size: 18px;
+            margin: 0 0 12px;
+        }
+
+        .about-value-item p {
+            color: #c5d1dc;
+            font-size: 13px;
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        /* CTA */
+
+        .about-cta {
+            padding: 95px 0;
+            text-align: center;
+        }
+
+        .about-cta-inner {
+            max-width: 730px;
+            margin: 0 auto;
+        }
+
+        .about-cta h2 {
+            color: var(--about-navy);
+            font-size: clamp(32px, 4vw, 48px);
+            letter-spacing: -2px;
+            line-height: 1.2;
+            margin: 0 0 20px;
+        }
+
+        .about-cta h2 span {
+            color: var(--about-green);
+        }
+
+        .about-cta p {
+            color: var(--about-text);
+            font-size: 14px;
+            line-height: 1.8;
+            max-width: 550px;
+            margin: 0 auto 30px;
+        }
+
+        /* FOOTER */
+
+        .about-footer {
+            background: #0c2035;
+            color: white;
+            padding: 35px 0;
+        }
+
+        .about-footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .about-footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .about-footer-brand img {
+            width: 35px;
+            height: 35px;
+            object-fit: contain;
+            background: white;
+            border-radius: 5px;
+            padding: 4px;
+        }
+
+        .about-footer-brand strong {
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        .about-footer p {
+            color: #bdc9d4;
+            font-size: 12px;
+            margin: 0;
+        }
+
+        .about-footer-links {
+            display: flex;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+
+        .about-footer-links a {
+            color: #d4dce4;
+            text-decoration: none;
+            font-size: 12px;
+            transition: .2s;
+        }
+
+        .about-footer-links a:hover {
+            color: #8ed6ae;
+        }
+
+        /* RESPONSIVENESS */
+
+        @media (max-width: 850px) {
+            .about-hero {
+                padding: 75px 0;
+            }
+
+            .about-hero-grid {
+                grid-template-columns: 1fr;
+                gap: 45px;
+            }
+
+            .about-visual {
+                min-height: auto;
+            }
+
+            .about-visual-main {
+                min-height: 310px;
+            }
+
+            .about-intro-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .about-process-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about-process-item:nth-child(2) {
+                border-right: none;
+            }
+
+            .about-process-item:nth-child(3) {
+                padding-left: 0;
+                border-top: 1px solid #e5ebe7;
+            }
+
+            .about-process-item:nth-child(4) {
+                border-top: 1px solid #e5ebe7;
+            }
+
+            .about-values-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .about-container {
+                width: 90%;
+            }
+
+            .about-hero {
+                padding: 65px 0;
+            }
+
+            .about-hero h1 {
+                letter-spacing: -2px;
+            }
+
+            .about-hero-description {
+                font-size: 14px;
+            }
+
+            .about-visual-main {
+                padding: 30px;
+                min-height: 310px;
+            }
+
+            .about-intro,
+            .about-process {
+                padding: 75px 0;
+            }
+
+            .about-purpose,
+            .about-values {
+                padding: 75px 0;
+            }
+
+            .about-purpose-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-purpose-card {
+                padding: 30px;
+            }
+
+            .about-process-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-process-item,
+            .about-process-item:not(:first-child),
+            .about-process-item:nth-child(3) {
+                padding: 28px 0;
+                border-right: none;
+                border-bottom: 1px solid #e5ebe7;
+                border-top: none;
+            }
+
+            .about-process-item:last-child {
+                border-bottom: none;
+            }
+
+            .about-process-item h3 {
+                margin: 15px 0 8px;
+            }
+
+            .about-values-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .about-cta {
+                padding: 75px 0;
+            }
+
+            .about-footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .about-footer-links {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="about-page">
+
+        <!-- HERO SECTION -->
+        <section class="about-hero">
+            <div class="about-container about-hero-grid">
+
+                <div>
+                    <span class="about-eyebrow">ABOUT NEDIKE</span>
+
+                    <h1>
+                        Every student has a skill.
+                        <span>Every skill deserves an opportunity.</span>
+                    </h1>
+
+                    <p class="about-hero-description">
+                        NEDIKE is a student-focused skills and services
+                        marketplace designed to help students showcase
+                        their abilities, discover opportunities, connect
+                        with others and turn what they know into meaningful
+                        work.
+                    </p>
+
+                    <div class="about-hero-actions">
+                        <a href="register.html" class="about-btn about-btn-primary">
+                            Join NEDIKE <span>→</span>
+                        </a>
+
+                        <a href="services.html" class="about-btn about-btn-secondary">
+                            Explore Services
+                        </a>
+                    </div>
+                </div>
+
+                <div class="about-visual">
+                    <div class="about-visual-main">
+
+                        <div class="about-visual-logo">
+                            <img src="assets/images/nedike-icon.png"
+                                 alt="NEDIKE logo">
+                        </div>
+
+                        <div class="about-visual-content">
+                            <small>Our identity</small>
+
+                            <h2>
+                                Skills.<br>
+                                Work.<br>
+                                Opportunity.
+                            </h2>
+
+                            <p>
+                                Creating a space where student talent
+                                meets opportunity.
+                            </p>
+                        </div>
+
+                        <div class="about-visual-bottom">
+                            <span>Built around student potential.</span>
+                            <strong>NEDIKE</strong>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- OUR STORY -->
+        <section class="about-intro">
+            <div class="about-container about-intro-grid">
+
+                <div>
+                    <span class="about-section-label">OUR STORY</span>
+
+                    <h2>
+                        More than a platform. A place for student potential.
+                    </h2>
+                </div>
+
+                <div class="about-intro-content">
+                    <p>
+                        Across university communities, students possess
+                        valuable abilities beyond what they learn in
+                        lecture halls. Some design graphics, develop
+                        websites, take photographs, write content, teach
+                        others or provide useful services.
+                    </p>
+
+                    <p>
+                        However, finding the right people to offer these
+                        services, discovering available opportunities
+                        and connecting skills with real needs can be
+                        challenging.
+                    </p>
+
+                    <p>
+                        NEDIKE was conceived to help bridge this gap.
+                        It provides a dedicated digital space where
+                        students can present their abilities, discover
+                        services, connect around tasks and explore
+                        opportunities to learn and grow.
+                    </p>
+
+                    <p>
+                        We believe that a student's potential should
+                        not be limited to the classroom. Every useful
+                        skill has the possibility to create value.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- MISSION AND VISION -->
+        <section class="about-purpose">
+            <div class="about-container">
+
+                <div class="about-purpose-heading">
+                    <span class="about-section-label">OUR PURPOSE</span>
+
+                    <h2 class="about-section-heading">
+                        What drives NEDIKE forward.
+                    </h2>
+
+                    <p>
+                        Our purpose is centred on making student skills
+                        more visible, accessible and connected to
+                        opportunities.
+                    </p>
+                </div>
+
+                <div class="about-purpose-grid">
+
+                    <div class="about-purpose-card">
+                        <span class="about-purpose-number">01 / OUR MISSION</span>
+
+                        <h3>Empowering student talent.</h3>
+
+                        <p>
+                            To provide a platform that connects students'
+                            skills and services with people who need them,
+                            while encouraging collaboration, practical
+                            experience, learning and personal growth.
+                        </p>
+                    </div>
+
+                    <div class="about-purpose-card">
+                        <span class="about-purpose-number">02 / OUR VISION</span>
+
+                        <h3>A community of opportunity.</h3>
+
+                        <p>
+                            To build an accessible student-focused
+                            ecosystem where talent is recognised,
+                            skills are developed, opportunities are
+                            discovered and students can create value
+                            through what they know.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- HOW NEDIKE WORKS -->
+        <section class="about-process">
+            <div class="about-container">
+
+                <div class="about-process-heading">
+                    <span class="about-section-label">THE NEDIKE EXPERIENCE</span>
+
+                    <h2 class="about-section-heading">
+                        Turning abilities into possibilities.
+                    </h2>
+
+                    <p>
+                        NEDIKE brings different parts of the student
+                        experience together, helping users move from
+                        discovering their abilities to finding ways
+                        to put them to use.
+                    </p>
+                </div>
+
+                <div class="about-process-grid">
+
+                    <div class="about-process-item">
+                        <span>01 — DISCOVER</span>
+
+                        <h3>Explore</h3>
+
+                        <p>
+                            Discover services, skills and useful
+                            opportunities available within the
+                            student community.
+                        </p>
+                    </div>
+
+                    <div class="about-process-item">
+                        <span>02 — CONNECT</span>
+
+                        <h3>Connect</h3>
+
+                        <p>
+                            Find students with relevant abilities
+                            and connect with people who can help
+                            meet your needs.
+                        </p>
+                    </div>
+
+                    <div class="about-process-item">
+                        <span>03 — CONTRIBUTE</span>
+
+                        <h3>Work</h3>
+
+                        <p>
+                            Showcase your services, respond to
+                            relevant tasks and put your skills
+                            into practical use.
+                        </p>
+                    </div>
+
+                    <div class="about-process-item">
+                        <span>04 — DEVELOP</span>
+
+                        <h3>Grow</h3>
+
+                        <p>
+                            Keep developing your abilities,
+                            gaining experience and exploring
+                            new possibilities.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- OUR VALUES -->
+        <section class="about-values">
+            <div class="about-container">
+
+                <span class="about-section-label">WHAT WE BELIEVE IN</span>
+
+                <h2 class="about-section-heading">
+                    The principles behind everything we are building.
+                </h2>
+
+                <p class="about-values-description">
+                    NEDIKE is built around the belief that students
+                    deserve more ways to express their abilities,
+                    collaborate and create meaningful value.
+                </p>
+
+                <div class="about-values-grid">
+
+                    <div class="about-value-item">
+                        <h3>Opportunity</h3>
+
+                        <p>
+                            We believe students should have more
+                            opportunities to showcase their abilities
+                            and discover meaningful work.
+                        </p>
+                    </div>
+
+                    <div class="about-value-item">
+                        <h3>Collaboration</h3>
+
+                        <p>
+                            We encourage connections that allow
+                            students to exchange ideas, share
+                            knowledge and work together.
+                        </p>
+                    </div>
+
+                    <div class="about-value-item">
+                        <h3>Growth</h3>
+
+                        <p>
+                            We value continuous learning, practical
+                            experience and the development of
+                            useful skills.
+                        </p>
+                    </div>
+
+                    <div class="about-value-item">
+                        <h3>Creativity</h3>
+
+                        <p>
+                            We recognise that innovation and
+                            problem-solving begin with people
+                            who are willing to create.
+                        </p>
+                    </div>
+
+                    <div class="about-value-item">
+                        <h3>Accessibility</h3>
+
+                        <p>
+                            We aim to make discovering skills
+                            and connecting with opportunities
+                            straightforward and accessible.
+                        </p>
+                    </div>
+
+                    <div class="about-value-item">
+                        <h3>Community</h3>
+
+                        <p>
+                            We believe a stronger student
+                            community creates room for more
+                            shared opportunities.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- CALL TO ACTION -->
+        <section class="about-cta">
+            <div class="about-container about-cta-inner">
+
+                <span class="about-section-label">YOUR NEXT STEP STARTS HERE</span>
+
+                <h2>
+                    Your skills have a place <span>here.</span>
+                </h2>
+
+                <p>
+                    Whether you have a skill to offer, a task to
+                    complete or a desire to discover new opportunities,
+                    NEDIKE is a place to start.
+                </p>
+
+                <a href="register.html" class="about-btn about-btn-primary">
+                    Get Started with NEDIKE <span>→</span>
+                </a>
+
+            </div>
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer class="about-footer">
+            <div class="about-container about-footer-inner">
+
+                <div class="about-footer-brand">
+                    <img src="assets/images/nedike-icon.png"
+                         alt="NEDIKE">
+                    <strong>NEDIKE</strong>
+                </div>
+
+                <p>
+                    Learn. Work. Earn. Teach.
+                </p>
+
+                <div class="about-footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="services.html">Services</a>
+                    <a href="tasks.html">Tasks</a>
+                    <a href="learning.html">Learn</a>
+                    <a href="help.html">Help</a>
+                </div>
+
+                <p>
+                    &copy; <span id="about-year"></span> NEDIKE.
+                    All rights reserved.
+                </p>
+
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        document.getElementById("about-year").textContent =
+            new Date().getFullYear();
+    </script>
+
+</body>
+</html>

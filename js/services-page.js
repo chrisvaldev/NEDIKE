@@ -1,3 +1,4 @@
+
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -5,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!results) return;
 
-  // Use the shared NEDIKE services catalogue.
   if (
     !window.NEDIKEServices ||
     typeof window.NEDIKEServices.getAll !== "function"
@@ -28,6 +28,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const services = window.NEDIKEServices.getAll();
 
+  function getCurrentUser() {
+    const auth = window.NEDIKEAuth;
+
+    if (!auth || typeof auth.getCurrentUser !== "function") {
+      return null;
+    }
+
+    return auth.getCurrentUser();
+  }
+
+  function getSavedServices() {
+    const saved = window.NEDIKESavedServices;
+
+    if (!saved || typeof saved.has !== "function") {
+      return null;
+    }
+
+    return saved;
+  }
+
   function getValue(name, fallback) {
     const selected = document.querySelector(
       `input[name="${name}"]:checked`
@@ -44,6 +64,64 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     return location.charAt(0).toUpperCase() + location.slice(1);
+  }
+
+  function createSaveButton(service) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "save-service-button";
+
+    const savedServices = getSavedServices();
+    const isSaved = savedServices
+      ? savedServices.has(service.id)
+      : false;
+
+    button.textContent = isSaved ? "♥ Saved" : "♡ Save";
+    button.setAttribute("aria-pressed", String(isSaved));
+    button.setAttribute(
+      "aria-label",
+      `${isSaved ? "Remove" : "Save"} ${service.title} ${
+        isSaved ? "from" : "to"
+      } your saved services`
+    );
+
+    button.addEventListener("click", () => {
+      const user = getCurrentUser();
+
+      if (!user) {
+        const returnUrl =
+          window.location.pathname +
+          window.location.search +
+          window.location.hash;
+
+        window.location.href =
+          `login.html?return=${encodeURIComponent(returnUrl)}`;
+        return;
+      }
+
+      const manager = getSavedServices();
+
+      if (!manager) {
+        console.error(
+          "NEDIKE saved-services manager not found. Check that js/saved-services.js loads before js/services-page.js."
+        );
+        return;
+      }
+
+      const currentlySaved = manager.has(service.id);
+      const success = currentlySaved
+        ? manager.remove(service.id)
+        : manager.save(service.id);
+
+      if (!success) {
+        button.textContent = "Could not save";
+        return;
+      }
+
+      render();
+    });
+
+    return button;
   }
 
   function render() {
@@ -69,8 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .join(" ")
         .toLowerCase();
 
-      const matchesQuery =
-        !query || searchable.includes(query);
+      const matchesQuery = !query || searchable.includes(query);
 
       const matchesCategory =
         category === "all" || service.category === category;
@@ -161,7 +238,17 @@ document.addEventListener("DOMContentLoaded", () => {
       place.textContent = formatLocation(service.location);
 
       footer.append(price, place);
-      body.append(categoryLabel, heading, description, footer);
+
+      const saveButton = createSaveButton(service);
+
+      body.append(
+        categoryLabel,
+        heading,
+        description,
+        footer,
+        saveButton
+      );
+
       article.append(image, body);
       results.appendChild(article);
     });
@@ -220,7 +307,6 @@ document.addEventListener("DOMContentLoaded", () => {
     emptyClearButton.addEventListener("click", resetFilters);
   }
 
-  // Read search and category values passed through the URL.
   const params = new URLSearchParams(window.location.search);
   const query = params.get("q");
   const category = params.get("category");

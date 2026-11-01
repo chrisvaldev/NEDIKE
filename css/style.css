@@ -1,11 +1,3 @@
-/* =========================================================
-   NEDIKE — REFINED MARKETPLACE DESIGN SYSTEM
-   File: css/style.css
-   HTML5 + CSS3 + Vanilla JavaScript
-   ========================================================= */
-
-/* 01. DESIGN TOKENS
-   --------------------------------------------------------- */
 
 :root {
     color-scheme: light;
@@ -3362,14 +3354,4 @@ hr {
         transform: none;
     }
 }
-
-
-
-
-
-
-
-
-
-
 

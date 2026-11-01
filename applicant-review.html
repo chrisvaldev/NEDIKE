@@ -1,0 +1,1356 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#102B46">
+    <title>Applicant Review | NEDIKE Admin</title>
+
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #102B46;
+            --navy-dark: #0B2035;
+            --green: #16845B;
+            --green-light: #EAF4EE;
+            --background: #F4F7F5;
+            --white: #FFFFFF;
+            --text: #263746;
+            --muted: #718096;
+            --border: #E3EAE6;
+            --red: #C74444;
+            --red-light: #FCEEEE;
+            --orange: #B7791F;
+            --orange-light: #FFF6E5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .sidebar {
+            position: fixed;
+            inset: 0 auto 0 0;
+            width: 245px;
+            background: var(--navy-dark);
+            color: white;
+            padding: 25px 17px;
+            display: flex;
+            flex-direction: column;
+            z-index: 20;
+            overflow-y: auto;
+            transition: transform .25s ease;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px 27px;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+        }
+
+        .brand img {
+            width: 37px;
+            height: 37px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .brand small {
+            display: block;
+            margin-top: 3px;
+            color: #A8BAC9;
+            font-size: 9px;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .menu-heading {
+            color: #8196A8;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            padding: 26px 11px 11px;
+        }
+
+        .menu {
+            display: grid;
+            gap: 5px;
+        }
+
+        .menu a {
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 12px;
+            border-radius: 4px;
+            color: #C3D0DA;
+            font-size: 11px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            color: white;
+            background: rgba(255,255,255,.11);
+        }
+
+        .menu a.active {
+            border-left: 3px solid #3CB985;
+        }
+
+        .menu-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding-top: 22px;
+        }
+
+        .admin-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 9px;
+            border-top: 1px solid rgba(255,255,255,.12);
+        }
+
+        .admin-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--green);
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .admin-info strong {
+            display: block;
+            font-size: 11px;
+        }
+
+        .admin-info small {
+            display: block;
+            color: #9EB0BE;
+            margin-top: 4px;
+            font-size: 9px;
+        }
+
+        .main {
+            margin-left: 245px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 70px;
+            padding: 0 32px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .topbar h1 {
+            font-size: 16px;
+            color: var(--navy);
+            font-weight: 800;
+        }
+
+        .topbar p {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .menu-toggle {
+            display: none;
+            border: 0;
+            background: transparent;
+            color: var(--navy);
+            font-size: 22px;
+        }
+
+        .content {
+            padding: 30px 32px;
+            max-width: 1500px;
+            margin: auto;
+        }
+
+        .page-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .page-heading h2 {
+            font-size: 22px;
+            letter-spacing: -.7px;
+            color: var(--navy);
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.7;
+            margin-top: 7px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 23px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 18px;
+        }
+
+        .stat-card span {
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .stat-card h3 {
+            font-size: 25px;
+            color: var(--navy);
+            margin-top: 13px;
+            letter-spacing: -1px;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .panel-heading {
+            padding: 19px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-heading h3 {
+            color: var(--navy);
+            font-size: 12px;
+        }
+
+        .panel-heading p {
+            color: var(--muted);
+            font-size: 9px;
+            margin-top: 5px;
+        }
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-box input {
+            width: 100%;
+            height: 39px;
+            padding: 0 13px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            outline: none;
+            font-size: 10px;
+        }
+
+        .search-box input:focus,
+        .toolbar select:focus {
+            border-color: var(--green);
+        }
+
+        .toolbar select {
+            height: 39px;
+            min-width: 145px;
+            padding: 0 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            outline: none;
+            background: white;
+            color: var(--text);
+            font-size: 10px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            text-align: left;
+            padding: 13px 16px;
+            background: #F8FAF9;
+            color: var(--muted);
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 15px 16px;
+            border-top: 1px solid var(--border);
+            font-size: 10px;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background: #FBFDFC;
+        }
+
+        .applicant {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 170px;
+        }
+
+        .applicant-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green);
+            display: grid;
+            place-items: center;
+            font-size: 11px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .applicant strong {
+            display: block;
+            color: var(--navy);
+            font-size: 10px;
+        }
+
+        .applicant small {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            margin-top: 4px;
+        }
+
+        .task-title {
+            color: var(--navy);
+            font-weight: 700;
+            max-width: 160px;
+            line-height: 1.5;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 9px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .status.pending {
+            background: var(--orange-light);
+            color: var(--orange);
+        }
+
+        .status.approved {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+        .status.rejected {
+            background: var(--red-light);
+            color: var(--red);
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .btn {
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--text);
+            padding: 7px 10px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .btn:hover {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .btn-view {
+            color: var(--navy);
+        }
+
+        .btn-approve {
+            background: var(--green);
+            border-color: var(--green);
+            color: white;
+        }
+
+        .btn-approve:hover {
+            background: #106D4A;
+            color: white;
+        }
+
+        .btn-reject {
+            color: var(--red);
+        }
+
+        .btn-reject:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 55px 20px;
+            display: none;
+        }
+
+        .empty-state h3 {
+            color: var(--navy);
+            font-size: 14px;
+        }
+
+        .empty-state p {
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 8px;
+        }
+
+        .table-footer {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        /* Modal */
+
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(8, 25, 40, .58);
+            z-index: 50;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+        }
+
+        .modal-backdrop.show {
+            display: flex;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 540px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.2);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-header h3 {
+            font-size: 14px;
+            color: var(--navy);
+        }
+
+        .close-modal {
+            border: 0;
+            background: transparent;
+            font-size: 22px;
+            color: var(--muted);
+        }
+
+        .modal-body {
+            padding: 22px;
+        }
+
+        .detail-profile {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 18px;
+        }
+
+        .detail-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green);
+            display: grid;
+            place-items: center;
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .detail-profile h4 {
+            color: var(--navy);
+            font-size: 14px;
+        }
+
+        .detail-profile p {
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 5px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 17px;
+        }
+
+        .detail-item label {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            margin-bottom: 6px;
+        }
+
+        .detail-item p {
+            color: var(--navy);
+            font-size: 11px;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .detail-description {
+            margin-top: 20px;
+        }
+
+        .detail-description label {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            margin-bottom: 8px;
+        }
+
+        .detail-description p {
+            color: var(--text);
+            line-height: 1.8;
+            font-size: 11px;
+            white-space: pre-wrap;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            padding: 17px 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .notice {
+            background: var(--orange-light);
+            color: #875C16;
+            border: 1px solid #F2E2C2;
+            padding: 12px 14px;
+            border-radius: 4px;
+            font-size: 10px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 1050px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 760px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .topbar {
+                padding: 0 17px;
+            }
+
+            .content {
+                padding: 23px 16px;
+            }
+
+            .page-heading {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats {
+                gap: 9px;
+            }
+
+            .stat-card {
+                padding: 14px;
+            }
+
+            .stat-card h3 {
+                font-size: 21px;
+            }
+
+            .toolbar {
+                padding: 13px;
+            }
+
+            .search-box {
+                flex-basis: 100%;
+            }
+
+            .toolbar select {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar" id="sidebar">
+        <a href="admin-dashboard.html" class="brand">
+            <img src="assets/images/nedike-icon.png" alt="NEDIKE">
+            <div>
+                <div class="brand-name">NEDIKE</div>
+                <small>ADMINISTRATION</small>
+            </div>
+        </a>
+
+        <div class="menu-heading">MAIN MENU</div>
+
+        <nav class="menu">
+            <a href="admin-dashboard.html"><span class="menu-icon">▦</span> Dashboard</a>
+            <a href="admin-users.html"><span class="menu-icon">♙</span> User Management</a>
+            <a href="admin-services.html"><span class="menu-icon">◇</span> Services</a>
+            <a href="admin-tasks.html"><span class="menu-icon">▤</span> Tasks</a>
+            <a href="applicant-review.html" class="active"><span class="menu-icon">✓</span> Applicant Review</a>
+            <a href="admin-learning.html"><span class="menu-icon">▧</span> Learning Management</a>
+            <a href="admin-reports.html"><span class="menu-icon">▥</span> Reports</a>
+            <a href="admin-reviews.html"><span class="menu-icon">☆</span> Reviews</a>
+            <a href="admin-announcements.html"><span class="menu-icon">♧</span> Announcements</a>
+            <a href="admin-settings.html"><span class="menu-icon">⚙</span> Settings</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="index.html" class="menu">
+                <span style="padding:12px;color:#C3D0DA;font-size:11px;">← View Website</span>
+            </a>
+
+            <div class="admin-card">
+                <div class="admin-avatar" id="adminAvatar">A</div>
+                <div class="admin-info">
+                    <strong id="adminName">Administrator</strong>
+                    <small>Admin account</small>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+                <div>
+                    <h1>Applicant Review</h1>
+                    <p>Manage student applications and task requests</p>
+                </div>
+            </div>
+        </header>
+
+        <section class="content">
+
+            <div class="page-heading">
+                <div>
+                    <h2>Applicant Review</h2>
+                    <p>Review applications submitted by students, assess their information and manage application decisions.</p>
+                </div>
+            </div>
+
+            <div class="notice">
+                Applicant records are read from this browser's localStorage prototype. This page does not provide server-side verification or cross-device administration.
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <span>Total Applications</span>
+                    <h3 id="totalCount">0</h3>
+                </div>
+
+                <div class="stat-card">
+                    <span>Pending Review</span>
+                    <h3 id="pendingCount">0</h3>
+                </div>
+
+                <div class="stat-card">
+                    <span>Approved</span>
+                    <h3 id="approvedCount">0</h3>
+                </div>
+
+                <div class="stat-card">
+                    <span>Rejected</span>
+                    <h3 id="rejectedCount">0</h3>
+                </div>
+            </div>
+
+            <section class="panel">
+                <div class="panel-heading">
+                    <h3>Student Applications</h3>
+                    <p>Review and manage applications submitted for tasks on NEDIKE.</p>
+                </div>
+
+                <div class="toolbar">
+                    <div class="search-box">
+                        <input type="search" id="searchInput" placeholder="Search applicant, email or task...">
+                    </div>
+
+                    <select id="statusFilter">
+                        <option value="all">All statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+
+                    <select id="sortFilter">
+                        <option value="newest">Newest first</option>
+                        <option value="oldest">Oldest first</option>
+                    </select>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Applicant</th>
+                                <th>Task Applied For</th>
+                                <th>Proposed Price</th>
+                                <th>Date Applied</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="applicationsTable"></tbody>
+                    </table>
+                </div>
+
+                <div class="empty-state" id="emptyState">
+                    <h3>No applications found</h3>
+                    <p>Applications will appear here when students submit task applications.</p>
+                </div>
+
+                <div class="table-footer" id="tableFooter">
+                    Showing 0 applications
+                </div>
+            </section>
+
+        </section>
+    </main>
+
+    <!-- Applicant Details Modal -->
+    <div class="modal-backdrop" id="detailsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Application Details</h3>
+                <button class="close-modal" id="closeModal" aria-label="Close">&times;</button>
+            </div>
+
+            <div class="modal-body" id="modalBody"></div>
+
+            <div class="modal-actions" id="modalActions"></div>
+        </div>
+    </div>
+
+    <script>
+        const APPLICATION_KEY = "nedike_applications";
+        const USER_KEY = "nedike_current_user";
+
+        let applications = [];
+        let selectedApplication = null;
+
+        const table = document.getElementById("applicationsTable");
+        const emptyState = document.getElementById("emptyState");
+        const modal = document.getElementById("detailsModal");
+
+        function escapeHTML(value) {
+            return String(value ?? "").replace(/[&<>"']/g, character => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;"
+            })[character]);
+        }
+
+        function readJSON(key, fallback) {
+            try {
+                const value = JSON.parse(localStorage.getItem(key));
+                return value ?? fallback;
+            } catch {
+                return fallback;
+            }
+        }
+
+        function saveApplications() {
+            localStorage.setItem(APPLICATION_KEY, JSON.stringify(applications));
+        }
+
+        function getCurrentUser() {
+            return readJSON(USER_KEY, null);
+        }
+
+        function getAdminName() {
+            const user = getCurrentUser();
+
+            if (!user) return "Administrator";
+
+            return user.fullName ||
+                user.name ||
+                [user.firstName, user.lastName].filter(Boolean).join(" ") ||
+                user.email ||
+                "Administrator";
+        }
+
+        function initials(name) {
+            return String(name || "Student")
+                .trim()
+                .split(/\s+/)
+                .slice(0, 2)
+                .map(part => part[0] || "")
+                .join("")
+                .toUpperCase();
+        }
+
+        function getApplicantName(application) {
+            return application.applicantName ||
+                application.studentName ||
+                application.userName ||
+                application.name ||
+                application.fullName ||
+                "Unknown Applicant";
+        }
+
+        function getApplicantEmail(application) {
+            return application.applicantEmail ||
+                application.studentEmail ||
+                application.email ||
+                "";
+        }
+
+        function getTaskTitle(application) {
+            return application.taskTitle ||
+                application.taskName ||
+                application.title ||
+                application.task ||
+                "Untitled Task";
+        }
+
+        function getPrice(application) {
+            const value = application.proposedPrice ??
+                application.bidAmount ??
+                application.price ??
+                application.amount ??
+                "";
+
+            if (value === "") return "Not specified";
+
+            const number = Number(String(value).replace(/[₦,\s]/g, ""));
+
+            return Number.isFinite(number)
+                ? "₦" + number.toLocaleString("en-NG")
+                : escapeHTML(value);
+        }
+
+        function normalizeStatus(status) {
+            const value = String(status || "pending").toLowerCase();
+
+            if (["approved", "accepted", "selected"].includes(value)) {
+                return "approved";
+            }
+
+            if (["rejected", "declined", "denied"].includes(value)) {
+                return "rejected";
+            }
+
+            return "pending";
+        }
+
+        function getDate(application) {
+            const raw = application.appliedAt ||
+                application.createdAt ||
+                application.dateApplied ||
+                application.date ||
+                "";
+
+            if (!raw) return null;
+
+            const date = new Date(raw);
+
+            return Number.isNaN(date.getTime()) ? null : date;
+        }
+
+        function formatDate(application) {
+            const date = getDate(application);
+
+            return date
+                ? date.toLocaleDateString("en-NG", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric"
+                })
+                : "Not available";
+        }
+
+        function loadApplications() {
+            const stored = readJSON(APPLICATION_KEY, []);
+            applications = Array.isArray(stored) ? stored : [];
+
+            updateStats();
+            renderApplications();
+        }
+
+        function updateStats() {
+            const total = applications.length;
+            const pending = applications.filter(item =>
+                normalizeStatus(item.status) === "pending"
+            ).length;
+            const approved = applications.filter(item =>
+                normalizeStatus(item.status) === "approved"
+            ).length;
+            const rejected = applications.filter(item =>
+                normalizeStatus(item.status) === "rejected"
+            ).length;
+
+            document.getElementById("totalCount").textContent = total;
+            document.getElementById("pendingCount").textContent = pending;
+            document.getElementById("approvedCount").textContent = approved;
+            document.getElementById("rejectedCount").textContent = rejected;
+        }
+
+        function renderApplications() {
+            const search = document.getElementById("searchInput")
+                .value.trim().toLowerCase();
+
+            const status = document.getElementById("statusFilter").value;
+            const sort = document.getElementById("sortFilter").value;
+
+            let filtered = applications.map((application, index) => ({
+                application,
+                index
+            }));
+
+            filtered = filtered.filter(({ application }) => {
+                const name = getApplicantName(application).toLowerCase();
+                const email = getApplicantEmail(application).toLowerCase();
+                const task = getTaskTitle(application).toLowerCase();
+
+                const matchesSearch =
+                    name.includes(search) ||
+                    email.includes(search) ||
+                    task.includes(search);
+
+                const matchesStatus = status === "all" ||
+                    normalizeStatus(application.status) === status;
+
+                return matchesSearch && matchesStatus;
+            });
+
+            filtered.sort((a, b) => {
+                const first = getDate(a.application)?.getTime() || 0;
+                const second = getDate(b.application)?.getTime() || 0;
+
+                return sort === "oldest" ? first - second : second - first;
+            });
+
+            table.innerHTML = "";
+
+            filtered.forEach(({ application, index }) => {
+                const name = getApplicantName(application);
+                const email = getApplicantEmail(application);
+                const task = getTaskTitle(application);
+                const currentStatus = normalizeStatus(application.status);
+
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>
+                        <div class="applicant">
+                            <div class="applicant-avatar">${escapeHTML(initials(name))}</div>
+                            <div>
+                                <strong>${escapeHTML(name)}</strong>
+                                <small>${escapeHTML(email || "No email provided")}</small>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td><div class="task-title">${escapeHTML(task)}</div></td>
+                    <td>${getPrice(application)}</td>
+                    <td class="muted">${escapeHTML(formatDate(application))}</td>
+
+                    <td>
+                        <span class="status ${currentStatus}">
+                            ${currentStatus.charAt(0).toUpperCase() + currentStatus.slice(1)}
+                        </span>
+                    </td>
+
+                    <td>
+                        <div class="actions">
+                            <button class="btn btn-view" data-action="view" data-index="${index}">
+                                View
+                            </button>
+                            ${currentStatus === "pending" ? `
+                                <button class="btn btn-approve" data-action="approve" data-index="${index}">
+                                    Approve
+                                </button>
+                                <button class="btn btn-reject" data-action="reject" data-index="${index}">
+                                    Reject
+                                </button>
+                            ` : ""}
+                        </div>
+                    </td>
+                `;
+
+                table.appendChild(row);
+            });
+
+            emptyState.style.display = filtered.length ? "none" : "block";
+            document.querySelector(".table-wrap").style.display =
+                filtered.length ? "block" : "none";
+
+            document.getElementById("tableFooter").textContent =
+                `Showing ${filtered.length} of ${applications.length} applications`;
+        }
+
+        function showDetails(index) {
+            const application = applications[index];
+
+            if (!application) return;
+
+            selectedApplication = index;
+
+            const name = getApplicantName(application);
+            const email = getApplicantEmail(application);
+            const status = normalizeStatus(application.status);
+
+            const skills = application.skills ||
+                application.specialties ||
+                application.applicantSkills ||
+                "Not provided";
+
+            const description = application.coverLetter ||
+                application.message ||
+                application.proposal ||
+                application.description ||
+                "No application message was provided.";
+
+            const school = application.school ||
+                application.institution ||
+                "Not provided";
+
+            const course = application.course ||
+                application.department ||
+                "Not provided";
+
+            const location = application.location ||
+                application.city ||
+                "Not provided";
+
+            const phone = application.phone ||
+                application.phoneNumber ||
+                "Not provided";
+
+            document.getElementById("modalBody").innerHTML = `
+                <div class="detail-profile">
+                    <div class="detail-avatar">${escapeHTML(initials(name))}</div>
+                    <div>
+                        <h4>${escapeHTML(name)}</h4>
+                        <p>${escapeHTML(email || "No email provided")}</p>
+                    </div>
+                </div>
+
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <label>Task applied for</label>
+                        <p>${escapeHTML(getTaskTitle(application))}</p>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Proposed price</label>
+                        <p>${getPrice(application)}</p>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>School</label>
+                        <p>${escapeHTML(school)}</p>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Course of study</label>
+                        <p>${escapeHTML(course)}</p>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Location</label>
+                        <p>${escapeHTML(location)}</p>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Phone number</label>
+                        <p>${escapeHTML(phone)}</p>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Date applied</label>
+                        <p>${escapeHTML(formatDate(application))}</p>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Application status</label>
+                        <p>${escapeHTML(status.charAt(0).toUpperCase() + status.slice(1))}</p>
+                    </div>
+                </div>
+
+                <div class="detail-description">
+                    <label>Skills and specialties</label>
+                    <p>${escapeHTML(Array.isArray(skills) ? skills.join(", ") : skills)}</p>
+                </div>
+
+                <div class="detail-description">
+                    <label>Application message / Proposal</label>
+                    <p>${escapeHTML(description)}</p>
+                </div>
+            `;
+
+            const actions = document.getElementById("modalActions");
+
+            actions.innerHTML = `
+                <button class="btn" id="closeDetails">Close</button>
+                ${status === "pending" ? `
+                    <button class="btn btn-reject" id="modalReject">Reject</button>
+                    <button class="btn btn-approve" id="modalApprove">Approve Application</button>
+                ` : ""}
+            `;
+
+            modal.classList.add("show");
+
+            document.getElementById("closeDetails").onclick = closeModal;
+
+            const approveButton = document.getElementById("modalApprove");
+            const rejectButton = document.getElementById("modalReject");
+
+            if (approveButton) {
+                approveButton.onclick = () => updateStatus(index, "approved");
+            }
+
+            if (rejectButton) {
+                rejectButton.onclick = () => updateStatus(index, "rejected");
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove("show");
+            selectedApplication = null;
+        }
+
+        function updateStatus(index, newStatus) {
+            const application = applications[index];
+
+            if (!application) return;
+
+            const actionText = newStatus === "approved" ? "approve" : "reject";
+
+            if (!confirm(`Are you sure you want to ${actionText} this application?`)) {
+                return;
+            }
+
+            applications[index] = {
+                ...application,
+                status: newStatus,
+                reviewedAt: new Date().toISOString()
+            };
+
+            saveApplications();
+            closeModal();
+            updateStats();
+            renderApplications();
+        }
+
+        table.addEventListener("click", event => {
+            const button = event.target.closest("button[data-action]");
+
+            if (!button) return;
+
+            const index = Number(button.dataset.index);
+            const action = button.dataset.action;
+
+            if (!Number.isInteger(index)) return;
+
+            if (action === "view") {
+                showDetails(index);
+            } else if (action === "approve") {
+                updateStatus(index, "approved");
+            } else if (action === "reject") {
+                updateStatus(index, "rejected");
+            }
+        });
+
+        document.getElementById("searchInput")
+            .addEventListener("input", renderApplications);
+
+        document.getElementById("statusFilter")
+            .addEventListener("change", renderApplications);
+
+        document.getElementById("sortFilter")
+            .addEventListener("change", renderApplications);
+
+        document.getElementById("closeModal")
+            .addEventListener("click", closeModal);
+
+        modal.addEventListener("click", event => {
+            if (event.target === modal) closeModal();
+        });
+
+        document.getElementById("menuToggle").addEventListener("click", () => {
+            document.getElementById("sidebar").classList.toggle("open");
+        });
+
+        document.querySelectorAll(".sidebar .menu a").forEach(link => {
+            link.addEventListener("click", () => {
+                document.getElementById("sidebar").classList.remove("open");
+            });
+        });
+
+        // Display the current signed-in account's name.
+        const currentUser = getCurrentUser();
+
+        if (currentUser) {
+            const adminName = getAdminName();
+            document.getElementById("adminName").textContent = adminName;
+            document.getElementById("adminAvatar").textContent = initials(adminName);
+        }
+
+        loadApplications();
+
+        // Refresh if another page in this browser changes the application records.
+        window.addEventListener("storage", event => {
+            if (event.key === APPLICATION_KEY) {
+                loadApplications();
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,1111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#102B46">
+    <title>My Services | NEDIKE</title>
+
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #102B46;
+            --navy-dark: #0B2035;
+            --green: #16845B;
+            --green-dark: #106D4A;
+            --green-light: #EAF4EE;
+            --background: #F4F7F5;
+            --white: #FFFFFF;
+            --text: #263746;
+            --muted: #718096;
+            --border: #E3EAE6;
+            --red: #C74444;
+            --red-light: #FCEEEE;
+            --shadow: 0 8px 30px rgba(16, 43, 70, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .container {
+            width: min(1160px, 91%);
+            margin: auto;
+        }
+
+        /* HEADER */
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--navy);
+            letter-spacing: -1px;
+        }
+
+        .brand img {
+            width: 37px;
+            height: 37px;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 23px;
+        }
+
+        .nav-links a {
+            color: #607080;
+            font-size: 13px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--green);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .profile-link {
+            width: 39px;
+            height: 39px;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green-dark);
+            display: grid;
+            place-items: center;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 25px;
+            color: var(--navy);
+        }
+
+        /* MAIN */
+        .page {
+            padding: 40px 0 75px;
+        }
+
+        .breadcrumb {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 21px;
+        }
+
+        .breadcrumb a {
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .page-heading {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+            font-size: clamp(27px, 4vw, 35px);
+            color: var(--navy);
+            letter-spacing: -1.3px;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .primary-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--green);
+            color: white;
+            border: none;
+            padding: 13px 18px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 700;
+            transition: .2s;
+            white-space: nowrap;
+        }
+
+        .primary-btn:hover {
+            background: var(--green-dark);
+            transform: translateY(-1px);
+        }
+
+        /* STATISTICS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 17px;
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 21px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            color: var(--navy);
+            font-size: 29px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .stat-description {
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 4px;
+        }
+
+        /* LISTING SECTION */
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 19px;
+        }
+
+        .section-heading h2 {
+            color: var(--navy);
+            font-size: 19px;
+        }
+
+        .section-heading span {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 360px;
+        }
+
+        .search-box input,
+        .sort-select {
+            height: 43px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 5px;
+            padding: 0 13px;
+            outline: none;
+            color: var(--text);
+            font-size: 11px;
+        }
+
+        .search-box input {
+            width: 100%;
+        }
+
+        .search-box input:focus,
+        .sort-select:focus {
+            border-color: var(--green);
+        }
+
+        .toolbar-right {
+            display: flex;
+            gap: 9px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 7px;
+        }
+
+        .filter-btn {
+            padding: 9px 13px;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--muted);
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .filter-btn.active {
+            color: var(--green-dark);
+            background: var(--green-light);
+            border-color: #C9E2D2;
+        }
+
+        /* SERVICE GRID */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .service-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: .2s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .service-image {
+            height: 175px;
+            background: #EAF0EC;
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            place-items: center;
+            color: var(--green-dark);
+            font-size: 38px;
+            font-weight: 800;
+        }
+
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .status-label {
+            position: absolute;
+            top: 13px;
+            left: 13px;
+            padding: 5px 9px;
+            border-radius: 3px;
+            background: var(--green-light);
+            color: var(--green-dark);
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .status-label.inactive {
+            background: #F0F1F2;
+            color: #65717B;
+        }
+
+        .service-content {
+            padding: 17px;
+        }
+
+        .service-category {
+            color: var(--green);
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            margin-bottom: 7px;
+        }
+
+        .service-content h3 {
+            color: var(--navy);
+            font-size: 15px;
+            line-height: 1.4;
+            margin-bottom: 7px;
+        }
+
+        .service-description {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.7;
+            min-height: 37px;
+            margin-bottom: 14px;
+        }
+
+        .service-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 0;
+            margin-bottom: 13px;
+        }
+
+        .service-price {
+            color: var(--navy);
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .service-location {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .service-date {
+            color: var(--muted);
+            font-size: 9px;
+            margin-bottom: 13px;
+        }
+
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 10px 8px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 4px;
+            color: var(--navy);
+            font-size: 10px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .action-btn:hover {
+            border-color: var(--green);
+            color: var(--green-dark);
+        }
+
+        .action-btn.delete {
+            color: var(--red);
+        }
+
+        .action-btn.delete:hover {
+            background: var(--red-light);
+            border-color: #F1CACA;
+        }
+
+        .empty-state {
+            display: none;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-align: center;
+            padding: 65px 20px;
+        }
+
+        .empty-icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green-dark);
+            display: grid;
+            place-items: center;
+            font-size: 28px;
+        }
+
+        .empty-state h3 {
+            color: var(--navy);
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            max-width: 400px;
+            margin: 0 auto 20px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .empty-state a {
+            display: inline-block;
+            padding: 12px 18px;
+            background: var(--green);
+            color: white;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .no-results {
+            display: none;
+            padding: 35px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--navy-dark);
+            color: #D5DFE8;
+            padding: 26px 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-content p,
+        .footer-links a {
+            color: #B7C5D1;
+            font-size: 11px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 19px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .nav-links {
+                gap: 13px;
+            }
+
+            .service-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .toolbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .toolbar-right {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .nav {
+                min-height: 68px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 68px;
+                left: 0;
+                width: 100%;
+                padding: 18px 5%;
+                flex-direction: column;
+                align-items: flex-start;
+                background: white;
+                border-bottom: 1px solid var(--border);
+                gap: 17px;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .page {
+                padding-top: 28px;
+            }
+
+            .page-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 16px;
+            }
+
+            .stat-value {
+                font-size: 25px;
+            }
+
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-image {
+                height: 195px;
+            }
+
+            .filter-buttons {
+                overflow-x: auto;
+                width: 100%;
+                padding-bottom: 5px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="container nav">
+        <a href="index.html" class="brand">
+            <img src="assets/images/nedike-icon.png" alt="NEDIKE logo">
+            NEDIKE
+        </a>
+
+        <nav class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="tasks.html">Tasks</a>
+            <a href="learning.html">Learn</a>
+            <a href="messages.html">Messages</a>
+            <a href="about.html">About</a>
+            <a href="help.html">Help</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="profile.html" class="profile-link" id="profileInitials">U</a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+        </div>
+    </div>
+</header>
+
+<main class="page">
+    <div class="container">
+
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> / My Services
+        </div>
+
+        <div class="page-heading">
+            <div>
+                <h1>My Services</h1>
+                <p>Manage your listings and showcase the skills you offer to the NEDIKE community.</p>
+            </div>
+
+            <a href="create-service.html" class="primary-btn">＋ Create a Service</a>
+        </div>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Services</div>
+                <div class="stat-value" id="totalServices">0</div>
+                <div class="stat-description">All your service listings</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Active Services</div>
+                <div class="stat-value" id="activeServices">0</div>
+                <div class="stat-description">Services currently available</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Inactive Services</div>
+                <div class="stat-value" id="inactiveServices">0</div>
+                <div class="stat-description">Services not currently available</div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-heading">
+                <h2>Your Listings</h2>
+                <span id="listingCount">0 services</span>
+            </div>
+
+            <div class="toolbar">
+                <div class="search-box">
+                    <input
+                        type="search"
+                        id="serviceSearch"
+                        placeholder="Search your services..."
+                    >
+                </div>
+
+                <div class="toolbar-right">
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="active">Active</button>
+                        <button class="filter-btn" data-filter="inactive">Inactive</button>
+                    </div>
+
+                    <select class="sort-select" id="sortServices" aria-label="Sort services">
+                        <option value="newest">Newest first</option>
+                        <option value="oldest">Oldest first</option>
+                        <option value="price-low">Price: Low to high</option>
+                        <option value="price-high">Price: High to low</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="service-grid" id="serviceGrid"></div>
+
+            <div class="no-results" id="noResults">
+                No services match your search.
+            </div>
+
+            <div class="empty-state" id="emptyState">
+                <div class="empty-icon">▤</div>
+                <h3>You haven't listed a service yet</h3>
+                <p>Showcase your skills, connect with potential clients and create opportunities by publishing your first service on NEDIKE.</p>
+                <a href="create-service.html">Create Your First Service →</a>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<footer>
+    <div class="container footer-content">
+        <p>© <span id="year"></span> NEDIKE. Learn. Work. Earn. Teach.</p>
+
+        <div class="footer-links">
+            <a href="about.html">About</a>
+            <a href="help.html">Help Centre</a>
+            <a href="terms.html">Terms</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const SERVICE_KEY = "nedike_services";
+
+    const serviceGrid = document.getElementById("serviceGrid");
+    const emptyState = document.getElementById("emptyState");
+    const noResults = document.getElementById("noResults");
+    const serviceSearch = document.getElementById("serviceSearch");
+    const sortServices = document.getElementById("sortServices");
+
+    let activeFilter = "all";
+
+    function readServices() {
+        try {
+            const data = JSON.parse(localStorage.getItem(SERVICE_KEY) || "[]");
+            return Array.isArray(data) ? data : [];
+        } catch (error) {
+            console.error("Could not load services:", error);
+            return [];
+        }
+    }
+
+    function saveServices(services) {
+        localStorage.setItem(SERVICE_KEY, JSON.stringify(services));
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, character => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        })[character]);
+    }
+
+    function getCurrentUser() {
+        try {
+            return JSON.parse(
+                localStorage.getItem("nedike_current_user") || "null"
+            );
+        } catch (error) {
+            return null;
+        }
+    }
+
+    function getUserIdentifiers(user) {
+        if (!user) return [];
+
+        return [
+            user.id,
+            user.userId,
+            user.email,
+            user.username
+        ]
+        .filter(Boolean)
+        .map(value => String(value).toLowerCase());
+    }
+
+    function getServiceOwner(service) {
+        return [
+            service.userId,
+            service.ownerId,
+            service.providerId,
+            service.sellerId,
+            service.user_id,
+            service.owner_id,
+            service.email,
+            service.providerEmail,
+            service.sellerEmail
+        ].filter(Boolean).map(value => String(value).toLowerCase());
+    }
+
+    function getMyServices() {
+        const services = readServices();
+        const user = getCurrentUser();
+
+        if (!user) return [];
+
+        const identifiers = getUserIdentifiers(user);
+
+        // Match services to the signed-in user where ownership data exists.
+        return services.filter(service => {
+            const owners = getServiceOwner(service);
+
+            // Legacy records without owner information are included for this
+            // browser-only prototype. Add ownership fields when creating listings.
+            if (!owners.length) return true;
+
+            return owners.some(owner => identifiers.includes(owner));
+        });
+    }
+
+    function getTitle(service) {
+        return service.title || service.name || service.serviceName || "Untitled Service";
+    }
+
+    function getPrice(service) {
+        const rawPrice = service.price ?? service.amount ?? 0;
+        const numericPrice = Number(String(rawPrice).replace(/[^\d.]/g, ""));
+
+        return Number.isFinite(numericPrice) ? numericPrice : 0;
+    }
+
+    function getStatus(service) {
+        const status = String(service.status || "").toLowerCase();
+
+        if (
+            service.active === false ||
+            service.isActive === false ||
+            ["inactive", "paused", "draft", "disabled"].includes(status)
+        ) {
+            return "inactive";
+        }
+
+        return "active";
+    }
+
+    function formatPrice(price) {
+        return "₦" + price.toLocaleString("en-NG");
+    }
+
+    function formatDate(value) {
+        if (!value) return "Date not available";
+
+        const date = new Date(value);
+
+        if (Number.isNaN(date.getTime())) return "Date not available";
+
+        return date.toLocaleDateString("en-NG", {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+        });
+    }
+
+    function getServiceDate(service) {
+        return service.createdAt || service.dateCreated || service.date || "";
+    }
+
+    function updateStatistics(services) {
+        const active = services.filter(service => getStatus(service) === "active").length;
+        const inactive = services.length - active;
+
+        document.getElementById("totalServices").textContent = services.length;
+        document.getElementById("activeServices").textContent = active;
+        document.getElementById("inactiveServices").textContent = inactive;
+
+        document.getElementById("listingCount").textContent =
+            `${services.length} ${services.length === 1 ? "service" : "services"}`;
+    }
+
+    function renderServices() {
+        const services = getMyServices();
+
+        updateStatistics(services);
+
+        if (!getCurrentUser()) {
+            serviceGrid.style.display = "none";
+            emptyState.style.display = "block";
+            noResults.style.display = "none";
+
+            emptyState.querySelector("h3").textContent = "Sign in to manage your services";
+            emptyState.querySelector("p").textContent =
+                "Log in to your NEDIKE account to view and manage your service listings.";
+            emptyState.querySelector("a").textContent = "Sign In →";
+            emptyState.querySelector("a").href = "login.html";
+
+            return;
+        }
+
+        emptyState.style.display = services.length ? "none" : "block";
+        serviceGrid.style.display = services.length ? "grid" : "none";
+
+        if (!services.length) {
+            serviceGrid.innerHTML = "";
+            noResults.style.display = "none";
+            return;
+        }
+
+        const search = serviceSearch.value.trim().toLowerCase();
+
+        let filtered = services.filter(service => {
+            const title = getTitle(service).toLowerCase();
+            const category = String(service.category || "").toLowerCase();
+            const description = String(service.description || "").toLowerCase();
+
+            const matchesSearch =
+                title.includes(search) ||
+                category.includes(search) ||
+                description.includes(search);
+
+            const matchesFilter =
+                activeFilter === "all" || getStatus(service) === activeFilter;
+
+            return matchesSearch && matchesFilter;
+        });
+
+        const sort = sortServices.value;
+
+        filtered.sort((a, b) => {
+            if (sort === "price-low") return getPrice(a) - getPrice(b);
+            if (sort === "price-high") return getPrice(b) - getPrice(a);
+
+            const dateA = new Date(getServiceDate(a) || 0).getTime();
+            const dateB = new Date(getServiceDate(b) || 0).getTime();
+
+            return sort === "oldest" ? dateA - dateB : dateB - dateA;
+        });
+
+        serviceGrid.innerHTML = filtered.map((service, index) => {
+            const title = getTitle(service);
+            const category = service.category || "General";
+            const description = service.description || "No description provided.";
+            const image = service.image || service.imageUrl || service.thumbnail || "";
+            const price = getPrice(service);
+            const location = service.location || service.city || "Location not specified";
+            const status = getStatus(service);
+            const date = formatDate(getServiceDate(service));
+            const serviceId = service.id ?? service.serviceId ?? index;
+
+            return `
+                <article class="service-card">
+                    <div class="service-image">
+                        ${
+                            image
+                            ? `<img src="${escapeHTML(image)}" alt="${escapeHTML(title)}" onerror="this.style.display='none'">`
+                            : `<span>${escapeHTML(title.charAt(0).toUpperCase())}</span>`
+                        }
+
+                        <span class="status-label ${status === "inactive" ? "inactive" : ""}">
+                            ${status}
+                        </span>
+                    </div>
+
+                    <div class="service-content">
+                        <div class="service-category">${escapeHTML(category)}</div>
+
+                        <h3>${escapeHTML(title)}</h3>
+
+                        <p class="service-description">
+                            ${escapeHTML(description)}
+                        </p>
+
+                        <div class="service-details">
+                            <span class="service-price">${formatPrice(price)}</span>
+                            <span class="service-location">${escapeHTML(location)}</span>
+                        </div>
+
+                        <p class="service-date">Listed: ${escapeHTML(date)}</p>
+
+                        <div class="card-actions">
+                            <button class="action-btn edit-btn"
+                                data-id="${escapeHTML(serviceId)}">
+                                Edit Service
+                            </button>
+
+                            <button class="action-btn delete delete-btn"
+                                data-id="${escapeHTML(serviceId)}">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }).join("");
+
+        noResults.style.display = filtered.length ? "none" : "block";
+    }
+
+    // Search services
+    serviceSearch.addEventListener("input", renderServices);
+
+    // Filter services
+    document.querySelectorAll(".filter-btn").forEach(button => {
+        button.addEventListener("click", () => {
+            document.querySelectorAll(".filter-btn").forEach(item => {
+                item.classList.remove("active");
+            });
+
+            button.classList.add("active");
+            activeFilter = button.dataset.filter;
+
+            renderServices();
+        });
+    });
+
+    // Sort services
+    sortServices.addEventListener("change", renderServices);
+
+    // Edit and delete actions
+    serviceGrid.addEventListener("click", event => {
+        const editButton = event.target.closest(".edit-btn");
+        const deleteButton = event.target.closest(".delete-btn");
+
+        if (editButton) {
+            const id = editButton.dataset.id;
+
+            // The edit page can read this ID from sessionStorage.
+            sessionStorage.setItem("nedike_edit_service_id", id);
+
+            window.location.href = "create-service.html?edit=" + encodeURIComponent(id);
+            return;
+        }
+
+        if (deleteButton) {
+            const id = deleteButton.dataset.id;
+
+            const confirmed = confirm(
+                "Are you sure you want to delete this service? This action cannot be undone."
+            );
+
+            if (!confirmed) return;
+
+            const services = readServices();
+
+            const updatedServices = services.filter((service, index) => {
+                const serviceId = service.id ?? service.serviceId ?? index;
+                return String(serviceId) !== String(id);
+            });
+
+            saveServices(updatedServices);
+            renderServices();
+        }
+    });
+
+    // Mobile navigation
+    document.getElementById("menuToggle").addEventListener("click", () => {
+        document.getElementById("navLinks").classList.toggle("show");
+    });
+
+    // Profile initials
+    const user = getCurrentUser();
+
+    if (user) {
+        const first = user.firstName || user.first_name || user.name || "";
+        const last = user.lastName || user.last_name || "";
+        const initials = (first.charAt(0) + last.charAt(0)).toUpperCase();
+
+        if (initials) {
+            document.getElementById("profileInitials").textContent = initials;
+        }
+    }
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Refresh when another tab changes the service listings.
+    window.addEventListener("storage", event => {
+        if (
+            event.key === SERVICE_KEY ||
+            event.key === "nedike_current_user"
+        ) {
+            renderServices();
+        }
+    });
+
+    renderServices();
+</script>
+
+</body>
+</html>

@@ -641,3 +641,1105 @@
   <script src="js/edit-profile.js" defer></script>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102B46">
+  <title>Edit Profile | NEDIKE</title>
+  <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy: #102B46;
+      --navy-dark: #0B2035;
+      --green: #16845B;
+      --green-dark: #106D4A;
+      --green-light: #EAF4EE;
+      --bg: #F4F7F5;
+      --white: #FFFFFF;
+      --text: #263746;
+      --muted: #718096;
+      --border: #E3EAE6;
+      --danger: #C53D3D;
+      --shadow: 0 8px 30px rgba(16,43,70,.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: auto;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--navy);
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: -.8px;
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 21px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #526272;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--green); }
+
+    .profile-link {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-weight: 800;
+    }
+
+    .menu-toggle {
+      display: none;
+      border: 0;
+      background: transparent;
+      color: var(--navy);
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    .page-heading {
+      padding: 38px 0 25px;
+    }
+
+    .breadcrumb {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .breadcrumb a {
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .page-heading h1 {
+      color: var(--navy);
+      font-size: clamp(27px, 4vw, 35px);
+      letter-spacing: -1px;
+      margin-bottom: 6px;
+    }
+
+    .page-heading p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 245px minmax(0, 1fr);
+      gap: 23px;
+      align-items: start;
+      padding-bottom: 65px;
+    }
+
+    .sidebar-card,
+    .form-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar-card {
+      padding: 22px;
+      position: sticky;
+      top: 95px;
+    }
+
+    .sidebar-card h3 {
+      font-size: 13px;
+      color: var(--navy);
+      margin-bottom: 15px;
+    }
+
+    .side-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .side-nav a {
+      padding: 11px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #647484;
+      font-weight: 600;
+    }
+
+    .side-nav a:hover,
+    .side-nav a.active {
+      background: var(--green-light);
+      color: var(--green-dark);
+    }
+
+    .side-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 17px 0;
+    }
+
+    .form-card { padding: 28px; }
+
+    .profile-summary {
+      display: flex;
+      align-items: center;
+      gap: 17px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 26px;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      width: 88px;
+      height: 88px;
+      flex-shrink: 0;
+    }
+
+    .avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: var(--green-light);
+      color: var(--green-dark);
+      display: grid;
+      place-items: center;
+      font-size: 27px;
+      font-weight: 800;
+      overflow: hidden;
+      border: 3px solid white;
+      box-shadow: 0 0 0 1px var(--border);
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .avatar-edit {
+      position: absolute;
+      right: -2px;
+      bottom: 0;
+      width: 29px;
+      height: 29px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      border: 2px solid white;
+      font-size: 13px;
+    }
+
+    .profile-summary h2 {
+      font-size: 17px;
+      color: var(--navy);
+      margin-bottom: 3px;
+    }
+
+    .profile-summary p {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .profile-summary .email {
+      margin-top: 5px;
+      color: var(--green-dark);
+    }
+
+    .form-section + .form-section {
+      border-top: 1px solid var(--border);
+      margin-top: 29px;
+      padding-top: 26px;
+    }
+
+    .section-heading { margin-bottom: 20px; }
+
+    .section-heading h3 {
+      color: var(--navy);
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .section-heading p {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .field { margin-bottom: 18px; }
+    .field:last-child { margin-bottom: 0; }
+
+    .field label {
+      display: block;
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid #DCE5E0;
+      border-radius: 7px;
+      color: var(--text);
+      background: white;
+      outline: none;
+      font-size: 13px;
+      transition: .2s;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(22,132,91,.09);
+    }
+
+    .field textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .field small {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 6px;
+    }
+
+    .two-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .skills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .skill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--green-light);
+      color: var(--green-dark);
+      border-radius: 5px;
+      padding: 7px 10px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .skill-tag button {
+      border: 0;
+      background: transparent;
+      color: var(--green-dark);
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1;
+    }
+
+    .skill-entry {
+      display: flex;
+      gap: 9px;
+    }
+
+    .skill-entry input { flex: 1; min-width: 0; }
+
+    .btn {
+      border: 0;
+      border-radius: 7px;
+      padding: 11px 17px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: .2s;
+    }
+
+    .btn-primary { background: var(--green); color: white; }
+    .btn-primary:hover { background: var(--green-dark); }
+
+    .btn-outline {
+      background: white;
+      color: var(--navy);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .btn-danger {
+      background: #FDECEC;
+      color: var(--danger);
+    }
+
+    .notice {
+      display: none;
+      padding: 13px 15px;
+      border-radius: 7px;
+      margin-bottom: 20px;
+      font-size: 12px;
+    }
+
+    .notice.success {
+      display: block;
+      background: var(--green-light);
+      color: var(--green-dark);
+    }
+
+    .notice.error {
+      display: block;
+      background: #FDECEC;
+      color: #A52F2F;
+    }
+
+    .form-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-top: 1px solid var(--border);
+      margin-top: 28px;
+      padding-top: 22px;
+    }
+
+    .image-help {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 7px;
+    }
+
+    footer {
+      background: var(--navy-dark);
+      color: rgba(255,255,255,.7);
+      padding: 24px 0;
+      font-size: 11px;
+    }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .footer-content strong { color: white; }
+
+    @media(max-width: 900px) {
+      .nav-links { gap: 12px; font-size: 11px; }
+      .layout { grid-template-columns: 210px minmax(0, 1fr); }
+    }
+
+    @media(max-width: 720px) {
+      .menu-toggle { display: block; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 18px 22px;
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .nav-links.open { display: flex; }
+      .layout { grid-template-columns: 1fr; }
+      .sidebar-card { position: static; }
+      .side-nav { display: grid; grid-template-columns: 1fr 1fr; }
+    }
+
+    @media(max-width: 520px) {
+      .container { width: calc(100% - 28px); }
+      .form-card { padding: 20px 15px; }
+      .two-columns { grid-template-columns: 1fr; gap: 0; }
+      .skill-entry { flex-direction: column; }
+      .skill-entry .btn { width: 100%; }
+      .form-actions { flex-direction: column-reverse; align-items: stretch; }
+      .form-actions .btn { width: 100%; }
+      .profile-summary { align-items: flex-start; }
+      .footer-content { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container navbar">
+    <a href="index.html" class="brand">
+      <img src="assets/images/nedike-icon.png" alt="NEDIKE logo">
+      NEDIKE
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="tasks.html">Tasks</a>
+      <a href="learning.html">Learn</a>
+      <a href="messages.html">Messages</a>
+      <a href="about.html">About</a>
+      <a href="help.html">Help</a>
+    </nav>
+
+    <div style="display:flex;align-items:center;gap:12px">
+      <a href="profile.html" class="profile-link" id="profileInitial">U</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="page-heading">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> /
+      <a href="profile.html">My Profile</a> /
+      Edit Profile
+    </div>
+
+    <h1>Edit Your Profile</h1>
+    <p>Keep your information up to date so other students can understand your skills, experience and interests.</p>
+  </section>
+
+  <div class="layout">
+
+    <aside class="sidebar-card">
+      <h3>Profile Settings</h3>
+
+      <nav class="side-nav">
+        <a href="#personal" class="active">Personal Information</a>
+        <a href="#academic">Academic Information</a>
+        <a href="#professional">About & Experience</a>
+        <a href="#skills">Skills & Specialties</a>
+        <a href="#location">Location</a>
+      </nav>
+
+      <div class="side-divider"></div>
+
+      <nav class="side-nav">
+        <a href="profile.html">View My Profile</a>
+        <a href="settings.html">Account Settings</a>
+        <a href="saved-items.html">Saved Items</a>
+      </nav>
+    </aside>
+
+    <section class="form-card">
+
+      <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+      <div class="profile-summary">
+        <div class="avatar-wrap">
+          <div class="avatar" id="avatarPreview">U</div>
+          <div class="avatar-edit">✎</div>
+        </div>
+
+        <div>
+          <h2 id="displayName">Your Name</h2>
+          <p>Update your profile information</p>
+          <p class="email" id="displayEmail">your@email.com</p>
+        </div>
+      </div>
+
+      <form id="profileForm">
+
+        <section class="form-section" id="personal">
+          <div class="section-heading">
+            <h3>Personal Information</h3>
+            <p>Make sure your basic account details are correct.</p>
+          </div>
+
+          <div class="field">
+            <label for="profilePicture">Profile Picture</label>
+            <input type="file" id="profilePicture" accept="image/jpeg,image/png,image/webp">
+            <small>Upload a clear picture of yourself. JPG, PNG or WebP, maximum 2MB.</small>
+            <div class="image-help">Your picture will appear on your NEDIKE profile.</div>
+            <button type="button" class="btn btn-outline" id="removePicture" style="margin-top:10px">
+              Remove Picture
+            </button>
+          </div>
+
+          <div class="two-columns">
+            <div class="field">
+              <label for="firstName">First Name <span class="required">*</span></label>
+              <input type="text" id="firstName" maxlength="60" required>
+            </div>
+
+            <div class="field">
+              <label for="lastName">Last Name <span class="required">*</span></label>
+              <input type="text" id="lastName" maxlength="60" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" disabled>
+            <small>Your registered email address cannot be changed here.</small>
+          </div>
+
+          <div class="field">
+            <label for="username">Username</label>
+            <input type="text" id="username" maxlength="40" placeholder="Choose a username">
+          </div>
+        </section>
+
+        <section class="form-section" id="academic">
+          <div class="section-heading">
+            <h3>Academic Information</h3>
+            <p>Help other students understand your educational background.</p>
+          </div>
+
+          <div class="field">
+            <label for="school">Institution / University</label>
+            <input type="text" id="school" maxlength="120" placeholder="Enter your institution">
+          </div>
+
+          <div class="two-columns">
+            <div class="field">
+              <label for="course">Course of Study</label>
+              <input type="text" id="course" maxlength="100" placeholder="e.g. Software Engineering">
+            </div>
+
+            <div class="field">
+              <label for="level">Current Level</label>
+              <select id="level">
+                <option value="">Select level</option>
+                <option>100 Level</option>
+                <option>200 Level</option>
+                <option>300 Level</option>
+                <option>400 Level</option>
+                <option>500 Level</option>
+                <option>600 Level</option>
+                <option>Graduate</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="form-section" id="professional">
+          <div class="section-heading">
+            <h3>About You</h3>
+            <p>Introduce yourself and describe what you do.</p>
+          </div>
+
+          <div class="field">
+            <label for="headline">Professional Headline</label>
+            <input type="text" id="headline" maxlength="120" placeholder="e.g. Software Engineer | Graphic Designer">
+            <small>A short statement that describes your professional identity.</small>
+          </div>
+
+          <div class="field">
+            <label for="bio">Biography</label>
+            <textarea id="bio" maxlength="1200" placeholder="Tell other students about yourself, your experience, interests and what you can offer..."></textarea>
+            <small>Maximum 1,200 characters.</small>
+          </div>
+        </section>
+
+        <section class="form-section" id="skills">
+          <div class="section-heading">
+            <h3>Skills & Specialties</h3>
+            <p>Add the skills and services you can confidently offer.</p>
+          </div>
+
+          <div class="field">
+            <label for="skillInput">Add a Skill</label>
+            <div class="skill-entry">
+              <input type="text" id="skillInput" maxlength="50" placeholder="e.g. Graphic Design">
+              <button type="button" class="btn btn-outline" id="addSkill">Add Skill</button>
+            </div>
+            <div class="skills-container" id="skillsContainer"></div>
+            <small>Use the Add Skill button to add each skill separately.</small>
+          </div>
+
+          <div class="field">
+            <label for="specialtiesInput">Specialties</label>
+            <textarea id="specialtiesInput" maxlength="800" placeholder="Describe your areas of specialisation, separated by commas..."></textarea>
+            <small>Example: Brand Identity, Social Media Design, Photo Manipulation.</small>
+          </div>
+        </section>
+
+        <section class="form-section" id="location">
+          <div class="section-heading">
+            <h3>Location & Contact</h3>
+            <p>Provide general location information to help people connect with you.</p>
+          </div>
+
+          <div class="two-columns">
+            <div class="field">
+              <label for="state">State</label>
+              <input type="text" id="state" maxlength="60" placeholder="e.g. Anambra">
+            </div>
+
+            <div class="field">
+              <label for="city">City / Town</label>
+              <input type="text" id="city" maxlength="80" placeholder="e.g. Onitsha">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="locationInput">Display Location</label>
+            <input type="text" id="locationInput" maxlength="120" placeholder="e.g. Onitsha, Anambra State">
+            <small>This is the location displayed on your public profile.</small>
+          </div>
+
+          <div class="field">
+            <label for="website">Website / Portfolio Link</label>
+            <input type="url" id="website" maxlength="250" placeholder="https://yourportfolio.com">
+          </div>
+        </section>
+
+        <div class="form-actions">
+          <a href="profile.html" class="btn btn-outline">Cancel</a>
+          <button type="submit" class="btn btn-primary" id="saveButton">Save Profile Changes</button>
+        </div>
+
+      </form>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-content">
+    <strong>NEDIKE</strong>
+    <span>Learn. Work. Earn. Teach.</span>
+    <span>© <span id="year"></span> NEDIKE. All rights reserved.</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  "use strict";
+
+  const USER_KEY = "nedike_current_user";
+
+  const form = document.getElementById("profileForm");
+  const notice = document.getElementById("notice");
+  const avatarPreview = document.getElementById("avatarPreview");
+  const pictureInput = document.getElementById("profilePicture");
+  const skillsContainer = document.getElementById("skillsContainer");
+  const skillInput = document.getElementById("skillInput");
+  const saveButton = document.getElementById("saveButton");
+
+  let currentUser = null;
+  let profilePicture = "";
+  let skills = [];
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  function readJSON(key, fallback) {
+    try {
+      const value = localStorage.getItem(key);
+      return value ? JSON.parse(value) : fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function writeJSON(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  function showNotice(message, type) {
+    notice.textContent = message;
+    notice.className = "notice " + type;
+    notice.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function getFirstName(user) {
+    return user.firstName ||
+      user.first_name ||
+      (user.name ? user.name.trim().split(/\s+/)[0] : "");
+  }
+
+  function getLastName(user) {
+    if (user.lastName || user.last_name) {
+      return user.lastName || user.last_name;
+    }
+
+    if (user.name) {
+      return user.name.trim().split(/\s+/).slice(1).join(" ");
+    }
+
+    return "";
+  }
+
+  function getInitials(first, last) {
+    return ((first || "").charAt(0) + (last || "").charAt(0))
+      .toUpperCase() || "U";
+  }
+
+  function renderAvatar() {
+    const first = document.getElementById("firstName").value.trim();
+    const last = document.getElementById("lastName").value.trim();
+
+    avatarPreview.innerHTML = "";
+
+    if (profilePicture) {
+      const image = document.createElement("img");
+      image.src = profilePicture;
+      image.alt = "Profile picture";
+      image.onerror = () => {
+        avatarPreview.textContent = getInitials(first, last);
+      };
+      avatarPreview.appendChild(image);
+    } else {
+      avatarPreview.textContent = getInitials(first, last);
+    }
+  }
+
+  function renderSkills() {
+    skillsContainer.innerHTML = "";
+
+    skills.forEach((skill, index) => {
+      const tag = document.createElement("span");
+      tag.className = "skill-tag";
+
+      const text = document.createElement("span");
+      text.textContent = skill;
+
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.textContent = "×";
+      remove.setAttribute("aria-label", "Remove " + skill);
+      remove.addEventListener("click", () => {
+        skills.splice(index, 1);
+        renderSkills();
+      });
+
+      tag.append(text, remove);
+      skillsContainer.appendChild(tag);
+    });
+  }
+
+  function addSkill() {
+    const value = skillInput.value.trim();
+
+    if (!value) {
+      showNotice("Enter a skill before adding it.", "error");
+      skillInput.focus();
+      return;
+    }
+
+    const exists = skills.some(skill =>
+      skill.toLowerCase() === value.toLowerCase()
+    );
+
+    if (exists) {
+      showNotice("This skill has already been added.", "error");
+      return;
+    }
+
+    skills.push(value);
+    skillInput.value = "";
+    renderSkills();
+    notice.className = "notice";
+  }
+
+  function setValue(id, value) {
+    const element = document.getElementById(id);
+    if (element && value !== undefined && value !== null) {
+      element.value = value;
+    }
+  }
+
+  function loadProfile(user) {
+    const first = getFirstName(user);
+    const last = getLastName(user);
+
+    setValue("firstName", first);
+    setValue("lastName", last);
+    setValue("email", user.email || "");
+    setValue("username", user.username || "");
+    setValue("school", user.school || user.institution || user.university || "");
+    setValue("course", user.course || user.department || user.courseOfStudy || "");
+    setValue("level", user.level || user.currentLevel || user.academicLevel || "");
+    setValue("headline", user.headline || user.professionalTitle || "");
+    setValue("bio", user.bio || user.about || user.description || "");
+    setValue("specialtiesInput", Array.isArray(user.specialties)
+      ? user.specialties.join(", ")
+      : user.specialties || "");
+    setValue("state", user.state || "");
+    setValue("city", user.city || "");
+    setValue("locationInput", user.location || "");
+    setValue("website", user.website || user.portfolio || "");
+
+    const savedSkills = user.skills || [];
+
+    skills = Array.isArray(savedSkills)
+      ? [...savedSkills]
+      : String(savedSkills)
+          .split(/[,;\n]/)
+          .map(item => item.trim())
+          .filter(Boolean);
+
+    profilePicture =
+      user.profilePicture ||
+      user.profileImage ||
+      user.avatar ||
+      user.photo ||
+      "";
+
+    document.getElementById("displayName").textContent =
+      [first, last].filter(Boolean).join(" ") || "Your Name";
+
+    document.getElementById("displayEmail").textContent =
+      user.email || "No email address";
+
+    renderSkills();
+    renderAvatar();
+  }
+
+  function initialize() {
+    currentUser = readJSON(USER_KEY, null);
+
+    if (!currentUser || typeof currentUser !== "object") {
+      window.location.href =
+        "login.html?redirect=" + encodeURIComponent("edit-profile.html");
+      return;
+    }
+
+    loadProfile(currentUser);
+  }
+
+  pictureInput.addEventListener("change", () => {
+    const file = pictureInput.files[0];
+
+    if (!file) return;
+
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
+    if (!allowedTypes.includes(file.type)) {
+      pictureInput.value = "";
+      showNotice("Please choose a JPG, PNG or WebP image.", "error");
+      return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      pictureInput.value = "";
+      showNotice("Your profile picture must not exceed 2MB.", "error");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      profilePicture = reader.result;
+      renderAvatar();
+      notice.className = "notice";
+    };
+
+    reader.onerror = () => {
+      showNotice("The selected image could not be read.", "error");
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById("removePicture").addEventListener("click", () => {
+    profilePicture = "";
+    pictureInput.value = "";
+    renderAvatar();
+  });
+
+  document.getElementById("addSkill").addEventListener("click", addSkill);
+
+  skillInput.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      addSkill();
+    }
+  });
+
+  ["firstName", "lastName"].forEach(id => {
+    document.getElementById(id).addEventListener("input", () => {
+      renderAvatar();
+
+      document.getElementById("displayName").textContent =
+        [
+          document.getElementById("firstName").value.trim(),
+          document.getElementById("lastName").value.trim()
+        ].filter(Boolean).join(" ") || "Your Name";
+    });
+  });
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+
+    if (!currentUser) {
+      showNotice("Please sign in before updating your profile.", "error");
+      return;
+    }
+
+    const firstName = document.getElementById("firstName").value.trim();
+    const lastName = document.getElementById("lastName").value.trim();
+    const website = document.getElementById("website").value.trim();
+
+    if (!firstName || !lastName) {
+      showNotice("Please enter your first name and last name.", "error");
+      return;
+    }
+
+    if (website) {
+      try {
+        const parsedUrl = new URL(website);
+        if (!["http:", "https:"].includes(parsedUrl.protocol)) {
+          throw new Error("Invalid URL");
+        }
+      } catch {
+        showNotice("Enter a valid website link beginning with https:// or http://.", "error");
+        return;
+      }
+    }
+
+    const fullLocation = document.getElementById("locationInput").value.trim();
+    const state = document.getElementById("state").value.trim();
+    const city = document.getElementById("city").value.trim();
+
+    const updatedUser = {
+      ...currentUser,
+
+      firstName,
+      lastName,
+      first_name: firstName,
+      last_name: lastName,
+      name: [firstName, lastName].join(" "),
+
+      username: document.getElementById("username").value.trim(),
+      school: document.getElementById("school").value.trim(),
+      course: document.getElementById("course").value.trim(),
+      department: document.getElementById("course").value.trim(),
+      level: document.getElementById("level").value,
+
+      headline: document.getElementById("headline").value.trim(),
+      professionalTitle: document.getElementById("headline").value.trim(),
+      bio: document.getElementById("bio").value.trim(),
+      about: document.getElementById("bio").value.trim(),
+
+      skills: [...skills],
+      specialties: document.getElementById("specialtiesInput").value
+        .split(/[,;\n]/)
+        .map(item => item.trim())
+        .filter(Boolean),
+
+      state,
+      city,
+      location: fullLocation || [city, state].filter(Boolean).join(", "),
+      website,
+      portfolio: website,
+
+      profilePicture,
+      profileImage: profilePicture,
+      avatar: profilePicture,
+
+      updatedAt: new Date().toISOString()
+    };
+
+    try {
+      writeJSON(USER_KEY, updatedUser);
+      currentUser = updatedUser;
+
+      document.getElementById("displayName").textContent =
+        [firstName, lastName].join(" ");
+
+      document.getElementById("displayEmail").textContent =
+        updatedUser.email || "No email address";
+
+      showNotice("Your profile has been updated successfully.", "success");
+
+      saveButton.disabled = true;
+      saveButton.textContent = "Changes Saved";
+
+      setTimeout(() => {
+        window.location.href = "profile.html";
+      }, 1000);
+
+    } catch (error) {
+      showNotice(
+        "Unable to save your profile. Your browser storage may be full. Try using a smaller profile picture.",
+        "error"
+      );
+    }
+  });
+
+  document.getElementById("menuToggle").addEventListener("click", () => {
+    document.getElementById("navLinks").classList.toggle("open");
+  });
+
+  initialize();
+
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1835 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Learn | NEDIKE</title>
+    <meta name="description" content="Explore practical learning paths and develop valuable skills with NEDIKE.">
+
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #102B46;
+            --navy-dark: #0B2035;
+            --green: #16845B;
+            --green-dark: #106D4A;
+            --green-light: #EAF4EE;
+            --background: #F4F7F5;
+            --white: #FFFFFF;
+            --text: #263746;
+            --muted: #718096;
+            --border: #E3EAE6;
+            --container: 1160px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background: var(--white);
+            line-height: 1.6;
+        }
+
+        body, button, input {
+            font-family: 'Inter', sans-serif;
+        }
+
+        button, a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(var(--container), 92%);
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-inner {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--navy);
+            font-size: 23px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            flex-shrink: 0;
+        }
+
+        .brand img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 29px;
+        }
+
+        .main-nav a {
+            color: #657386;
+            font-size: 13px;
+            font-weight: 600;
+            transition: color .2s ease;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: var(--green);
+        }
+
+        .header-cta {
+            padding: 12px 19px;
+            background: var(--green);
+            color: var(--white);
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 700;
+            transition: background .2s ease;
+            white-space: nowrap;
+        }
+
+        .header-cta:hover {
+            background: var(--green-dark);
+        }
+
+        .menu-toggle {
+            display: none;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--navy);
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            font-size: 21px;
+            cursor: pointer;
+        }
+
+        /* HERO */
+
+        .hero {
+            background: var(--navy);
+            color: var(--white);
+            padding: 82px 0 88px;
+        }
+
+        .hero-content {
+            max-width: 760px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: #8BD3AE;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.7px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 22px;
+            height: 2px;
+            background: #8BD3AE;
+        }
+
+        .hero h1 {
+            max-width: 700px;
+            font-size: clamp(37px, 5vw, 58px);
+            font-weight: 800;
+            line-height: 1.12;
+            letter-spacing: -2.5px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #8BD3AE;
+        }
+
+        .hero-description {
+            max-width: 600px;
+            color: #CFD9E2;
+            font-size: 14px;
+            line-height: 1.9;
+            margin-bottom: 31px;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 0 21px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 700;
+            transition: .2s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: var(--white);
+            border: 1px solid var(--green);
+        }
+
+        .btn-primary:hover {
+            background: var(--green-dark);
+            border-color: var(--green-dark);
+        }
+
+        .btn-outline {
+            color: var(--white);
+            border: 1px solid #71869A;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,.08);
+        }
+
+        /* INTRODUCTION */
+
+        .intro {
+            padding: 64px 0 30px;
+        }
+
+        .section-heading {
+            margin-bottom: 25px;
+        }
+
+        .section-label {
+            display: block;
+            color: var(--green);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 9px;
+        }
+
+        .section-heading h2 {
+            color: var(--navy);
+            font-size: 28px;
+            letter-spacing: -1px;
+            line-height: 1.3;
+            margin-bottom: 9px;
+        }
+
+        .section-heading p {
+            max-width: 650px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* SEARCH */
+
+        .search-section {
+            padding: 5px 0 35px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: min(660px, 100%);
+            min-height: 54px;
+            padding: 0 16px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            transition: border .2s ease;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--green);
+        }
+
+        .search-icon {
+            width: 18px;
+            height: 18px;
+            color: var(--muted);
+            flex-shrink: 0;
+        }
+
+        .search-box input {
+            width: 100%;
+            min-width: 0;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        .search-box input::placeholder {
+            color: #9AA6B2;
+        }
+
+        /* LEARNING SECTION */
+
+        .learning-section {
+            background: var(--background);
+            padding: 55px 0 76px;
+        }
+
+        .category-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-bottom: 40px;
+        }
+
+        .category-btn {
+            padding: 10px 15px;
+            border: 1px solid #DFE7E2;
+            border-radius: 4px;
+            background: var(--white);
+            color: #647386;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .category-btn:hover {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .category-btn.active {
+            background: var(--green);
+            border-color: var(--green);
+            color: var(--white);
+        }
+
+        .learning-heading {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .learning-heading h2 {
+            color: var(--navy);
+            font-size: 26px;
+            letter-spacing: -.8px;
+            margin-bottom: 6px;
+        }
+
+        .learning-heading p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .path-count {
+            color: var(--muted);
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        /* LEARNING CARDS */
+
+        .learning-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 21px;
+        }
+
+        .learning-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            transition: border-color .2s ease, transform .2s ease,
+                        box-shadow .2s ease;
+        }
+
+        .learning-card:hover {
+            border-color: #B9D5C5;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(16,43,70,.055);
+        }
+
+        .card-top {
+            min-height: 126px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 21px;
+            background: #F0F5F2;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-symbol {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            background: var(--white);
+            color: var(--green);
+            font-size: 19px;
+            font-weight: 800;
+            border: 1px solid #E0EAE3;
+        }
+
+        .card-category {
+            color: var(--green);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.1px;
+            text-transform: uppercase;
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 22px;
+        }
+
+        .card-body h3 {
+            color: var(--navy);
+            font-size: 16px;
+            line-height: 1.45;
+            letter-spacing: -.3px;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            min-height: 65px;
+            color: var(--muted);
+            font-size: 11.5px;
+            line-height: 1.8;
+            margin-bottom: 18px;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 13px;
+            padding: 14px 0;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+        }
+
+        .card-meta span {
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .card-meta .level {
+            color: var(--green);
+        }
+
+        .card-action {
+            width: 100%;
+            min-height: 41px;
+            background: var(--white);
+            border: 1px solid #BBD4C5;
+            border-radius: 4px;
+            color: var(--green);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .card-action:hover,
+        .card-action.started {
+            background: var(--green-light);
+            border-color: var(--green);
+        }
+
+        /* PATH DETAILS */
+
+        .card-details {
+            display: none;
+            padding: 20px 22px 22px;
+            border-top: 1px solid var(--border);
+            background: #FCFDFC;
+        }
+
+        .card-details.open {
+            display: block;
+        }
+
+        .card-details h4 {
+            color: var(--navy);
+            font-size: 12px;
+            margin-bottom: 11px;
+        }
+
+        .card-details ol {
+            padding-left: 18px;
+            margin-bottom: 17px;
+        }
+
+        .card-details li {
+            padding-left: 3px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.9;
+        }
+
+        .start-btn {
+            min-height: 39px;
+            padding: 0 15px;
+            background: var(--green);
+            color: var(--white);
+            border: 1px solid var(--green);
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .start-btn:hover {
+            background: var(--green-dark);
+        }
+
+        .start-btn:disabled {
+            background: #EAF4EE;
+            color: var(--green);
+            border-color: #C6DFCF;
+            cursor: default;
+        }
+
+        .empty-state {
+            display: none;
+            padding: 45px 20px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--muted);
+            font-size: 13px;
+            text-align: center;
+        }
+
+        /* PROGRESS */
+
+        .progress-section {
+            padding: 75px 0;
+            background: var(--white);
+        }
+
+        .progress-panel {
+            padding: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            background: #F5F8F6;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        .progress-content h2 {
+            color: var(--navy);
+            font-size: 23px;
+            letter-spacing: -.6px;
+            margin-bottom: 9px;
+        }
+
+        .progress-content p {
+            max-width: 570px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .progress-number {
+            min-width: 100px;
+            color: var(--green);
+            font-size: 39px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .progress-number small {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .progress-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .progress-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            color: var(--navy);
+            font-size: 11px;
+        }
+
+        .progress-item button {
+            flex-shrink: 0;
+            border: none;
+            background: transparent;
+            color: var(--green);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .no-progress {
+            grid-column: 1 / -1;
+            padding: 23px;
+            border: 1px dashed #D5E1DA;
+            border-radius: 5px;
+            color: var(--muted);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* CTA */
+
+        .learning-cta {
+            padding: 65px 0;
+            background: var(--green-light);
+            text-align: center;
+        }
+
+        .learning-cta h2 {
+            color: var(--navy);
+            font-size: 28px;
+            letter-spacing: -.8px;
+            margin-bottom: 10px;
+        }
+
+        .learning-cta p {
+            max-width: 550px;
+            margin: 0 auto 23px;
+            color: #647386;
+            font-size: 12px;
+            line-height: 1.9;
+        }
+
+        /* FOOTER */
+
+        .site-footer {
+            padding: 25px 0;
+            background: var(--navy-dark);
+            color: #C0CCD6;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-inner p {
+            font-size: 10px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 19px;
+        }
+
+        .footer-links a {
+            color: #C0CCD6;
+            font-size: 10px;
+            transition: color .2s ease;
+        }
+
+        .footer-links a:hover {
+            color: #8BD3AE;
+        }
+
+        /* TABLET */
+
+        @media (max-width: 900px) {
+            .learning-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .main-nav {
+                gap: 17px;
+            }
+
+            .header-cta {
+                display: none;
+            }
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 650px) {
+            html {
+                scroll-padding-top: 75px;
+            }
+
+            .header-inner {
+                min-height: 67px;
+                flex-wrap: wrap;
+                gap: 0;
+                position: relative;
+            }
+
+            .brand {
+                font-size: 21px;
+            }
+
+            .brand img {
+                width: 34px;
+                height: 34px;
+            }
+
+            .menu-toggle {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .main-nav {
+                display: none;
+                position: absolute;
+                top: 67px;
+                left: -4.35%;
+                right: -4.35%;
+                padding: 15px 4.35% 20px;
+                background: var(--white);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+            }
+
+            .main-nav.open {
+                display: flex;
+            }
+
+            .main-nav a {
+                width: 100%;
+                padding: 12px 0;
+                font-size: 12px;
+                border-bottom: 1px solid #F0F3F1;
+            }
+
+            .hero {
+                padding: 62px 0;
+            }
+
+            .hero h1 {
+                font-size: clamp(36px, 10vw, 47px);
+                letter-spacing: -1.8px;
+            }
+
+            .hero-description {
+                font-size: 12px;
+            }
+
+            .intro {
+                padding-top: 48px;
+            }
+
+            .section-heading h2,
+            .learning-heading h2 {
+                font-size: 23px;
+            }
+
+            .learning-section {
+                padding: 42px 0 58px;
+            }
+
+            .category-list {
+                gap: 8px;
+                margin-bottom: 32px;
+            }
+
+            .category-btn {
+                padding: 9px 11px;
+                font-size: 10px;
+            }
+
+            .learning-heading {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .learning-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .card-description {
+                min-height: auto;
+            }
+
+            .progress-section {
+                padding: 55px 0;
+            }
+
+            .progress-panel {
+                align-items: flex-start;
+                flex-direction: column;
+                padding: 25px;
+            }
+
+            .progress-number {
+                text-align: left;
+            }
+
+            .progress-list {
+                grid-template-columns: 1fr;
+            }
+
+            .learning-cta {
+                padding: 52px 0;
+            }
+
+            .learning-cta h2 {
+                font-size: 24px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *, *::before, *::after {
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="container header-inner">
+
+            <a href="index.html" class="brand">
+                <img src="assets/images/nedike-icon.png" alt="NEDIKE logo">
+                <span>NEDIKE</span>
+            </a>
+
+            <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="tasks.html">Tasks</a>
+                <a href="learning.html" class="active">Learn</a>
+                <a href="about.html">About</a>
+                <a href="help.html">Help</a>
+            </nav>
+
+            <a href="register.html" class="header-cta">Join NEDIKE</a>
+
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                type="button"
+                aria-label="Toggle navigation"
+                aria-expanded="false"
+                aria-controls="mainNav"
+            >
+                &#9776;
+            </button>
+
+        </div>
+    </header>
+
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+
+                <span class="eyebrow">NEDIKE LEARNING HUB</span>
+
+                <h1>
+                    Build skills.<br>
+                    Create opportunities.<br>
+                    <span>Keep growing.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Discover practical skills, explore new areas of interest
+                    and develop the knowledge you need to create opportunities
+                    for yourself. Your learning journey starts here.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="#learning-paths" class="btn btn-primary">
+                        Explore Learning Paths
+                    </a>
+
+                    <a href="#my-progress" class="btn btn-outline">
+                        View My Progress
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- INTRO -->
+    <section class="intro">
+        <div class="container">
+
+            <div class="section-heading">
+                <span class="section-label">Grow your potential</span>
+                <h2>Learn something valuable.</h2>
+
+                <p>
+                    Whether you are discovering a new interest or improving
+                    an existing ability, find a skill worth developing.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- SEARCH -->
+    <section class="search-section">
+        <div class="container">
+
+            <label class="search-box">
+                <svg class="search-icon" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round">
+                    <circle cx="10.8" cy="10.8" r="7"></circle>
+                    <path d="m16 16 4.5 4.5"></path>
+                </svg>
+
+                <input
+                    type="search"
+                    id="learnSearch"
+                    placeholder="Search for a skill or learning path..."
+                    aria-label="Search learning paths"
+                >
+            </label>
+
+        </div>
+    </section>
+
+
+    <!-- LEARNING PATHS -->
+    <section class="learning-section" id="learning-paths">
+        <div class="container">
+
+            <div class="category-list" id="categoryList">
+
+                <button class="category-btn active" data-category="all">
+                    All Skills
+                </button>
+
+                <button class="category-btn" data-category="development">
+                    Web Development
+                </button>
+
+                <button class="category-btn" data-category="design">
+                    Graphic Design
+                </button>
+
+                <button class="category-btn" data-category="uiux">
+                    UI/UX Design
+                </button>
+
+                <button class="category-btn" data-category="mobile">
+                    Mobile Development
+                </button>
+
+                <button class="category-btn" data-category="media">
+                    Photography & Video
+                </button>
+
+                <button class="category-btn" data-category="marketing">
+                    Digital Marketing
+                </button>
+
+                <button class="category-btn" data-category="writing">
+                    Writing
+                </button>
+
+                <button class="category-btn" data-category="business">
+                    Business Skills
+                </button>
+
+            </div>
+
+
+            <div class="learning-heading">
+                <div>
+                    <span class="section-label">Explore and develop</span>
+                    <h2>Learning paths</h2>
+                    <p>Choose an area and discover what you can learn.</p>
+                </div>
+
+                <span class="path-count" id="pathCount">8 learning paths</span>
+            </div>
+
+
+            <div class="learning-grid" id="learningGrid">
+
+                <!-- WEB DEVELOPMENT -->
+                <article class="learning-card"
+                    data-category="development"
+                    data-title="Web Development">
+
+                    <div class="card-top">
+                        <div class="card-symbol">&lt;/&gt;</div>
+                        <span class="card-category">Technology</span>
+                    </div>
+
+                    <div class="card-body">
+                        <h3>Web Development</h3>
+
+                        <p class="card-description">
+                            Learn how websites are created using HTML,
+                            CSS and JavaScript, from the foundations
+                            to interactive web experiences.
+                        </p>
+
+                        <div class="card-meta">
+                            <span class="level">Beginner</span>
+                            <span>6 learning stages</span>
+                        </div>
+
+                        <button class="card-action" type="button">
+                            View Learning Path
+                        </button>
+                    </div>
+
+                    <div class="card-details">
+                        <h4>What you will explore</h4>
+                        <ol>
+                            <li>Introduction to the web and HTML</li>
+                            <li>CSS styling and responsive layouts</li>
+                            <li>JavaScript fundamentals</li>
+                            <li>DOM manipulation and interactivity</li>
+                            <li>Git and GitHub fundamentals</li>
+                            <li>Build and publish a personal project</li>
+                        </ol>
+                        <button class="start-btn" type="button">
+                            Start Learning
+                        </button>
+                    </div>
+
+                </article>
+
+
+                <!-- GRAPHIC DESIGN -->
+                <article class="learning-card"
+                    data-category="design"
+                    data-title="Graphic Design">
+
+                    <div class="card-top">
+                        <div class="card-symbol">G</div>
+                        <span class="card-category">Creative Skills</span>
+                    </div>
+
+                    <div class="card-body">
+                        <h3>Graphic Design</h3>
+
+                        <p class="card-description">
+                            Develop visual communication skills and learn
+                            to create professional flyers, posters,
+                            logos and brand materials.
+                        </p>
+
+                        <div class="card-meta">
+                            <span class="level">Beginner</span>
+                            <span>6 learning stages</span>
+                        </div>
+
+                        <button class="card-action" type="button">
+                            View Learning Path
+                        </button>
+                    </div>
+
+                    <div class="card-details">
+                        <h4>What you will explore</h4>
+                        <ol>
+                            <li>Design principles and visual hierarchy</li>
+                            <li>Colour theory and typography</li>
+                            <li>Layout and composition</li>
+                            <li>Working with design tools</li>
+                            <li>Logo and brand identity design</li>
+                            <li>Create a professional design portfolio</li>
+                        </ol>
+                        <button class="start-btn" type="button">
+                            Start Learning
+                        </button>
+                    </div>
+
+                </article>
+
+
+                <!-- UI/UX -->
+                <article class="learning-card"
+                    data-category="uiux"
+                    data-title="UI UX Design">
+
+                    <div class="card-top">
+                        <div class="card-symbol">UI</div>
+                        <span class="card-category">Product Design</span>
+                    </div>
+
+                    <div class="card-body">
+                        <h3>UI/UX Design</h3>
+
+                        <p class="card-description">
+                            Learn to design useful digital experiences
+                            through research, wireframes, prototypes
+                            and interface design.
+                        </p>
+
+                        <div class="card-meta">
+                            <span class="level">Beginner</span>
+                            <span>5 learning stages</span>
+                        </div>
+
+                        <button class="card-action" type="button">
+                            View Learning Path
+                        </button>
+                    </div>
+
+                    <div class="card-details">
+                        <h4>What you will explore</h4>
+                        <ol>
+                            <li>Introduction to UI and UX</li>
+                            <li>User research and problem definition</li>
+                            <li>Wireframing and user flows</li>
+                            <li>Interface design and prototyping</li>
+                            <li>Usability testing and design improvement</li>
+                        </ol>
+                        <button class="start-btn" type="button">
+                            Start Learning
+                        </button>
+                    </div>
+
+                </article>
+
+
+                <!-- MOBILE DEVELOPMENT -->
+                <article class="learning-card"
+                    data-category="mobile"
+                    data-title="Mobile App Development">
+
+                    <div class="card-top">
+                        <div class="card-symbol">M</div>
+                        <span class="card-category">Technology</span>
+                    </div>
+
+                    <div class="card-body">
+                        <h3>Mobile App Development</h3>
+
+                        <p class="card-description">
+                            Explore mobile application development
+                            and understand how digital products
+                            are built for smartphones.
+                        </p>
+
+                        <div class="card-meta">
+                            <span class="level">Beginner</span>
+                            <span>5 learning stages</span>
+                        </div>
+
+                        <button class="card-action" type="button">
+                            View Learning Path
+                        </button>
+                    </div>
+
+                    <div class="card-details">
+                        <h4>What you will explore</h4>
+                        <ol>
+                            <li>Mobile application fundamentals</li>
+                            <li>Programming concepts and logic</li>
+                            <li>Introduction to Flutter and Dart</li>
+                            <li>Building simple mobile interfaces</li>
+                            <li>Testing and improving an application</li>
+                        </ol>
+                        <button class="start-btn" type="button">
+                            Start Learning
+                        </button>
+                    </div>
+
+                </article>
+
+
+                <!-- PHOTOGRAPHY -->
+                <article class="learning-card"
+                    data-category="media"
+                    data-title="Photography and Videography">
+
+                    <div class="card-top">
+                        <div class="card-symbol">P</div>
+                        <span class="card-category">Media Production</span>
+                    </div>
+
+                    <div class="card-body">
+                        <h3>Photography & Videography</h3>
+
+                        <p class="card-description">
+                            Understand composition, lighting, camera
+                            techniques and visual storytelling
+                            for photographs and videos.
+                        </p>
+
+                        <div class="card-meta">
+                            <span class="level">Beginner</span>
+                            <span>5 learning stages</span>
+                        </div>
+
+                        <button class="card-action" type="button">
+                            View Learning Path
+                        </button>
+                    </div>
+
+                    <div class="card-details">
+                        <h4>What you will explore</h4>
+                        <ol>
+                            <li>Camera and smartphone photography basics</li>
+                            <li>Composition and framing</li>
+                            <li>Lighting and exposure</li>
+                            <li>Video recording and editing</li>
+                            <li>Building a visual portfolio</li>
+                        </ol>
+                        <button class="start-btn" type="button">
+                            Start Learning
+                        </button>
+                    </div>
+
+                </article>
+
+
+                <!-- DIGITAL MARKETING -->
+                <article class="learning-card"
+                    data-category="marketing"
+                    data-title="Digital Marketing">
+
+                    <div class="card-top">
+                        <div class="card-symbol">DM</div>
+                        <span class="card-category">Business Growth</span>
+                    </div>
+
+                    <div class="card-body">
+                        <h3>Digital Marketing</h3>
+
+                        <p class="card-description">
+                            Learn how businesses reach customers
+                            online through content, social media,
+                            marketing strategy and analytics.
+                        </p>
+
+                        <div class="card-meta">
+                            <span class="level">Beginner</span>
+                            <span>5 learning stages</span>
+                        </div>
+
+                        <button class="card-action" type="button">
+                            View Learning Path
+                        </button>
+                    </div>
+
+                    <div class="card-details">
+                        <h4>What you will explore</h4>
+                        <ol>
+                            <li>Digital marketing fundamentals</li>
+                            <li>Social media strategy</li>
+                            <li>Content creation and planning</li>
+                            <li>Audience engagement</li>
+                            <li>Marketing performance and analytics</li>
+                        </ol>
+                        <button class="start-btn" type="button">
+                            Start Learning
+                        </button>
+                    </div>
+
+                </article>
+
+
+                <!-- WRITING -->
+                <article class="learning-card"
+                    data-category="writing"
+                    data-title="Writing and Content Creation">
+
+                    <div class="card-top">
+                        <div class="card-symbol">W</div>
+                        <span class="card-category">Communication</span>
+                    </div>
+
+                    <div class="card-body">
+                        <h3>Writing & Content Creation</h3>
+
+                        <p class="card-description">
+                            Improve your writing, storytelling and
+                            communication skills for digital platforms,
+                            businesses and professional projects.
+                        </p>
+
+                        <div class="card-meta">
+                            <span class="level">Beginner</span>
+                            <span>5 learning stages</span>
+                        </div>
+
+                        <button class="card-action" type="button">
+                            View Learning Path
+                        </button>
+                    </div>
+
+                    <div class="card-details">
+                        <h4>What you will explore</h4>
+                        <ol>
+                            <li>Writing fundamentals and clarity</li>
+                            <li>Research and idea development</li>
+                            <li>Copywriting and persuasive writing</li>
+                            <li>Content planning and storytelling</li>
+                            <li>Editing and building a writing portfolio</li>
+                        </ol>
+                        <button class="start-btn" type="button">
+                            Start Learning
+                        </button>
+                    </div>
+
+                </article>
+
+
+                <!-- BUSINESS -->
+                <article class="learning-card"
+                    data-category="business"
+                    data-title="Entrepreneurship and Business Skills">
+
+                    <div class="card-top">
+                        <div class="card-symbol">B</div>
+                        <span class="card-category">Professional Growth</span>
+                    </div>
+
+                    <div class="card-body">
+                        <h3>Entrepreneurship & Business</h3>
+
+                        <p class="card-description">
+                            Understand the foundations of starting,
+                            organising and managing a small business
+                            while developing professional skills.
+                        </p>
+
+                        <div class="card-meta">
+                            <span class="level">Beginner</span>
+                            <span>5 learning stages</span>
+                        </div>
+
+                        <button class="card-action" type="button">
+                            View Learning Path
+                        </button>
+                    </div>
+
+                    <div class="card-details">
+                        <h4>What you will explore</h4>
+                        <ol>
+                            <li>Identifying business opportunities</li>
+                            <li>Understanding customers and markets</li>
+                            <li>Business planning and pricing</li>
+                            <li>Customer service and communication</li>
+                            <li>Basic financial management</li>
+                        </ol>
+                        <button class="start-btn" type="button">
+                            Start Learning
+                        </button>
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <div class="empty-state" id="emptyState">
+                No learning paths match your search.
+                Try another keyword or category.
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- LEARNING PROGRESS -->
+    <section class="progress-section" id="my-progress">
+        <div class="container">
+
+            <div class="progress-panel">
+
+                <div class="progress-content">
+                    <span class="section-label">Your development</span>
+                    <h2>Your learning journey</h2>
+
+                    <p>
+                        Keep track of the learning paths you have started.
+                        Your selections are saved in this browser and can
+                        be accessed again on this device.
+                    </p>
+                </div>
+
+                <div class="progress-number">
+                    <span id="progressCount">0</span>
+                    <small>Paths started</small>
+                </div>
+
+            </div>
+
+            <div class="progress-list" id="progressList">
+                <div class="no-progress">
+                    You have not started a learning path yet.
+                    Choose a skill above to begin.
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- CALL TO ACTION -->
+    <section class="learning-cta">
+        <div class="container">
+
+            <span class="section-label">Your next opportunity</span>
+
+            <h2>Your skills have a place here.</h2>
+
+            <p>
+                Learn something new, improve what you already know
+                and connect your skills to opportunities within
+                the NEDIKE community.
+            </p>
+
+            <a href="register.html" class="btn btn-primary">
+                Get Started with NEDIKE
+            </a>
+
+        </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <p>
+                &copy; <span id="currentYear"></span> NEDIKE.
+                Learn. Work. Earn. Teach.
+            </p>
+
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="tasks.html">Tasks</a>
+                <a href="about.html">About</a>
+                <a href="help.html">Help & FAQs</a>
+            </div>
+
+        </div>
+    </footer>
+
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const STORAGE_KEY = "nedike_learning_paths";
+
+        const cards = Array.from(
+            document.querySelectorAll(".learning-card")
+        );
+
+        const categoryButtons = document.querySelectorAll(".category-btn");
+        const searchInput = document.getElementById("learnSearch");
+        const emptyState = document.getElementById("emptyState");
+        const pathCount = document.getElementById("pathCount");
+        const progressCount = document.getElementById("progressCount");
+        const progressList = document.getElementById("progressList");
+
+        let activeCategory = "all";
+
+
+        // MOBILE NAVIGATION
+
+        const menuToggle = document.getElementById("menuToggle");
+        const mainNav = document.getElementById("mainNav");
+
+        menuToggle.addEventListener("click", function () {
+
+            const isOpen = mainNav.classList.toggle("open");
+
+            menuToggle.setAttribute("aria-expanded", isOpen);
+
+            menuToggle.innerHTML = isOpen ? "&times;" : "&#9776;";
+
+        });
+
+        mainNav.querySelectorAll("a").forEach(link => {
+
+            link.addEventListener("click", function () {
+
+                mainNav.classList.remove("open");
+
+                menuToggle.setAttribute("aria-expanded", "false");
+
+                menuToggle.innerHTML = "&#9776;";
+
+            });
+
+        });
+
+
+        // SAFE LOCAL STORAGE ACCESS
+
+        function getStartedPaths() {
+
+            try {
+
+                const saved = JSON.parse(
+                    localStorage.getItem(STORAGE_KEY)
+                );
+
+                return Array.isArray(saved) ? saved : [];
+
+            } catch (error) {
+
+                return [];
+
+            }
+
+        }
+
+
+        function saveStartedPaths(paths) {
+
+            try {
+
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify(paths)
+                );
+
+                return true;
+
+            } catch (error) {
+
+                alert(
+                    "Your browser could not save your learning progress. " +
+                    "Please check your browser storage settings."
+                );
+
+                return false;
+
+            }
+
+        }
+
+
+        // SEARCH AND CATEGORY FILTERING
+
+        function filterPaths() {
+
+            const term = searchInput.value.toLowerCase().trim();
+
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+
+                const title = card.dataset.title.toLowerCase();
+
+                const category = card.dataset.category;
+
+                const description = card.querySelector(
+                    ".card-description"
+                ).textContent.toLowerCase();
+
+                const matchesCategory =
+                    activeCategory === "all" ||
+                    category === activeCategory;
+
+                const matchesSearch =
+                    title.includes(term) ||
+                    description.includes(term);
+
+                const visible = matchesCategory && matchesSearch;
+
+                card.style.display = visible ? "flex" : "none";
+
+                if (!visible) {
+                    card.querySelector(".card-details")
+                        .classList.remove("open");
+                }
+
+                if (visible) {
+                    visibleCount++;
+                }
+
+            });
+
+            pathCount.textContent =
+                visibleCount +
+                (visibleCount === 1
+                    ? " learning path"
+                    : " learning paths");
+
+            emptyState.style.display =
+                visibleCount === 0 ? "block" : "none";
+
+        }
+
+
+        categoryButtons.forEach(button => {
+
+            button.addEventListener("click", function () {
+
+                categoryButtons.forEach(item =>
+                    item.classList.remove("active")
+                );
+
+                this.classList.add("active");
+
+                activeCategory = this.dataset.category;
+
+                filterPaths();
+
+            });
+
+        });
+
+
+        searchInput.addEventListener("input", filterPaths);
+
+
+        // UPDATE LEARNING PROGRESS
+
+        function updateProgress() {
+
+            const startedPaths = getStartedPaths();
+
+            progressCount.textContent = startedPaths.length;
+
+            cards.forEach(card => {
+
+                const title = card.dataset.title;
+
+                const started = startedPaths.includes(title);
+
+                const button = card.querySelector(".card-action");
+
+                button.textContent = started
+                    ? "Continue Learning"
+                    : "View Learning Path";
+
+                button.classList.toggle("started", started);
+
+            });
+
+
+            if (startedPaths.length === 0) {
+
+                progressList.innerHTML = `
+                    <div class="no-progress">
+                        You have not started a learning path yet.
+                        Choose a skill above to begin.
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            progressList.innerHTML = "";
+
+            startedPaths.forEach(title => {
+
+                const item = document.createElement("div");
+
+                item.className = "progress-item";
+
+                const name = document.createElement("span");
+                name.textContent = title;
+
+                const button = document.createElement("button");
+
+                button.type = "button";
+                button.textContent = "View Path";
+
+                button.addEventListener("click", function () {
+
+                    const card = cards.find(
+                        item => item.dataset.title === title
+                    );
+
+                    if (!card) return;
+
+                    card.style.display = "flex";
+
+                    card.querySelector(".card-details")
+                        .classList.add("open");
+
+                    card.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+
+                });
+
+                item.append(name, button);
+
+                progressList.appendChild(item);
+
+            });
+
+        }
+
+
+        // OPEN AND CLOSE LEARNING PATH DETAILS
+
+        cards.forEach(card => {
+
+            const viewButton = card.querySelector(".card-action");
+
+            const details = card.querySelector(".card-details");
+
+            const startButton = card.querySelector(".start-btn");
+
+
+            viewButton.addEventListener("click", function () {
+
+                const isOpen = details.classList.toggle("open");
+
+                this.textContent = isOpen
+                    ? "Hide Learning Path"
+                    : getStartedPaths().includes(card.dataset.title)
+                        ? "Continue Learning"
+                        : "View Learning Path";
+
+            });
+
+
+            // START A LEARNING PATH
+
+            startButton.addEventListener("click", function () {
+
+                const title = card.dataset.title;
+
+                const startedPaths = getStartedPaths();
+
+                if (!startedPaths.includes(title)) {
+
+                    startedPaths.push(title);
+
+                    if (!saveStartedPaths(startedPaths)) {
+                        return;
+                    }
+
+                }
+
+                updateProgress();
+
+                this.textContent = "Learning Path Started";
+
+                this.disabled = true;
+
+                document.getElementById("my-progress")
+                    .scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+
+            });
+
+        });
+
+
+        // FOOTER YEAR
+
+        document.getElementById("currentYear").textContent =
+            new Date().getFullYear();
+
+
+        // INITIALISE
+
+        filterPaths();
+        updateProgress();
+
+    });
+    </script>
+
+</body>
+</html>

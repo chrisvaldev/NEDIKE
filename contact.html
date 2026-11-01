@@ -1,0 +1,1074 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#102B46">
+    <title>Contact Us | NEDIKE</title>
+
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #102B46;
+            --navy-dark: #0B2035;
+            --green: #16845B;
+            --green-dark: #106D4A;
+            --green-light: #EAF4EE;
+            --background: #F4F7F5;
+            --white: #FFFFFF;
+            --text: #263746;
+            --muted: #718096;
+            --border: #E3EAE6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, sans-serif;
+            background: var(--white);
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        button, input, textarea, select {
+            font: inherit;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .header-inner {
+            max-width: 1240px;
+            height: 72px;
+            padding: 0 25px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .brand img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .brand strong {
+            color: var(--navy);
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav a {
+            color: #586878;
+            font-size: 11px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            color: var(--green);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .login-link {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .profile-link {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green);
+            font-weight: 800;
+            font-size: 11px;
+        }
+
+        .mobile-toggle {
+            display: none;
+            border: 0;
+            background: none;
+            font-size: 22px;
+            color: var(--navy);
+        }
+
+        .hero {
+            background: var(--navy);
+            color: white;
+            padding: 76px 25px 85px;
+            text-align: center;
+        }
+
+        .hero-inner {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            color: #9BD8B9;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+            margin-bottom: 17px;
+        }
+
+        .hero h1 {
+            font-size: clamp(30px, 5vw, 45px);
+            letter-spacing: -1.8px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            max-width: 550px;
+            margin: 17px auto 0;
+            color: #D0DCE5;
+            line-height: 1.9;
+            font-size: 12px;
+        }
+
+        .contact-section {
+            max-width: 1120px;
+            margin: -35px auto 75px;
+            padding: 0 25px;
+            position: relative;
+        }
+
+        .contact-layout {
+            display: grid;
+            grid-template-columns: .85fr 1.35fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .contact-info {
+            background: var(--navy-dark);
+            color: white;
+            padding: 31px 27px;
+            border-radius: 5px;
+        }
+
+        .contact-info h2 {
+            font-size: 19px;
+            letter-spacing: -.5px;
+        }
+
+        .contact-info > p {
+            color: #B9C9D5;
+            font-size: 11px;
+            line-height: 1.8;
+            margin-top: 11px;
+        }
+
+        .info-list {
+            margin-top: 31px;
+            display: grid;
+            gap: 24px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 13px;
+        }
+
+        .info-icon {
+            width: 36px;
+            height: 36px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            background: rgba(255,255,255,.1);
+            color: #9BD8B9;
+            border-radius: 4px;
+            font-size: 15px;
+        }
+
+        .info-item h3 {
+            font-size: 11px;
+            margin-bottom: 6px;
+        }
+
+        .info-item p {
+            color: #B9C9D5;
+            font-size: 10px;
+            line-height: 1.8;
+        }
+
+        .info-item a {
+            color: #9BD8B9;
+        }
+
+        .info-note {
+            margin-top: 32px;
+            border-top: 1px solid rgba(255,255,255,.15);
+            padding-top: 19px;
+            color: #B9C9D5;
+            font-size: 10px;
+            line-height: 1.8;
+        }
+
+        .contact-form-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 30px;
+            box-shadow: 0 12px 35px rgba(16,43,70,.06);
+        }
+
+        .contact-form-card h2 {
+            color: var(--navy);
+            font-size: 19px;
+            letter-spacing: -.5px;
+        }
+
+        .contact-form-card > p {
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 8px;
+            line-height: 1.7;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-top: 26px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            color: var(--navy);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .form-group label span {
+            color: #C74444;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 12px;
+            outline: none;
+            background: white;
+            color: var(--text);
+            font-size: 11px;
+            transition: .2s;
+        }
+
+        .form-group input,
+        .form-group select {
+            height: 43px;
+        }
+
+        .form-group textarea {
+            min-height: 135px;
+            resize: vertical;
+            line-height: 1.7;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(22,132,91,.08);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #A2ADB8;
+        }
+
+        .form-footer {
+            margin-top: 19px;
+        }
+
+        .privacy-note {
+            color: var(--muted);
+            font-size: 9px;
+            line-height: 1.7;
+            margin-bottom: 17px;
+        }
+
+        .privacy-note a {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .submit-button {
+            height: 45px;
+            padding: 0 23px;
+            background: var(--green);
+            color: white;
+            border: 0;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .submit-button:hover {
+            background: var(--green-dark);
+        }
+
+        .submit-button:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .form-message {
+            display: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 10px;
+            line-height: 1.7;
+            margin-top: 15px;
+        }
+
+        .form-message.success {
+            display: block;
+            background: var(--green-light);
+            color: var(--green-dark);
+        }
+
+        .form-message.error {
+            display: block;
+            background: #FCEEEE;
+            color: #A72E2E;
+        }
+
+        .faq-section {
+            background: var(--background);
+            padding: 65px 25px 75px;
+        }
+
+        .faq-inner {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 31px;
+        }
+
+        .section-heading span {
+            color: var(--green);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+        }
+
+        .section-heading h2 {
+            color: var(--navy);
+            font-size: 25px;
+            margin-top: 11px;
+            letter-spacing: -.8px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 9px;
+            line-height: 1.7;
+        }
+
+        .faq-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .faq-item {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        .faq-question {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            padding: 17px 19px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            text-align: left;
+            color: var(--navy);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .faq-question span:last-child {
+            font-size: 17px;
+            color: var(--green);
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 0 19px 18px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.9;
+        }
+
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+
+        .faq-item.open .faq-question span:last-child {
+            transform: rotate(45deg);
+        }
+
+        .help-cta {
+            max-width: 850px;
+            margin: 60px auto 0;
+            background: var(--navy);
+            border-radius: 5px;
+            padding: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            color: white;
+        }
+
+        .help-cta h2 {
+            font-size: 17px;
+        }
+
+        .help-cta p {
+            font-size: 10px;
+            color: #C5D2DC;
+            margin-top: 7px;
+            line-height: 1.7;
+        }
+
+        .help-cta a {
+            background: var(--green);
+            color: white;
+            padding: 12px 17px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .footer {
+            background: var(--navy-dark);
+            color: #C2CED8;
+            padding: 48px 25px 22px;
+        }
+
+        .footer-inner {
+            max-width: 1120px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 45px;
+            padding-bottom: 35px;
+        }
+
+        .footer-brand {
+            color: white;
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .footer-about p {
+            max-width: 300px;
+            color: #AAB9C5;
+            font-size: 10px;
+            line-height: 1.9;
+            margin-top: 13px;
+        }
+
+        .footer-column h3 {
+            color: white;
+            font-size: 11px;
+            margin-bottom: 17px;
+        }
+
+        .footer-column a {
+            display: block;
+            color: #AAB9C5;
+            font-size: 10px;
+            margin-bottom: 13px;
+            transition: .2s;
+        }
+
+        .footer-column a:hover {
+            color: #9BD8B9;
+        }
+
+        .footer-bottom {
+            max-width: 1120px;
+            margin: auto;
+            border-top: 1px solid rgba(255,255,255,.12);
+            padding-top: 19px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+            color: #91A3B1;
+            font-size: 9px;
+        }
+
+        @media (max-width: 850px) {
+            .nav {
+                gap: 14px;
+            }
+
+            .nav a {
+                font-size: 10px;
+            }
+
+            .contact-layout {
+                grid-template-columns: 1fr 1.3fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .header-inner {
+                height: 65px;
+                padding: 0 17px;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav {
+                display: none;
+                position: absolute;
+                top: 65px;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 19px;
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 19px;
+            }
+
+            .nav.open {
+                display: flex;
+            }
+
+            .hero {
+                padding: 65px 20px 75px;
+            }
+
+            .contact-section {
+                padding: 0 16px;
+            }
+
+            .contact-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                padding: 25px;
+            }
+
+            .contact-form-card {
+                padding: 24px 19px;
+            }
+
+            .footer-inner {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+
+            .footer-about {
+                grid-column: 1 / -1;
+            }
+
+            .help-cta {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .footer-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-about {
+                grid-column: auto;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+            }
+
+            .login-link {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="header-inner">
+
+            <a href="index.html" class="brand">
+                <img src="assets/images/nedike-icon.png" alt="NEDIKE logo">
+                <strong>NEDIKE</strong>
+            </a>
+
+            <nav class="nav" id="mainNav">
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="tasks.html">Tasks</a>
+                <a href="learning.html">Learn</a>
+                <a href="about.html">About</a>
+                <a href="help.html">Help</a>
+                <a href="contact.html" class="active">Contact</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="login.html" class="login-link" id="loginLink">Log in</a>
+                <a href="profile.html" class="profile-link" id="profileLink" style="display:none;">U</a>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">☰</button>
+            </div>
+
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <span class="eyebrow">WE'RE HERE TO HELP</span>
+            <h1>Let's talk. How can we help?</h1>
+            <p>
+                Have a question, need assistance, or want to share feedback?
+                Send us a message. We would like to hear from you.
+            </p>
+        </div>
+    </section>
+
+    <main>
+
+        <section class="contact-section">
+
+            <div class="contact-layout">
+
+                <aside class="contact-info">
+                    <h2>Get in touch</h2>
+
+                    <p>
+                        Use the contact form to send your enquiry.
+                        Select the subject that best describes what you need help with.
+                    </p>
+
+                    <div class="info-list">
+
+                        <div class="info-item">
+                            <div class="info-icon">✉</div>
+                            <div>
+                                <h3>Email support</h3>
+                                <p>Use the contact form to submit your message.</p>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon">◎</div>
+                            <div>
+                                <h3>Platform assistance</h3>
+                                <p>Get help with accounts, profiles, services and tasks.</p>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon">◷</div>
+                            <div>
+                                <h3>Support enquiries</h3>
+                                <p>Include enough detail to help us understand your issue.</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="info-note">
+                        Please do not include passwords, bank details or other sensitive information in your message.
+                    </div>
+                </aside>
+
+                <section class="contact-form-card">
+                    <h2>Send us a message</h2>
+                    <p>Complete the form below. Fields marked with an asterisk are required.</p>
+
+                    <form id="contactForm">
+
+                        <div class="form-grid">
+
+                            <div class="form-group">
+                                <label for="fullName">Full name <span>*</span></label>
+                                <input type="text" id="fullName" name="fullName"
+                                    placeholder="Enter your full name" required maxlength="100">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email address <span>*</span></label>
+                                <input type="email" id="email" name="email"
+                                    placeholder="you@example.com" required maxlength="150">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Phone number</label>
+                                <input type="tel" id="phone" name="phone"
+                                    placeholder="Optional" maxlength="30">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="subject">Subject <span>*</span></label>
+                                <select id="subject" name="subject" required>
+                                    <option value="">Select a subject</option>
+                                    <option value="Account and Profile">Account and Profile</option>
+                                    <option value="Services">Services</option>
+                                    <option value="Tasks and Applications">Tasks and Applications</option>
+                                    <option value="Learning">Learning</option>
+                                    <option value="Technical Issue">Technical Issue</option>
+                                    <option value="Safety and Report">Safety and Report</option>
+                                    <option value="Feedback">Feedback</option>
+                                    <option value="Other">Other Enquiry</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group full">
+                                <label for="message">Your message <span>*</span></label>
+                                <textarea id="message" name="message"
+                                    placeholder="Tell us how we can help..."
+                                    required minlength="10" maxlength="3000"></textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="form-footer">
+                            <p class="privacy-note">
+                                By submitting this form, you agree that your information may be used
+                                to respond to your enquiry. Read our
+                                <a href="privacy.html">Privacy Policy</a>.
+                            </p>
+
+                            <button type="submit" class="submit-button" id="submitButton">
+                                Submit Message →
+                            </button>
+
+                            <div class="form-message" id="formMessage" role="status" aria-live="polite"></div>
+                        </div>
+
+                    </form>
+                </section>
+
+            </div>
+
+        </section>
+
+        <section class="faq-section">
+
+            <div class="faq-inner">
+
+                <div class="section-heading">
+                    <span>QUICK ANSWERS</span>
+                    <h2>Before you contact us</h2>
+                    <p>You may find the answer to your question in these common topics.</p>
+                </div>
+
+                <div class="faq-list">
+
+                    <div class="faq-item">
+                        <button class="faq-question" type="button">
+                            <span>How do I create a NEDIKE account?</span>
+                            <span>+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Visit the registration page, provide the required information and follow the available steps to create your account.
+                            <a href="register.html" style="color:#16845B;font-weight:700;">Create an account</a>.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" type="button">
+                            <span>How can I offer my services?</span>
+                            <span>+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Sign in to your account and use the service creation feature, where available, to describe your skills and the services you offer.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" type="button">
+                            <span>How do I apply for a task?</span>
+                            <span>+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Browse the available tasks, open an opportunity that interests you and follow its application instructions.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" type="button">
+                            <span>Where can I track my applications?</span>
+                            <span>+</span>
+                        </button>
+                        <div class="faq-answer">
+                            If the application tracking feature is available in your account, visit your Applications page to review submitted applications and their statuses.
+                            <a href="applications.html" style="color:#16845B;font-weight:700;">View applications</a>.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" type="button">
+                            <span>What should I do if I encounter a technical problem?</span>
+                            <span>+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Select Technical Issue in the contact form. Explain what happened, which page you were using and the steps that led to the problem. Do not include passwords or private account credentials.
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="help-cta">
+                <div>
+                    <h2>Still need assistance?</h2>
+                    <p>Visit our Help Centre for more information about using NEDIKE.</p>
+                </div>
+                <a href="help.html">Visit Help Centre →</a>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="footer">
+
+        <div class="footer-inner">
+
+            <div class="footer-about">
+                <div class="footer-brand">NEDIKE</div>
+                <p>
+                    A student-focused skills and services marketplace designed
+                    to connect skills, opportunities and learning.
+                </p>
+            </div>
+
+            <div class="footer-column">
+                <h3>Explore</h3>
+                <a href="services.html">Find Services</a>
+                <a href="tasks.html">Browse Tasks</a>
+                <a href="learning.html">Learning</a>
+                <a href="about.html">About NEDIKE</a>
+            </div>
+
+            <div class="footer-column">
+                <h3>Support</h3>
+                <a href="help.html">Help Centre</a>
+                <a href="contact.html">Contact Us</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms and Conditions</a>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <span>© <span id="year"></span> NEDIKE. All rights reserved.</span>
+            <span>Learn. Work. Earn. Teach.</span>
+        </div>
+
+    </footer>
+
+    <script>
+        const USER_KEY = "nedike_current_user";
+        const CONTACT_KEY = "nedike_contact_messages";
+
+        function readJSON(key, fallback) {
+            try {
+                return JSON.parse(localStorage.getItem(key)) ?? fallback;
+            } catch {
+                return fallback;
+            }
+        }
+
+        // Populate the header using the current account, if available.
+        const currentUser = readJSON(USER_KEY, null);
+
+        if (currentUser) {
+            const name = currentUser.fullName ||
+                currentUser.name ||
+                [currentUser.firstName, currentUser.lastName].filter(Boolean).join(" ");
+
+            const initial = name.trim().charAt(0).toUpperCase() || "U";
+
+            document.getElementById("profileLink").textContent = initial;
+            document.getElementById("profileLink").style.display = "grid";
+            document.getElementById("loginLink").style.display = "none";
+
+            document.getElementById("fullName").value = name;
+            document.getElementById("email").value = currentUser.email || "";
+        }
+
+        // Mobile navigation.
+        document.getElementById("mobileToggle").addEventListener("click", () => {
+            document.getElementById("mainNav").classList.toggle("open");
+        });
+
+        // FAQ accordion.
+        document.querySelectorAll(".faq-question").forEach(button => {
+            button.addEventListener("click", () => {
+                const item = button.closest(".faq-item");
+                item.classList.toggle("open");
+            });
+        });
+
+        // Contact form.
+        document.getElementById("contactForm").addEventListener("submit", event => {
+            event.preventDefault();
+
+            const form = event.currentTarget;
+            const messageBox = document.getElementById("formMessage");
+            const submitButton = document.getElementById("submitButton");
+
+            if (!form.reportValidity()) return;
+
+            const message = {
+                id: "MSG-" + Date.now(),
+                userId: currentUser
+                    ? currentUser.id || currentUser.userId || currentUser.email || ""
+                    : "",
+                fullName: document.getElementById("fullName").value.trim(),
+                email: document.getElementById("email").value.trim(),
+                phone: document.getElementById("phone").value.trim(),
+                subject: document.getElementById("subject").value,
+                message: document.getElementById("message").value.trim(),
+                status: "unread",
+                createdAt: new Date().toISOString()
+            };
+
+            if (message.message.length < 10) {
+                messageBox.textContent = "Please provide a little more detail in your message.";
+                messageBox.className = "form-message error";
+                return;
+            }
+
+            try {
+                const stored = readJSON(CONTACT_KEY, []);
+
+                if (!Array.isArray(stored)) {
+                    throw new Error("Invalid contact message storage.");
+                }
+
+                stored.push(message);
+                localStorage.setItem(CONTACT_KEY, JSON.stringify(stored));
+
+                form.reset();
+
+                if (currentUser) {
+                    document.getElementById("fullName").value =
+                        currentUser.fullName ||
+                        currentUser.name ||
+                        [currentUser.firstName, currentUser.lastName].filter(Boolean).join(" ");
+
+                    document.getElementById("email").value = currentUser.email || "";
+                }
+
+                messageBox.textContent =
+                    "Your message has been saved in this browser. This prototype does not yet send messages to a support team.";
+
+                messageBox.className = "form-message success";
+
+            } catch (error) {
+                messageBox.textContent =
+                    "We could not save your message. Please check your browser storage and try again.";
+
+                messageBox.className = "form-message error";
+            }
+        });
+
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+
+</body>
+</html>

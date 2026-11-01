@@ -1,0 +1,824 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#102B46">
+    <meta name="description" content="Read the NEDIKE Privacy Policy to understand how user information is collected, used and protected.">
+    <title>Privacy Policy | NEDIKE</title>
+
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #102B46;
+            --navy-dark: #0B2035;
+            --green: #16845B;
+            --green-dark: #106D4A;
+            --green-light: #EAF4EE;
+            --background: #F4F7F5;
+            --white: #FFFFFF;
+            --text: #263746;
+            --muted: #718096;
+            --border: #E3EAE6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1100px, 91%);
+            margin: auto;
+        }
+
+        /* HEADER */
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--navy);
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .brand img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .nav-links a {
+            font-size: 12px;
+            font-weight: 600;
+            color: #607080;
+            transition: .2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--green);
+        }
+
+        .profile-link {
+            width: 39px;
+            height: 39px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--green-light);
+            color: var(--green-dark);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .menu-toggle {
+            display: none;
+            border: none;
+            background: none;
+            font-size: 25px;
+            color: var(--navy);
+        }
+
+        /* HERO */
+        .hero {
+            background: var(--navy);
+            padding: 62px 0;
+            color: white;
+        }
+
+        .breadcrumb {
+            font-size: 11px;
+            color: #C3D0DC;
+            margin-bottom: 19px;
+        }
+
+        .breadcrumb a {
+            color: #A7D9BD;
+        }
+
+        .hero-label {
+            display: inline-block;
+            background: rgba(255,255,255,.1);
+            color: #B9E4CA;
+            padding: 7px 12px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 43px);
+            letter-spacing: -1.5px;
+            line-height: 1.2;
+            margin-bottom: 13px;
+        }
+
+        .hero p {
+            max-width: 650px;
+            color: #C4D0DB;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .last-updated {
+            margin-top: 20px;
+            color: #A8D8BA;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* CONTENT */
+        .content-layout {
+            display: grid;
+            grid-template-columns: 245px minmax(0, 1fr);
+            gap: 35px;
+            padding-top: 45px;
+            padding-bottom: 75px;
+            align-items: start;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 25px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            padding: 20px 15px;
+        }
+
+        .sidebar h3 {
+            color: var(--navy);
+            font-size: 12px;
+            margin-bottom: 13px;
+            padding: 0 9px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 600;
+            padding: 10px 9px;
+            border-radius: 4px;
+            transition: .2s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            color: var(--green-dark);
+            background: var(--green-light);
+        }
+
+        .policy-content {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            padding: 35px;
+        }
+
+        .intro-box {
+            background: #F7FAF8;
+            border-left: 3px solid var(--green);
+            padding: 18px 20px;
+            margin-bottom: 32px;
+            color: #536574;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .policy-section {
+            padding-bottom: 26px;
+            margin-bottom: 27px;
+            border-bottom: 1px solid var(--border);
+            scroll-margin-top: 25px;
+        }
+
+        .policy-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .policy-section h2 {
+            color: var(--navy);
+            font-size: 17px;
+            letter-spacing: -.4px;
+            margin-bottom: 12px;
+        }
+
+        .policy-section p {
+            color: #647586;
+            font-size: 11px;
+            line-height: 1.9;
+            margin-bottom: 12px;
+        }
+
+        .policy-section ul {
+            padding-left: 20px;
+            margin: 12px 0;
+        }
+
+        .policy-section li {
+            color: #647586;
+            font-size: 11px;
+            line-height: 1.9;
+            margin-bottom: 7px;
+        }
+
+        .policy-section strong {
+            color: var(--navy);
+        }
+
+        .policy-section a {
+            color: var(--green-dark);
+            font-weight: 600;
+        }
+
+        .notice {
+            padding: 16px;
+            background: var(--green-light);
+            border-radius: 5px;
+            color: var(--green-dark);
+            font-size: 11px;
+            line-height: 1.8;
+            margin-top: 14px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--navy-dark);
+            padding: 28px 0;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-content p,
+        .footer-links a {
+            color: #B7C5D1;
+            font-size: 10px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        @media (max-width: 850px) {
+            .content-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .sidebar nav {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .nav {
+                min-height: 68px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 68px;
+                left: 0;
+                width: 100%;
+                padding: 18px 5%;
+                background: white;
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 17px;
+                z-index: 20;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .hero {
+                padding: 45px 0;
+            }
+
+            .content-layout {
+                padding-top: 25px;
+            }
+
+            .policy-content {
+                padding: 23px 18px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="container nav">
+        <a href="index.html" class="brand">
+            <img src="assets/images/nedike-icon.png" alt="NEDIKE logo">
+            NEDIKE
+        </a>
+
+        <nav class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="tasks.html">Tasks</a>
+            <a href="learning.html">Learn</a>
+            <a href="messages.html">Messages</a>
+            <a href="about.html">About</a>
+            <a href="help.html">Help</a>
+        </nav>
+
+        <div style="display:flex;align-items:center;gap:13px">
+            <a href="profile.html" class="profile-link" id="profileInitials">U</a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+        </div>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> / Privacy Policy
+        </div>
+
+        <span class="hero-label">Legal & Privacy</span>
+        <h1>Privacy Policy</h1>
+        <p>
+            Your privacy matters. This policy explains how NEDIKE handles
+            information when you use our platform and interact with the
+            student community.
+        </p>
+
+        <div class="last-updated">
+            Last updated: 31 October 2026
+        </div>
+    </div>
+</section>
+
+<main class="container content-layout">
+
+    <aside class="sidebar">
+        <h3>On this page</h3>
+
+        <nav>
+            <a href="#introduction" class="active">1. Introduction</a>
+            <a href="#information">2. Information We Collect</a>
+            <a href="#usage">3. How We Use Information</a>
+            <a href="#visibility">4. Information Visibility</a>
+            <a href="#storage">5. Data Storage and Security</a>
+            <a href="#sharing">6. Information Sharing</a>
+            <a href="#cookies">7. Cookies and Local Storage</a>
+            <a href="#retention">8. Data Retention</a>
+            <a href="#rights">9. Your Privacy Rights</a>
+            <a href="#children">10. Age and Eligibility</a>
+            <a href="#external">11. External Links</a>
+            <a href="#changes">12. Policy Changes</a>
+            <a href="#contact">13. Contact</a>
+        </nav>
+    </aside>
+
+    <article class="policy-content">
+
+        <div class="intro-box">
+            This Privacy Policy describes the intended privacy practices
+            for NEDIKE, a student-focused skills, services and opportunities
+            platform. Please read it carefully before creating an account
+            or submitting personal information.
+        </div>
+
+        <section class="policy-section" id="introduction">
+            <h2>1. Introduction</h2>
+
+            <p>
+                NEDIKE is designed to help students showcase their abilities,
+                discover services, connect with other students and explore
+                opportunities for personal and professional development.
+            </p>
+
+            <p>
+                This policy explains what information may be collected,
+                how it may be used, and the choices available to users
+                regarding their personal information.
+            </p>
+
+            <p>
+                By using NEDIKE, you acknowledge that you have read this
+                policy. Where applicable law requires consent, we will
+                seek that consent separately.
+            </p>
+        </section>
+
+        <section class="policy-section" id="information">
+            <h2>2. Information We Collect</h2>
+
+            <p>
+                Depending on the features you use, NEDIKE may handle
+                the following categories of information:
+            </p>
+
+            <ul>
+                <li><strong>Account information:</strong> Name, email address and account details supplied during registration.</li>
+                <li><strong>Academic information:</strong> Institution, course of study and current academic level.</li>
+                <li><strong>Profile information:</strong> Profile picture, biography, location, skills and interests you choose to provide.</li>
+                <li><strong>Marketplace information:</strong> Service descriptions, task listings, budgets, applications and related activity you submit.</li>
+                <li><strong>Communication information:</strong> Messages and other information you choose to share through platform features, where implemented.</li>
+                <li><strong>Technical information:</strong> Limited device or browser information may be processed by hosting providers or platform infrastructure, depending on the deployed environment.</li>
+            </ul>
+
+            <p>
+                We aim to collect only information that is relevant to
+                providing and improving the platform.
+            </p>
+        </section>
+
+        <section class="policy-section" id="usage">
+            <h2>3. How We Use Information</h2>
+
+            <p>Information may be used for purposes such as:</p>
+
+            <ul>
+                <li>Creating and maintaining user profiles.</li>
+                <li>Supporting account-related features.</li>
+                <li>Displaying services, skills and task listings.</li>
+                <li>Helping users discover relevant opportunities.</li>
+                <li>Supporting communication and interaction between users where available.</li>
+                <li>Improving the usability, reliability and functionality of NEDIKE.</li>
+                <li>Responding to user enquiries and addressing platform issues.</li>
+                <li>Protecting the platform and its users against misuse, where appropriate.</li>
+            </ul>
+        </section>
+
+        <section class="policy-section" id="visibility">
+            <h2>4. Information Visibility</h2>
+
+            <p>
+                Some information submitted to NEDIKE may be visible to
+                other users, depending on the feature and how it is
+                implemented.
+            </p>
+
+            <ul>
+                <li>Profile details may be displayed to other platform users.</li>
+                <li>Published service listings may be visible to people browsing the marketplace.</li>
+                <li>Task descriptions and related details may be visible to users exploring available tasks.</li>
+                <li>Information shared in communications may be accessible to the intended participants.</li>
+            </ul>
+
+            <p>
+                Avoid publishing passwords, financial account details,
+                private identification numbers or other sensitive
+                information in public profile fields, service descriptions
+                or task listings.
+            </p>
+        </section>
+
+        <section class="policy-section" id="storage">
+            <h2>5. Data Storage and Security</h2>
+
+            <p>
+                The current NEDIKE prototype uses browser-based
+                localStorage for certain account, profile, listing and
+                activity information. This means that some information
+                may remain on the device and browser where it was entered.
+            </p>
+
+            <p>
+                Browser localStorage is not the same as a secure,
+                centrally managed database. Information stored this way
+                may be accessible to someone who can access the same
+                browser profile or device.
+            </p>
+
+            <p>
+                NEDIKE is being developed progressively. A production
+                backend, centralized data management, and additional
+                security controls should be implemented and reviewed
+                before the platform is used to process real users'
+                sensitive information at scale.
+            </p>
+
+            <div class="notice">
+                <strong>Security reminder:</strong> Do not reuse passwords
+                carelessly, share your login details, or enter confidential
+                information into public profile or listing fields.
+            </div>
+        </section>
+
+        <section class="policy-section" id="sharing">
+            <h2>6. Information Sharing</h2>
+
+            <p>
+                NEDIKE does not intend to sell users' personal information.
+                Information may be visible to other users when necessary
+                for features such as profiles, service discovery and task
+                listings.
+            </p>
+
+            <p>
+                If third-party hosting, analytics, communication or other
+                service providers are introduced, relevant information
+                may be processed by those providers to support the
+                platform, subject to appropriate safeguards and applicable
+                legal requirements.
+            </p>
+
+            <p>
+                Information may also be disclosed where required by law
+                or where necessary to address legitimate security,
+                safety or legal concerns.
+            </p>
+        </section>
+
+        <section class="policy-section" id="cookies">
+            <h2>7. Cookies and Local Storage</h2>
+
+            <p>
+                The current prototype uses browser localStorage to
+                maintain certain information between visits. This may
+                include account state, profile information, listings,
+                onboarding details and notifications.
+            </p>
+
+            <p>
+                LocalStorage is stored in your browser and is not
+                automatically synchronized across different devices
+                or browsers.
+            </p>
+
+            <p>
+                Clearing browser site data may remove information
+                stored by the prototype. This may affect your locally
+                saved account state and other platform activity.
+            </p>
+
+            <p>
+                If cookies or additional tracking technologies are
+                introduced in future versions, this policy should
+                be updated to explain their use.
+            </p>
+        </section>
+
+        <section class="policy-section" id="retention">
+            <h2>8. Data Retention</h2>
+
+            <p>
+                Information stored in the current prototype may remain
+                in the browser until it is changed or deleted by the
+                user or removed through browser data management.
+            </p>
+
+            <p>
+                Future versions using centralized storage should define
+                appropriate retention periods based on the purpose of
+                processing, legal obligations and user requests.
+            </p>
+        </section>
+
+        <section class="policy-section" id="rights">
+            <h2>9. Your Privacy Rights</h2>
+
+            <p>
+                Subject to applicable law, users may have rights to:
+            </p>
+
+            <ul>
+                <li>Request access to personal information held about them.</li>
+                <li>Request correction of inaccurate or incomplete information.</li>
+                <li>Request deletion of personal information where applicable.</li>
+                <li>Object to or request restriction of certain processing activities where legally available.</li>
+                <li>Withdraw consent where processing is based on consent.</li>
+                <li>Raise concerns with the relevant data protection authority.</li>
+            </ul>
+
+            <p>
+                For the current browser-based prototype, users may be able
+                to edit or clear some locally stored information through
+                the platform or their browser settings. This does not
+                necessarily remove information held by other users,
+                screenshots, exports or external services.
+            </p>
+
+            <p>
+                In Nigeria, personal data processing is subject to
+                applicable data protection laws, including the Nigeria
+                Data Protection Act 2023.
+            </p>
+        </section>
+
+        <section class="policy-section" id="children">
+            <h2>10. Age and Eligibility</h2>
+
+            <p>
+                NEDIKE is intended for university and other eligible
+                tertiary-level students and members of its intended
+                community.
+            </p>
+
+            <p>
+                Users should provide accurate information and should
+                not create accounts on behalf of another person without
+                proper authority.
+            </p>
+
+            <p>
+                If you believe a minor's personal information has been
+                submitted improperly, please contact the platform
+                administrator so the matter can be reviewed.
+            </p>
+        </section>
+
+        <section class="policy-section" id="external">
+            <h2>11. External Links and Third-Party Services</h2>
+
+            <p>
+                NEDIKE may contain links to external websites or
+                services. These websites operate independently and
+                may have their own privacy policies and practices.
+            </p>
+
+            <p>
+                We encourage users to review the privacy policies of
+                external services before sharing personal information
+                with them.
+            </p>
+        </section>
+
+        <section class="policy-section" id="changes">
+            <h2>12. Changes to This Privacy Policy</h2>
+
+            <p>
+                This policy may be updated as NEDIKE develops new
+                features, changes its technology or responds to
+                applicable legal requirements.
+            </p>
+
+            <p>
+                The latest revision date will be displayed at the
+                beginning of this page. Users should review this
+                page periodically for updates.
+            </p>
+        </section>
+
+        <section class="policy-section" id="contact">
+            <h2>13. Contact and Privacy Enquiries</h2>
+
+            <p>
+                If you have a question, concern or request relating
+                to this Privacy Policy or your personal information,
+                please use the available NEDIKE support channel.
+            </p>
+
+            <p>
+                Visit the <a href="help.html">Help Centre</a> for
+                available support information.
+            </p>
+
+            <div class="notice">
+                NEDIKE should publish a verified privacy contact
+                address and identify the responsible data controller
+                before public production deployment.
+            </div>
+        </section>
+
+    </article>
+</main>
+
+<footer>
+    <div class="container footer-content">
+        <p>© <span id="year"></span> NEDIKE. Learn. Work. Earn. Teach.</p>
+
+        <div class="footer-links">
+            <a href="about.html">About</a>
+            <a href="help.html">Help Centre</a>
+            <a href="terms.html">Terms of Service</a>
+            <a href="privacy.html">Privacy Policy</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const user = (() => {
+        try {
+            return JSON.parse(
+                localStorage.getItem("nedike_current_user") || "null"
+            );
+        } catch (error) {
+            return null;
+        }
+    })();
+
+    if (user) {
+        const first = user.firstName || user.first_name || user.name || "";
+        const last = user.lastName || user.last_name || "";
+
+        const initials = (
+            first.charAt(0) + last.charAt(0)
+        ).toUpperCase();
+
+        if (initials) {
+            document.getElementById("profileInitials").textContent = initials;
+        }
+    }
+
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
+
+    document.getElementById("menuToggle").addEventListener("click", () => {
+        document.getElementById("navLinks").classList.toggle("show");
+    });
+
+    const sections = document.querySelectorAll(".policy-section");
+    const sidebarLinks = document.querySelectorAll(".sidebar a");
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                sidebarLinks.forEach(link => {
+                    link.classList.toggle(
+                        "active",
+                        link.getAttribute("href") === "#" + entry.target.id
+                    );
+                });
+            }
+        });
+    }, {
+        rootMargin: "-20% 0px -65% 0px"
+    });
+
+    sections.forEach(section => observer.observe(section));
+</script>
+
+</body>
+</html>

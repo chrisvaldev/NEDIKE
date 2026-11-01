@@ -1,0 +1,1317 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#102B46">
+    <meta name="description" content="Create or edit your service listing on NEDIKE.">
+    <title>Create a Service | NEDIKE</title>
+
+    <link rel="icon" type="image/png" href="assets/images/nedike-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #102B46;
+            --navy-dark: #0B2035;
+            --green: #16845B;
+            --green-dark: #106D4A;
+            --green-light: #EAF4EE;
+            --background: #F4F7F5;
+            --white: #FFFFFF;
+            --text: #263746;
+            --muted: #718096;
+            --border: #E3EAE6;
+            --danger: #C0392B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input, textarea, select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .header {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .header-inner {
+            max-width: 1240px;
+            height: 100%;
+            margin: auto;
+            padding: 0 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .brand img {
+            width: 37px;
+            height: 37px;
+            object-fit: contain;
+        }
+
+        .brand strong {
+            color: var(--navy);
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .nav a {
+            color: #596B79;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            color: var(--green);
+        }
+
+        .profile-link {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .mobile-toggle {
+            display: none;
+            border: 0;
+            background: transparent;
+            color: var(--navy);
+            font-size: 22px;
+        }
+
+        .page-container {
+            max-width: 1080px;
+            margin: auto;
+            padding: 35px 25px 70px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted);
+            font-size: 10px;
+            margin-bottom: 22px;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--green);
+        }
+
+        .page-heading {
+            margin-bottom: 27px;
+        }
+
+        .page-heading h1 {
+            color: var(--navy);
+            font-size: 27px;
+            letter-spacing: -1px;
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.8;
+            margin-top: 9px;
+        }
+
+        .form-layout {
+            display: grid;
+            grid-template-columns: 1fr 275px;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .form-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 27px;
+            margin-bottom: 18px;
+        }
+
+        .section-heading {
+            padding-bottom: 17px;
+            margin-bottom: 21px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-heading h2 {
+            color: var(--navy);
+            font-size: 14px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.7;
+            margin-top: 6px;
+        }
+
+        .form-group {
+            margin-bottom: 19px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--navy);
+            font-size: 10px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .required {
+            color: var(--danger);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            background: #FCFDFC;
+            color: var(--text);
+            padding: 12px 13px;
+            border-radius: 4px;
+            outline: none;
+            font-size: 11px;
+            transition: .2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--green);
+            background: white;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #A0ACB5;
+        }
+
+        .form-group textarea {
+            min-height: 135px;
+            resize: vertical;
+            line-height: 1.8;
+        }
+
+        .help-text {
+            color: var(--muted);
+            font-size: 9px;
+            line-height: 1.7;
+            margin-top: 7px;
+        }
+
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .image-upload {
+            padding: 23px;
+            background: #FAFCFB;
+            border: 1px dashed #B8C9BF;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .image-upload input {
+            display: none;
+        }
+
+        .upload-symbol {
+            width: 42px;
+            height: 42px;
+            margin: 0 auto 11px;
+            display: grid;
+            place-items: center;
+            background: var(--green-light);
+            color: var(--green);
+            border-radius: 50%;
+            font-size: 20px;
+        }
+
+        .upload-label {
+            display: inline-block;
+            color: var(--green);
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .image-upload p {
+            color: var(--muted);
+            font-size: 9px;
+            margin-top: 7px;
+        }
+
+        .image-preview {
+            display: none;
+            width: 100%;
+            max-height: 230px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+
+        .dynamic-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .dynamic-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .dynamic-item input {
+            flex: 1;
+            min-width: 0;
+            padding: 11px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            outline: none;
+            font-size: 10px;
+        }
+
+        .dynamic-item input:focus {
+            border-color: var(--green);
+        }
+
+        .remove-item {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+            border: 1px solid #F0D9D6;
+            background: #FFF8F7;
+            color: var(--danger);
+            border-radius: 4px;
+            font-size: 15px;
+        }
+
+        .add-button {
+            padding: 12px 0 0;
+            border: 0;
+            background: transparent;
+            color: var(--green);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .add-button:hover {
+            color: var(--green-dark);
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 95px;
+        }
+
+        .sidebar-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 21px;
+            margin-bottom: 15px;
+        }
+
+        .sidebar-card h3 {
+            color: var(--navy);
+            font-size: 12px;
+            margin-bottom: 13px;
+        }
+
+        .sidebar-card p {
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.9;
+        }
+
+        .tips-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .tip {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            color: #596B79;
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        .tip-mark {
+            color: var(--green);
+            font-weight: 800;
+        }
+
+        .notice {
+            background: var(--green-light);
+            color: var(--green-dark);
+            border-left: 3px solid var(--green);
+            padding: 13px;
+            font-size: 9px;
+            line-height: 1.8;
+            margin-top: 15px;
+        }
+
+        .form-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .primary-button,
+        .secondary-button {
+            min-height: 43px;
+            padding: 0 20px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .primary-button {
+            background: var(--green);
+            color: white;
+            border: 1px solid var(--green);
+        }
+
+        .primary-button:hover {
+            background: var(--green-dark);
+        }
+
+        .primary-button:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .secondary-button {
+            background: white;
+            color: var(--navy);
+            border: 1px solid var(--border);
+        }
+
+        .secondary-button:hover {
+            border-color: var(--green);
+        }
+
+        .status-message {
+            display: none;
+            padding: 13px;
+            border-radius: 4px;
+            font-size: 10px;
+            line-height: 1.7;
+            margin-top: 16px;
+        }
+
+        .status-message.success {
+            display: block;
+            background: var(--green-light);
+            color: var(--green-dark);
+        }
+
+        .status-message.error {
+            display: block;
+            background: #FCEEEE;
+            color: #A72E2E;
+        }
+
+        footer {
+            background: var(--navy-dark);
+            color: #AAB9C5;
+            text-align: center;
+            padding: 25px 15px;
+            font-size: 10px;
+        }
+
+        footer strong {
+            color: white;
+        }
+
+        @media (max-width: 850px) {
+            .nav {
+                gap: 13px;
+            }
+
+            .nav a {
+                font-size: 10px;
+            }
+
+            .form-layout {
+                grid-template-columns: 1fr 245px;
+                gap: 17px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .header {
+                height: 65px;
+            }
+
+            .header-inner {
+                padding: 0 17px;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav {
+                display: none;
+                position: absolute;
+                top: 65px;
+                left: 0;
+                right: 0;
+                padding: 20px;
+                background: white;
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 18px;
+            }
+
+            .nav.open {
+                display: flex;
+            }
+
+            .page-container {
+                padding: 25px 16px 50px;
+            }
+
+            .form-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+                grid-row: 1;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .form-actions button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-inner">
+
+        <a href="index.html" class="brand">
+            <img src="assets/images/nedike-icon.png" alt="NEDIKE logo">
+            <strong>NEDIKE</strong>
+        </a>
+
+        <nav class="nav" id="mainNav">
+            <a href="index.html">Home</a>
+            <a href="services.html" class="active">Services</a>
+            <a href="tasks.html">Tasks</a>
+            <a href="learning.html">Learn</a>
+            <a href="messages.html">Messages</a>
+            <a href="about.html">About</a>
+            <a href="help.html">Help</a>
+        </nav>
+
+        <a href="profile.html" class="profile-link" id="profileInitial">U</a>
+
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">☰</button>
+
+    </div>
+</header>
+
+<main class="page-container">
+
+    <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>/</span>
+        <a href="my-service.html">My Services</a>
+        <span>/</span>
+        <span id="breadcrumbTitle">Create Service</span>
+    </div>
+
+    <div class="page-heading">
+        <h1 id="pageTitle">Create a Service</h1>
+        <p>
+            Showcase your skills, reach potential clients and create opportunities
+            by offering your services on NEDIKE.
+        </p>
+    </div>
+
+    <form id="serviceForm" novalidate>
+
+        <div class="form-layout">
+
+            <div class="form-main">
+
+                <!-- BASIC INFORMATION -->
+                <section class="form-card">
+                    <div class="section-heading">
+                        <h2>Service Information</h2>
+                        <p>Introduce the service you want to offer to other students.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="serviceTitle">Service title <span class="required">*</span></label>
+                        <input type="text" id="serviceTitle" maxlength="100"
+                            placeholder="e.g. Professional Business Flyer Design" required>
+                        <p class="help-text">Use a clear title that explains exactly what you offer.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Service category <span class="required">*</span></label>
+                        <select id="category" required>
+                            <option value="">Select a category</option>
+                            <option>Graphic Design</option>
+                            <option>Web Development</option>
+                            <option>Mobile App Development</option>
+                            <option>Photography/Videography</option>
+                            <option>Writing/Content</option>
+                            <option>Digital Marketing</option>
+                            <option>Business/Professional Services</option>
+                            <option>Home/Personal Services</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Service description <span class="required">*</span></label>
+                        <textarea id="description" maxlength="5000"
+                            placeholder="Describe your service, what clients will receive, your process and what makes your work valuable..."
+                            required></textarea>
+                        <p class="help-text">
+                            Be specific about what is included in your service.
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="specialties">Specialties and skills</label>
+                        <div class="dynamic-list" id="specialtiesList">
+                            <div class="dynamic-item">
+                                <input type="text" class="specialty-input"
+                                    maxlength="60" placeholder="e.g. Logo Design">
+                                <button type="button" class="remove-item" aria-label="Remove specialty">×</button>
+                            </div>
+                        </div>
+
+                        <button type="button" class="add-button" id="addSpecialty">
+                            + Add another specialty
+                        </button>
+
+                        <p class="help-text">
+                            Add the specific skills or areas of expertise related to this service.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- PRICING AND DELIVERY -->
+                <section class="form-card">
+                    <div class="section-heading">
+                        <h2>Pricing and Delivery</h2>
+                        <p>Set your service price and expected delivery time.</p>
+                    </div>
+
+                    <div class="two-columns">
+                        <div class="form-group">
+                            <label for="price">Service price (₦) <span class="required">*</span></label>
+                            <input type="number" id="price" min="1" step="1"
+                                placeholder="e.g. 5000" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="deliveryTime">Delivery time <span class="required">*</span></label>
+                            <select id="deliveryTime" required>
+                                <option value="">Select delivery time</option>
+                                <option>Within 24 hours</option>
+                                <option>2 days</option>
+                                <option>3 days</option>
+                                <option>5 days</option>
+                                <option>7 days</option>
+                                <option>14 days</option>
+                                <option>30 days</option>
+                                <option>To be agreed</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="revisions">Revisions included</label>
+                        <select id="revisions">
+                            <option value="Not specified">Select revision policy</option>
+                            <option>1 revision</option>
+                            <option>2 revisions</option>
+                            <option>3 revisions</option>
+                            <option>Unlimited revisions</option>
+                            <option>No revisions</option>
+                            <option>To be agreed</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Service location</label>
+                        <input type="text" id="location" maxlength="100"
+                            placeholder="e.g. Onitsha, Anambra State or Remote">
+                        <p class="help-text">
+                            Specify where you are available or whether you work remotely.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- COVER IMAGE -->
+                <section class="form-card">
+                    <div class="section-heading">
+                        <h2>Service Cover Image</h2>
+                        <p>Add an image that represents your work or service.</p>
+                    </div>
+
+                    <div class="image-upload">
+                        <div class="upload-symbol">↑</div>
+
+                        <label for="serviceImage" class="upload-label">
+                            Choose an image
+                        </label>
+
+                        <input type="file" id="serviceImage"
+                            accept="image/jpeg,image/png,image/webp">
+
+                        <p>JPG, PNG or WebP. Maximum file size: 2MB.</p>
+
+                        <img id="imagePreview" class="image-preview" alt="Service image preview">
+                    </div>
+                </section>
+
+                <!-- ADDITIONAL INFORMATION -->
+                <section class="form-card">
+                    <div class="section-heading">
+                        <h2>Additional Information</h2>
+                        <p>Help potential clients understand how to work with you.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="requirements">What do you need from the client?</label>
+                        <textarea id="requirements" maxlength="1500"
+                            placeholder="e.g. Clients should provide their logo, brand colours, text and preferred design references..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="additionalInfo">Additional notes</label>
+                        <textarea id="additionalInfo" maxlength="1500"
+                            placeholder="Include any other important information about your service..."></textarea>
+                    </div>
+                </section>
+
+                <!-- PUBLISHING -->
+                <section class="form-card">
+                    <div class="section-heading">
+                        <h2>Publishing</h2>
+                        <p>Choose whether to publish your service or save it as a draft.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="serviceStatus">Service status</label>
+                        <select id="serviceStatus">
+                            <option value="active">Publish service</option>
+                            <option value="draft">Save as draft</option>
+                        </select>
+
+                        <p class="help-text">
+                            Published services are marked active. Draft services remain inactive.
+                        </p>
+                    </div>
+
+                    <div class="notice">
+                        Your service information is currently saved in this browser.
+                        This prototype does not process payments, manage real orders
+                        or synchronize listings across different devices.
+                    </div>
+
+                    <div class="status-message" id="statusMessage" role="status" aria-live="polite"></div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="primary-button" id="submitButton">
+                            Publish Service
+                        </button>
+
+                        <button type="button" class="secondary-button" id="cancelButton">
+                            Cancel
+                        </button>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+
+                <div class="sidebar-card">
+                    <h3>Tips for a successful listing</h3>
+
+                    <div class="tips-list">
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>Write a specific and professional service title.</span>
+                        </div>
+
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>Explain exactly what clients will receive.</span>
+                        </div>
+
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>Set a reasonable price for your skills and experience.</span>
+                        </div>
+
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>Choose a realistic delivery time.</span>
+                        </div>
+
+                        <div class="tip">
+                            <span class="tip-mark">✓</span>
+                            <span>Use a good image that demonstrates your work.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>Your service dashboard</h3>
+                    <p>
+                        Manage your published services, update your listings
+                        and remove services you no longer offer.
+                    </p>
+
+                    <div style="margin-top:15px;">
+                        <a href="my-service.html"
+                           style="color:var(--green);font-size:10px;font-weight:700;">
+                            Manage My Services →
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>Need assistance?</h3>
+                    <p>
+                        Visit the NEDIKE Help Centre if you need guidance
+                        on creating or managing a service.
+                    </p>
+
+                    <div style="margin-top:15px;">
+                        <a href="help.html"
+                           style="color:var(--green);font-size:10px;font-weight:700;">
+                            Visit Help Centre →
+                        </a>
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </form>
+
+</main>
+
+<footer>
+    <strong>NEDIKE</strong> — Learn. Work. Earn. Teach.
+    <br><br>
+    © <span id="year"></span> NEDIKE. All rights reserved.
+</footer>
+
+<script>
+    const SERVICE_KEY = "nedike_services";
+    const USER_KEY = "nedike_current_user";
+    const IMAGE_LIMIT = 2 * 1024 * 1024;
+
+    const form = document.getElementById("serviceForm");
+    const statusMessage = document.getElementById("statusMessage");
+
+    let currentUser = null;
+    let editingServiceId = null;
+    let selectedImage = "";
+
+    function readJSON(key, fallback) {
+        try {
+            return JSON.parse(localStorage.getItem(key)) ?? fallback;
+        } catch {
+            return fallback;
+        }
+    }
+
+    function getUserId(user) {
+        return String(
+            user?.id ||
+            user?.userId ||
+            user?.email ||
+            user?.username ||
+            ""
+        ).trim();
+    }
+
+    function getUserName(user) {
+        return user?.fullName ||
+            user?.name ||
+            [user?.firstName, user?.lastName].filter(Boolean).join(" ") ||
+            "";
+    }
+
+    function getCourseSafeId(service) {
+        return String(service.id || service.serviceId || service._id || "");
+    }
+
+    function getServiceOwner(service) {
+        return String(
+            service.userId ||
+            service.ownerId ||
+            service.providerId ||
+            service.sellerId ||
+            service.user_id ||
+            service.owner_id ||
+            service.email ||
+            service.providerEmail ||
+            service.sellerEmail ||
+            ""
+        ).trim().toLowerCase();
+    }
+
+    function getServiceTitle(service) {
+        return service.title || service.serviceTitle || service.name || "";
+    }
+
+    function showStatus(message, type) {
+        statusMessage.textContent = message;
+        statusMessage.className = "status-message " + type;
+    }
+
+    function getQueryId() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get("edit") ||
+            sessionStorage.getItem("nedike_edit_service_id") ||
+            "";
+    }
+
+    function addSpecialty(value = "") {
+        const container = document.getElementById("specialtiesList");
+        const item = document.createElement("div");
+        item.className = "dynamic-item";
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.className = "specialty-input";
+        input.maxLength = 60;
+        input.placeholder = "Enter a specialty";
+        input.value = value;
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "remove-item";
+        remove.textContent = "×";
+        remove.setAttribute("aria-label", "Remove specialty");
+
+        item.append(input, remove);
+        container.appendChild(item);
+    }
+
+    function collectSpecialties() {
+        return [...document.querySelectorAll(".specialty-input")]
+            .map(input => input.value.trim())
+            .filter(Boolean);
+    }
+
+    function showImagePreview(image) {
+        const preview = document.getElementById("imagePreview");
+
+        if (!image) {
+            preview.removeAttribute("src");
+            preview.style.display = "none";
+            return;
+        }
+
+        preview.src = image;
+        preview.style.display = "block";
+    }
+
+    function loadExistingService(id) {
+        const services = readJSON(SERVICE_KEY, []);
+
+        if (!Array.isArray(services)) return false;
+
+        const service = services.find(item => getCourseSafeId(item) === id);
+
+        if (!service) {
+            showStatus("The service you want to edit could not be found.", "error");
+            form.style.display = "none";
+            return false;
+        }
+
+        const userId = getUserId(currentUser).toLowerCase();
+        const ownerId = getServiceOwner(service);
+
+        if (!userId || !ownerId || userId !== ownerId) {
+            showStatus("You do not have permission to edit this service.", "error");
+            form.style.display = "none";
+            return false;
+        }
+
+        editingServiceId = id;
+
+        document.getElementById("pageTitle").textContent = "Edit Service";
+        document.getElementById("breadcrumbTitle").textContent = "Edit Service";
+        document.getElementById("submitButton").textContent = "Save Changes";
+
+        document.getElementById("serviceTitle").value = getServiceTitle(service);
+        document.getElementById("category").value = service.category || "";
+        document.getElementById("description").value = service.description || "";
+        document.getElementById("price").value = service.price ?? service.amount ?? "";
+        document.getElementById("deliveryTime").value = service.deliveryTime || "";
+        document.getElementById("revisions").value = service.revisions || "Not specified";
+        document.getElementById("location").value = service.location || "";
+        document.getElementById("requirements").value = service.requirements || "";
+        document.getElementById("additionalInfo").value = service.additionalInfo || "";
+
+        const status = String(service.status || "active").toLowerCase();
+
+        document.getElementById("serviceStatus").value =
+            ["draft", "inactive", "paused", "disabled", "rejected"].includes(status)
+                ? "draft"
+                : "active";
+
+        const specialties = Array.isArray(service.specialties)
+            ? service.specialties
+            : Array.isArray(service.skills)
+                ? service.skills
+                : [];
+
+        document.getElementById("specialtiesList").innerHTML = "";
+
+        (specialties.length ? specialties : [""]).forEach(specialty => {
+            addSpecialty(specialty);
+        });
+
+        selectedImage = service.image ||
+            service.imageUrl ||
+            service.thumbnail ||
+            service.coverImage ||
+            "";
+
+        showImagePreview(selectedImage);
+
+        return true;
+    }
+
+    function validateService(data) {
+        if (!data.title || !data.category || !data.description ||
+            !data.price || !data.deliveryTime) {
+            showStatus("Please complete all required service information.", "error");
+            return false;
+        }
+
+        if (data.title.length < 5) {
+            showStatus("Your service title should contain at least 5 characters.", "error");
+            return false;
+        }
+
+        if (data.description.length < 30) {
+            showStatus("Please provide a more detailed service description.", "error");
+            return false;
+        }
+
+        if (!Number.isFinite(data.price) || data.price <= 0) {
+            showStatus("Enter a valid service price greater than zero.", "error");
+            return false;
+        }
+
+        return true;
+    }
+
+    function saveService(event) {
+        event.preventDefault();
+
+        const userId = getUserId(currentUser);
+
+        if (!userId) {
+            showStatus("Your account identifier is missing. Please update your profile.", "error");
+            return;
+        }
+
+        const data = {
+            title: document.getElementById("serviceTitle").value.trim(),
+            category: document.getElementById("category").value,
+            description: document.getElementById("description").value.trim(),
+            price: Number(document.getElementById("price").value),
+            deliveryTime: document.getElementById("deliveryTime").value,
+            revisions: document.getElementById("revisions").value,
+            location: document.getElementById("location").value.trim(),
+            specialties: collectSpecialties(),
+            requirements: document.getElementById("requirements").value.trim(),
+            additionalInfo: document.getElementById("additionalInfo").value.trim(),
+            image: selectedImage,
+            status: document.getElementById("serviceStatus").value
+        };
+
+        if (!validateService(data)) return;
+
+        const services = readJSON(SERVICE_KEY, []);
+
+        if (!Array.isArray(services)) {
+            showStatus("Your service storage could not be accessed.", "error");
+            return;
+        }
+
+        const now = new Date().toISOString();
+
+        if (editingServiceId) {
+            const index = services.findIndex(
+                service => getCourseSafeId(service) === editingServiceId
+            );
+
+            if (index === -1) {
+                showStatus("This service could not be found. It may have been removed.", "error");
+                return;
+            }
+
+            const existing = services[index];
+
+            if (getServiceOwner(existing) !== userId.toLowerCase()) {
+                showStatus("You do not have permission to edit this service.", "error");
+                return;
+            }
+
+            services[index] = {
+                ...existing,
+                ...data,
+                updatedAt: now
+            };
+
+        } else {
+            const newService = {
+                id: "SERVICE-" + Date.now() + "-" + Math.random().toString(36).slice(2, 7),
+                ...data,
+
+                // Ownership information
+                userId: userId,
+                ownerId: userId,
+                providerId: userId,
+                email: currentUser.email || "",
+                providerEmail: currentUser.email || "",
+
+                // Provider information
+                providerName: getUserName(currentUser) || "NEDIKE User",
+
+                createdAt: now,
+                updatedAt: now
+            };
+
+            services.push(newService);
+        }
+
+        try {
+            localStorage.setItem(SERVICE_KEY, JSON.stringify(services));
+
+            sessionStorage.removeItem("nedike_edit_service_id");
+
+            showStatus(
+                editingServiceId
+                    ? "Your service has been updated successfully."
+                    : data.status === "draft"
+                        ? "Your service draft has been saved successfully."
+                        : "Your service has been published successfully.",
+                "success"
+            );
+
+            const savedService = editingServiceId
+                ? services.find(service => getCourseSafeId(service) === editingServiceId)
+                : services[services.length - 1];
+
+            const button = document.getElementById("submitButton");
+            button.disabled = true;
+            button.textContent = "Saved";
+
+            setTimeout(() => {
+                window.location.href = "my-service.html";
+            }, 1000);
+
+        } catch (error) {
+            showStatus(
+                "Unable to save your service. The image may be too large for browser storage. Try a smaller image.",
+                "error"
+            );
+        }
+    }
+
+    // Image upload
+    document.getElementById("serviceImage").addEventListener("change", event => {
+        const file = event.target.files[0];
+
+        if (!file) return;
+
+        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+            showStatus("Please select a JPG, PNG or WebP image.", "error");
+            event.target.value = "";
+            return;
+        }
+
+        if (file.size > IMAGE_LIMIT) {
+            showStatus("Your image is larger than 2MB. Please choose a smaller image.", "error");
+            event.target.value = "";
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            selectedImage = reader.result;
+            showImagePreview(selectedImage);
+            statusMessage.className = "status-message";
+        };
+
+        reader.onerror = () => {
+            showStatus("The selected image could not be read.", "error");
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+    // Add specialty
+    document.getElementById("addSpecialty").addEventListener("click", () => {
+        addSpecialty();
+    });
+
+    // Remove specialty
+    document.addEventListener("click", event => {
+        const button = event.target.closest(".remove-item");
+
+        if (!button) return;
+
+        const item = button.closest(".dynamic-item");
+
+        if (!item) return;
+
+        const parent = item.parentElement;
+
+        if (parent.children.length <= 1) {
+            item.querySelector("input").value = "";
+            return;
+        }
+
+        item.remove();
+    });
+
+    // Submit form
+    form.addEventListener("submit", saveService);
+
+    // Cancel
+    document.getElementById("cancelButton").addEventListener("click", () => {
+        if (confirm("Leave this page? Any unsaved changes will be lost.")) {
+            sessionStorage.removeItem("nedike_edit_service_id");
+            window.location.href = "my-service.html";
+        }
+    });
+
+    // Mobile navigation
+    document.getElementById("mobileToggle").addEventListener("click", () => {
+        document.getElementById("mainNav").classList.toggle("open");
+    });
+
+    // Account initialization
+    currentUser = readJSON(USER_KEY, null);
+
+    if (!currentUser || !getUserId(currentUser)) {
+        const redirect = "create-service.html" + window.location.search;
+
+        window.location.href = "login.html?redirect=" + encodeURIComponent(redirect);
+    } else {
+        const name = getUserName(currentUser);
+
+        document.getElementById("profileInitial").textContent =
+            name.charAt(0).toUpperCase() || "U";
+
+        const editId = getQueryId();
+
+        if (editId) {
+            loadExistingService(editId);
+        }
+    }
+
+    // Dynamic footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
